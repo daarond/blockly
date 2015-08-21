@@ -49,7 +49,11 @@
 <script src="../blocks/colour.js"></script>
 <script src="../blocks/variables.js"></script>
 <script src="../blocks/procedures.js"></script>
-<script src="../blocks/mosio.js"></script>
+<script src="../blocks/sms.js"></script>
+<script src="../blocks/email.js"></script>
+<script src="../blocks/regex.js"></script>
+<script src="../blocks/http.js"></script>
+<script src="../blocks/queue.js"></script>
 <!-- Load the Google Drive SDK Realtime libraries. -->
 <script src="https://apis.google.com/js/api.js"></script>
 <script>
@@ -424,15 +428,39 @@ h1 {
     <sep></sep>
     <category name="Variables" custom="VARIABLE"></category>
     <category name="Functions" custom="PROCEDURE"></category>
-    <category name="Mosio">
-      <block type="phone_tts"></block>
-      <block type="phone_playfile"></block>
-      <block type="email_send"></block>
+    <category name="Sms">
       <block type="sms_send"></block>
-      <block type="sms_ask">
-        <field name="expected_type">String</field>
-        <field name="failure_count">3</field>
-      </block>
+      <block type="sms_send_response"></block>
+    </category>
+    <category name="Email">
+      <block type="email_send"></block>
+    </category>
+    <category name="RegEx">
+      <block type="regex_split"></block>
+      <block type="regex_replace"></block>
+      <block type="regex_simple_match"></block>
+      <block type="regex_match_string"></block>
+      <block type="regex_match_list"></block>
+    </category>
+    <category name="HTTP">
+      <block type="http_get"></block>
+      <block type="http_delete"></block>
+      <block type="http_post"></block>
+      <block type="http_put"></block>
+    </category>
+    <category name="Queue">
+      <block type="queue_add"></block>
+      <block type="queue_peek"></block>
+      <block type="queue_item_data"></block>
+      <block type="queue_item_priority"></block>
+      <block type="queue_retrieve"></block>
+      <block type="queue_retrieve_list"></block>
+      <block type="queue_item_touch"></block>
+      <block type="queue_item_release"></block>
+      <block type="queue_item_delete"></block>
+      <block type="queue_item_setpriority"></block>
+      <block type="queue_delete"></block>
+      <block type="queue_create"></block>
     </category>
   </xml>
 
