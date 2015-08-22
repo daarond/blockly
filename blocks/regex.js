@@ -25,7 +25,7 @@ Blockly.Blocks['regex_split'] = {
             .setCheck("String");
         this.setInputsInline(true);
         this.setOutput(true, "Array");
-        this.setColour(330);
+        this.setColour(270);
         this.setTooltip('Split a text value using a regular expression');
     }
 };
@@ -50,7 +50,7 @@ Blockly.Blocks['regex_replace'] = {
             .setCheck("String");
         this.setInputsInline(true);
         this.setOutput(true, "String");
-        this.setColour(330);
+        this.setColour(270);
         this.setTooltip('Replace text using a regular expression');
     }
 };
@@ -75,7 +75,7 @@ Blockly.Blocks['regex_simple_match'] = {
             .setCheck("String");
         this.setInputsInline(true);
         this.setOutput(true, "Boolean");
-        this.setColour(330);
+        this.setColour(270);
         this.setTooltip('performs a regex match, returning true if matched');
     }
 };
@@ -96,7 +96,7 @@ Blockly.Blocks['regex_match_string'] = {
             .appendField("From");
         this.setInputsInline(true);
         this.setOutput(true, "String");
-        this.setColour(330);
+        this.setColour(270);
         this.setTooltip('performs a regex match, returning the string that matched');
     }
 };
@@ -119,7 +119,7 @@ Blockly.Blocks['regex_match_list'] = {
             .appendField("From");
         this.setInputsInline(true);
         this.setOutput(true, "Array");
-        this.setColour(330);
+        this.setColour(270);
         this.setTooltip('performs a regex match, returning a list of matches or groups');
     }
 };

@@ -15,7 +15,7 @@ goog.require('Blockly.Blocks');
 Blockly.Blocks['email_send'] = {
     init: function() {
         this.setHelpUrl('http://www.example.com/');
-        this.setColour(330);
+        this.setColour(75);
         this.appendDummyInput()
             .appendField("Send Email");
         this.appendValueInput("email_receiver")

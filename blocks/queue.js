@@ -26,7 +26,7 @@ Blockly.Blocks['queue_add'] = {
             .appendField("priority");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(330);
+        this.setColour(45);
         this.setTooltip('adds data to the queue');
     }
 };
@@ -42,8 +42,8 @@ Blockly.Blocks['queue_peek'] = {
         this.appendValueInput("queue")
             .setCheck("String")
             .appendField("peek next item in queue");
-        this.setOutput(true, "object");
-        this.setColour(330);
+        this.setOutput(true, "queue_item");
+        this.setColour(45);
         this.setTooltip('gets the data for the next item in the queue without dequeueing it');
     }
 };
@@ -57,10 +57,10 @@ Blockly.Blocks['queue_peek'] = {
 Blockly.Blocks['queue_item_data'] = {
     init: function() {
         this.appendValueInput("url")
-            .setCheck("object")
+            .setCheck("queue_item")
             .appendField("get queue item data");
         this.setOutput(true, "string");
-        this.setColour(330);
+        this.setColour(45);
         this.setTooltip('gets the data from a queue item');
     }
 };
@@ -74,10 +74,10 @@ Blockly.Blocks['queue_item_data'] = {
 Blockly.Blocks['queue_item_priority'] = {
     init: function() {
         this.appendValueInput("url")
-            .setCheck("object")
+            .setCheck("queue_item")
             .appendField("get queue item priority");
         this.setOutput(true, "string");
-        this.setColour(330);
+        this.setColour(45);
         this.setTooltip('gets the priority from a queue item');
     }
 };
@@ -93,8 +93,8 @@ Blockly.Blocks['queue_retrieve'] = {
         this.appendValueInput("queue")
             .setCheck("String")
             .appendField("retrieve next item in queue");
-        this.setOutput(true, "object");
-        this.setColour(330);
+        this.setOutput(true, "queue_item");
+        this.setColour(45);
         this.setTooltip('gets the data for the next item in the queue');
     }
 };
@@ -110,8 +110,8 @@ Blockly.Blocks['queue_retrieve_list'] = {
         this.appendValueInput("queue")
             .setCheck("Array")
             .appendField("retrieve next item from list of queues");
-        this.setOutput(true, "object");
-        this.setColour(330);
+        this.setOutput(true, "queue_item");
+        this.setColour(45);
         this.setTooltip('gets the data for the next item from the first available queue');
     }
 };
@@ -125,7 +125,7 @@ Blockly.Blocks['queue_retrieve_list'] = {
 Blockly.Blocks['queue_item_touch'] = {
     init: function() {
         this.appendValueInput("item")
-            .setCheck("object")
+            .setCheck("queue_item")
             .appendField("extend queue item");
         this.appendValueInput("timeout")
             .setCheck("Number")
@@ -135,7 +135,7 @@ Blockly.Blocks['queue_item_touch'] = {
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(330);
+        this.setColour(45);
         this.setTooltip('extends the timeout of a queue item');
     }
 };
@@ -149,14 +149,14 @@ Blockly.Blocks['queue_item_touch'] = {
 Blockly.Blocks['queue_item_release'] = {
     init: function() {
         this.appendValueInput("item")
-            .setCheck("object")
+            .setCheck("queue_item")
             .appendField("release queue item");
         this.appendDummyInput()
             .appendField("back to queue");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(330);
+        this.setColour(45);
         this.setTooltip('releases an item back to the queue');
     }
 };
@@ -170,12 +170,12 @@ Blockly.Blocks['queue_item_release'] = {
 Blockly.Blocks['queue_item_delete'] = {
     init: function() {
         this.appendValueInput("item")
-            .setCheck("object")
+            .setCheck("queue_item")
             .appendField("delete queue item");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(330);
+        this.setColour(45);
         this.setTooltip('deletes an item from the queue');
     }
 };
@@ -189,7 +189,7 @@ Blockly.Blocks['queue_item_delete'] = {
 Blockly.Blocks['queue_item_setpriority'] = {
     init: function() {
         this.appendValueInput("item")
-            .setCheck("object")
+            .setCheck("queue_item")
             .appendField("change queue item");
         this.appendValueInput("priority")
             .setCheck("String")
@@ -197,7 +197,7 @@ Blockly.Blocks['queue_item_setpriority'] = {
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(330);
+        this.setColour(45);
         this.setTooltip('changes a queue item\'s priority');
     }
 };
@@ -215,7 +215,7 @@ Blockly.Blocks['queue_delete'] = {
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(330);
+        this.setColour(45);
         this.setTooltip('delete a queue and all contents');
     }
 };
@@ -233,7 +233,7 @@ Blockly.Blocks['queue_create'] = {
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(330);
+        this.setColour(45);
         this.setTooltip('create a queue');
     }
 };

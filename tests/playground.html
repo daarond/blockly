@@ -54,6 +54,8 @@
 <script src="../blocks/regex.js"></script>
 <script src="../blocks/http.js"></script>
 <script src="../blocks/queue.js"></script>
+<script src="../blocks/objects.js"></script>
+<script src="../blocks/data_storage.js"></script>
 <!-- Load the Google Drive SDK Realtime libraries. -->
 <script src="https://apis.google.com/js/api.js"></script>
 <script>
@@ -428,9 +430,9 @@ h1 {
     <sep></sep>
     <category name="Variables" custom="VARIABLE"></category>
     <category name="Functions" custom="PROCEDURE"></category>
+    <sep></sep>
     <category name="Sms">
       <block type="sms_send"></block>
-      <block type="sms_send_response"></block>
     </category>
     <category name="Email">
       <block type="email_send"></block>
@@ -461,6 +463,29 @@ h1 {
       <block type="queue_item_setpriority"></block>
       <block type="queue_delete"></block>
       <block type="queue_create"></block>
+    </category>
+    <category name="Objects">
+      <block type="objects_create_empty"></block>
+      <block type="objects_set_property"></block>
+      <block type="object_convert_number"></block>
+      <block type="objects_get_property"></block>
+      <block type="objects_convert_list"></block>
+      <block type="objects_convert_object"></block>
+      <block type="lists_set_named"></block>
+      <block type="lists_get_named"></block>
+      <block type="lists_map"></block>
+      <block type="objects_map"></block>
+      <block type="objects_encode"></block>
+    </category>
+    <category name="Storage">
+      <block type="storage_change_counter"></block>
+      <block type="storage_get_counter"></block>
+      <block type="storage_set_counter"></block>
+      <block type="storage_write_object"></block>
+      <block type="storage_insert_object"></block>
+      <block type="storage_find_object"></block>
+      <block type="storage_delete_object"></block>
+      <block type="storage_field"></block>
     </category>
   </xml>
 

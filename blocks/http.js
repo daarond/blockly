@@ -24,7 +24,7 @@ Blockly.Blocks['http_get'] = {
             .appendField(new Blockly.FieldVariable("item"), "NAME");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(330);
+        this.setColour(210);
         this.setTooltip('Retrieves by HTTP GET');
     }
 };
@@ -46,7 +46,7 @@ Blockly.Blocks['http_delete'] = {
             .appendField(new Blockly.FieldVariable("item"), "NAME");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(330);
+        this.setColour(210);
         this.setTooltip('Performs an HTTP DELETE');
     }
 };
@@ -72,7 +72,7 @@ Blockly.Blocks['http_post'] = {
             .appendField(new Blockly.FieldVariable("item"), "NAME");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(330);
+        this.setColour(210);
         this.setTooltip('Performs a HTTP POST');
     }
 };
@@ -98,7 +98,7 @@ Blockly.Blocks['http_put'] = {
             .appendField(new Blockly.FieldVariable("item"), "NAME");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(330);
+        this.setColour(210);
         this.setTooltip('Performs a HTTP PUT');
     }
 };
