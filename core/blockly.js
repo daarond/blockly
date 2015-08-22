@@ -79,8 +79,8 @@ Blockly.HSV_VALUE = 0.65;
  * Sprited icons and images.
  */
 Blockly.SPRITE = {
-  width: 64,
-  height: 92,
+  width: 96,
+  height: 124,
   url: 'sprites.png'
 };
 
@@ -294,6 +294,9 @@ Blockly.onMouseUp_ = function(e) {
  * @private
  */
 Blockly.onMouseMove_ = function(e) {
+  if (e.touches && e.touches.length >= 2) {
+    return;  // Multi-touch gestures won't have e.clientX.
+  }
   var workspace = Blockly.getMainWorkspace();
   if (workspace.isScrolling) {
     Blockly.removeAllRanges();
@@ -311,10 +314,9 @@ Blockly.onMouseMove_ = function(e) {
 
     // Move the scrollbars and the page will scroll automatically.
     workspace.scrollbar.set(-x - metrics.contentLeft,
-                                        -y - metrics.contentTop);
+                            -y - metrics.contentTop);
     // Cancel the long-press if the drag has moved too far.
-    var dr = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-    if (dr > Blockly.DRAG_RADIUS) {
+    if (Math.sqrt(dx * dx + dy * dy) > Blockly.DRAG_RADIUS) {
       Blockly.longStop_();
     }
     e.stopPropagation();
@@ -391,19 +393,15 @@ Blockly.longPid_ = 0;
  * which after about a second opens the context menu.  The tasks is killed
  * if the touch event terminates early.
  * @param {!Event} e Touch start event.
- * @param {Blockly.Block} block The block under the touchstart event, or null
- *   if the event was on the workspace.
+ * @param {!Blockly.Block|!Blockly.WorkspaceSvg} uiObject The block or workspace
+ *   under the touchstart event.
  * @private
  */
-Blockly.longStart_ = function(e, block) {
+Blockly.longStart_ = function(e, uiObject) {
   Blockly.longStop_();
   Blockly.longPid_ = setTimeout(function() {
       e.button = 2;  // Simulate a right button click.
-      if (block) {
-        block.onMouseDown_(e);
-      } else {
-        Blockly.onMouseDown_(e);
-      }
+      uiObject.onMouseDown_(e);
     }, Blockly.LONGPRESS);
 };
 
@@ -465,26 +463,6 @@ Blockly.hideChaff = function(opt_allowToolbox) {
 };
 
 /**
- * Deselect any selections on the webpage.
- * Chrome will select text outside the SVG when double-clicking.
- * Deselect this text, so that it doesn't mess up any subsequent drag.
- */
-Blockly.removeAllRanges = function() {
-  if (getSelection()) {
-    setTimeout(function() {
-        try {
-          var selection = getSelection();
-          if (!selection.isCollapsed) {
-            selection.removeAllRanges();
-          }
-        } catch (e) {
-          // MSIE throws 'error 800a025e' here.
-        }
-      }, 0);
-  }
-};
-
-/**
  * Return an object with all the metrics required to size scrollbars for the
  * main workspace.  The following properties are computed:
  * .viewHeight: Height of the visible rectangle,
@@ -514,23 +492,22 @@ Blockly.getMainWorkspaceMetrics_ = function() {
     // Firefox has trouble with hidden elements (Bug 528969).
     return null;
   }
+  // Fix scale.
+  var contentWidth = blockBox.width * this.scale;
+  var contentHeight = blockBox.height * this.scale;
+  var contentX = blockBox.x * this.scale;
+  var contentY = blockBox.y * this.scale;
   if (this.scrollbar) {
     // Add a border around the content that is at least half a screenful wide.
     // Ensure border is wide enough that blocks can scroll over entire screen.
-    var MARGIN = 5;
-    var leftScroll = this.RTL ?
-        Blockly.Scrollbar.scrollbarThickness : 0;
-    var rightScroll = this.RTL ?
-        0 : Blockly.Scrollbar.scrollbarThickness;
-    var leftEdge = Math.min(blockBox.x - viewWidth / 2,
-        blockBox.x + blockBox.width - viewWidth - leftScroll + MARGIN);
-    var rightEdge = Math.max(blockBox.x + blockBox.width + viewWidth / 2,
-        blockBox.x + viewWidth + rightScroll - MARGIN);
-    var topEdge = Math.min(blockBox.y - viewHeight / 2,
-        blockBox.y + blockBox.height - viewHeight + MARGIN);
-    var bottomEdge = Math.max(blockBox.y + blockBox.height + viewHeight / 2,
-        blockBox.y + viewHeight + Blockly.Scrollbar.scrollbarThickness -
-        MARGIN);
+    var leftEdge = Math.min(contentX - viewWidth / 2,
+                            contentX + contentWidth - viewWidth);
+    var rightEdge = Math.max(contentX + contentWidth + viewWidth / 2,
+                             contentX + viewWidth);
+    var topEdge = Math.min(contentY - viewHeight / 2,
+                           contentY + contentHeight - viewHeight);
+    var bottomEdge = Math.max(contentY + contentHeight + viewHeight / 2,
+                              contentY + viewHeight);
   } else {
     var leftEdge = blockBox.x;
     var rightEdge = leftEdge + blockBox.width;
@@ -569,12 +546,10 @@ Blockly.setMainWorkspaceMetrics_ = function(xyRatio) {
   }
   var metrics = this.getMetrics();
   if (goog.isNumber(xyRatio.x)) {
-    this.scrollX = -metrics.contentWidth * xyRatio.x -
-        metrics.contentLeft;
+    this.scrollX = -metrics.contentWidth * xyRatio.x - metrics.contentLeft;
   }
   if (goog.isNumber(xyRatio.y)) {
-    this.scrollY = -metrics.contentHeight * xyRatio.y -
-        metrics.contentTop;
+    this.scrollY = -metrics.contentHeight * xyRatio.y - metrics.contentTop;
   }
   var x = this.scrollX + metrics.absoluteLeft;
   var y = this.scrollY + metrics.absoluteTop;
@@ -630,4 +605,3 @@ if (!goog.global['Blockly']) {
 }
 goog.global['Blockly']['getMainWorkspace'] = Blockly.getMainWorkspace;
 goog.global['Blockly']['addChangeListener'] = Blockly.addChangeListener;
-goog.global['Blockly']['removeChangeListener'] = Blockly.removeChangeListener;

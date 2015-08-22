@@ -115,7 +115,8 @@ Blockly.Toolbox.prototype.init = function() {
       });
   var workspaceOptions = {
     parentWorkspace: workspace,
-    RTL: workspace.RTL
+    RTL: workspace.RTL,
+    svg: workspace.options.svg
   };
   /**
    * @type {!Blockly.Flyout}
@@ -140,6 +141,16 @@ Blockly.Toolbox.prototype.init = function() {
 };
 
 /**
+ * Dispose of this toolbox.
+ */
+Blockly.Toolbox.prototype.dispose = function() {
+  this.flyout_.dispose();
+  this.tree_.dispose();
+  goog.dom.removeNode(this.HtmlDiv);
+  this.workspace_ = null;
+};
+
+/**
  * Move the toolbox to the edge.
  */
 Blockly.Toolbox.prototype.position = function() {
@@ -152,7 +163,8 @@ Blockly.Toolbox.prototype.position = function() {
   var svgPosition = goog.style.getPageOffset(svg);
   var svgSize = Blockly.svgSize(svg);
   if (this.workspace_.RTL) {
-    treeDiv.style.left = (svgPosition.x + svgSize.width - treeDiv.offsetWidth) + 'px';
+    treeDiv.style.left =
+        (svgPosition.x + svgSize.width - treeDiv.offsetWidth) + 'px';
   } else {
     treeDiv.style.left = svgPosition.x + 'px';
   }
@@ -168,6 +180,7 @@ Blockly.Toolbox.prototype.position = function() {
 
 /**
  * Fill the toolbox with categories and blocks.
+ * @param {Node} newTree DOM tree of blocks, or null.
  * @private
  */
 Blockly.Toolbox.prototype.populate_ = function(newTree) {
@@ -180,27 +193,31 @@ Blockly.Toolbox.prototype.populate_ = function(newTree) {
         // Skip over text.
         continue;
       }
-      var name = childIn.tagName.toUpperCase();
-      if (name == 'CATEGORY') {
-        var childOut = rootOut.createNode(childIn.getAttribute('name'));
-        childOut.blocks = [];
-        treeOut.add(childOut);
-        var custom = childIn.getAttribute('custom');
-        if (custom) {
-          // Variables and procedures have special categories that are dynamic.
-          childOut.blocks = custom;
-        } else {
-          syncTrees(childIn, childOut);
-        }
-      } else if (name == 'HR') {
-        // <hr> tag is deprecated, use <sep></sep> instead.
-        // https://github.com/google/blockly/issues/50
-        console.warn('The <hr> separator tag in the toolbox XML needs to be ' +
-                     'changed to <sep></sep> (due to a bug in IE).');
-      } else if (name == 'SEP') {
-        treeOut.add(new Blockly.Toolbox.TreeSeparator());
-      } else if (name == 'BLOCK') {
-        treeOut.blocks.push(childIn);
+      switch (childIn.tagName.toUpperCase()) {
+        case 'CATEGORY':
+          var childOut = rootOut.createNode(childIn.getAttribute('name'));
+          childOut.blocks = [];
+          treeOut.add(childOut);
+          var custom = childIn.getAttribute('custom');
+          if (custom) {
+            // Variables and procedures are special dynamic categories.
+            childOut.blocks = custom;
+          } else {
+            syncTrees(childIn, childOut);
+          }
+          if (childIn.getAttribute('expanded') == 'true') {
+            if (childOut.blocks.length) {
+              rootOut.setSelectedItem(childOut);
+            }
+            childOut.setExpanded(true);
+          }
+          break;
+        case 'SEP':
+          treeOut.add(new Blockly.Toolbox.TreeSeparator());
+          break;
+        case 'BLOCK':
+          treeOut.blocks.push(childIn);
+          break;
       }
     }
   }
@@ -391,7 +408,7 @@ Blockly.Toolbox.TreeNode.prototype.onDoubleClick_ = function(e) {
 /**
  * A blank separator node in the tree.
  * @constructor
- * @extends {Blockly.Toolbox.prototype.TreeNode}
+ * @extends {Blockly.Toolbox.TreeNode}
  */
 Blockly.Toolbox.TreeSeparator = function() {
   Blockly.Toolbox.TreeNode.call(this, null, '',

@@ -30,6 +30,7 @@ goog.provide('Blockly.utils');
 
 goog.require('goog.events.BrowserFeature');
 goog.require('goog.userAgent');
+goog.require('goog.dom');
 
 
 /**
@@ -241,7 +242,8 @@ Blockly.isTargetInput_ = function(e) {
   return e.target.type == 'textarea' || e.target.type == 'text' ||
          e.target.type == 'number' || e.target.type == 'email' ||
          e.target.type == 'password' || e.target.type == 'search' ||
-         e.target.type == 'tel' || e.target.type == 'url';
+         e.target.type == 'tel' || e.target.type == 'url' ||
+         e.target.isContentEditable;
 };
 
 /**
@@ -271,31 +273,46 @@ Blockly.getRelativeXY_ = function(element) {
   var r = transform &&
           transform.match(/translate\(\s*([-\d.]+)([ ,]\s*([-\d.]+)\s*\))?/);
   if (r) {
-    xy.x += parseInt(r[1], 10);
+    xy.x += parseFloat(r[1]);
     if (r[3]) {
-      xy.y += parseInt(r[3], 10);
+      xy.y += parseFloat(r[3]);
     }
   }
   return xy;
 };
 
 /**
- * Return the absolute coordinates of the top-left corner of this element.
- * The origin (0,0) is the top-left corner of the nearest SVG.
+ * Return the absolute coordinates of the top-left corner of this element,
+ * scales that after canvas SVG element, if it's a descendant.
+ * The origin (0,0) is the top-left corner of the Blockly SVG.
  * @param {!Element} element Element to find the coordinates of.
+ * @param {!Blockly.Workspace} workspace Element must be in this workspace.
  * @return {!Object} Object with .x and .y properties.
  * @private
  */
-Blockly.getSvgXY_ = function(element) {
+Blockly.getSvgXY_ = function(element, workspace) {
   var x = 0;
   var y = 0;
+  // Evaluate if element isn't child of a canvas.
+  var canvasFlag = !goog.dom.contains(workspace.getCanvas(), element) &&
+                   !goog.dom.contains(workspace.getBubbleCanvas(), element);
   do {
     // Loop through this block and every parent.
     var xy = Blockly.getRelativeXY_(element);
-    x += xy.x;
-    y += xy.y;
+    if (element == workspace.getCanvas() ||
+        element == workspace.getBubbleCanvas()) {
+      canvasFlag = true;
+    }
+    // Before the SVG canvas scale the coordinates.
+    if (canvasFlag) {
+      x += xy.x;
+      y += xy.y;
+    } else {
+      x += xy.x * workspace.scale;
+      y += xy.y * workspace.scale;
+    }
     element = element.parentNode;
-  } while (element && element.nodeName.toLowerCase() != 'svg');
+  } while (element && element != workspace.options.svg);
   return {x: x, y: y};
 };
 
@@ -303,10 +320,12 @@ Blockly.getSvgXY_ = function(element) {
  * Helper method for creating SVG elements.
  * @param {string} name Element's tag name.
  * @param {!Object} attrs Dictionary of attribute names and values.
- * @param {Element=} opt_parent Optional parent on which to append the element.
+ * @param {Element} parent Optional parent on which to append the element.
+ * @param {Blockly.Workspace=} opt_workspace Optional workspace for access to
+ *     context (scale...).
  * @return {!SVGElement} Newly created SVG element.
  */
-Blockly.createSvgElement = function(name, attrs, opt_parent) {
+Blockly.createSvgElement = function(name, attrs, parent, opt_workspace) {
   var e = /** @type {!SVGElement} */ (
       document.createElementNS(Blockly.SVG_NS, name));
   for (var key in attrs) {
@@ -318,10 +337,30 @@ Blockly.createSvgElement = function(name, attrs, opt_parent) {
   if (document.body.runtimeStyle) {  // Indicates presence of IE-only attr.
     e.runtimeStyle = e.currentStyle = e.style;
   }
-  if (opt_parent) {
-    opt_parent.appendChild(e);
+  if (parent) {
+    parent.appendChild(e);
   }
   return e;
+};
+
+/**
+ * Deselect any selections on the webpage.
+ * Chrome will select text outside the SVG when double-clicking.
+ * Deselect this text, so that it doesn't mess up any subsequent drag.
+ */
+Blockly.removeAllRanges = function() {
+  if (getSelection()) {
+    setTimeout(function() {
+        try {
+          var selection = getSelection();
+          if (!selection.isCollapsed) {
+            selection.removeAllRanges();
+          }
+        } catch (e) {
+          // MSIE throws 'error 800a025e' here.
+        }
+      }, 0);
+  }
 };
 
 /**
@@ -374,7 +413,7 @@ Blockly.shortestStringLength = function(array) {
  * Given an array of strings, return the length of the common prefix.
  * Words may not be split.  Any space after a word is included in the length.
  * @param {!Array.<string>} array Array of strings.
- * @param {?number} opt_shortest Length of shortest string.
+ * @param {number=} opt_shortest Length of shortest string.
  * @return {number} Length of common prefix.
  */
 Blockly.commonWordPrefix = function(array, opt_shortest) {
@@ -409,7 +448,7 @@ Blockly.commonWordPrefix = function(array, opt_shortest) {
  * Given an array of strings, return the length of the common suffix.
  * Words may not be split.  Any space after a word is included in the length.
  * @param {!Array.<string>} array Array of strings.
- * @param {?number} opt_shortest Length of shortest string.
+ * @param {number=} opt_shortest Length of shortest string.
  * @return {number} Length of common suffix.
  */
 Blockly.commonWordSuffix = function(array, opt_shortest) {
@@ -447,4 +486,62 @@ Blockly.commonWordSuffix = function(array, opt_shortest) {
  */
 Blockly.isNumber = function(str) {
   return !!str.match(/^\s*-?\d+(\.\d+)?\s*$/);
+};
+
+/**
+ * Parse a string with any number of interpolation tokens (%1, %2, ...).
+ * '%' characters may be self-escaped (%%).
+ * @param {string} message Text containing interpolation tokens.
+ * @return {!Array.<string|number>} Array of strings and numbers.
+ */
+Blockly.tokenizeInterpolation = function(message) {
+  var tokens = [];
+  var chars = message.split('');
+  chars.push('');  // End marker.
+  // Parse the message with a finite state machine.
+  // 0 - Base case.
+  // 1 - % found.
+  // 2 - Digit found.
+  var state = 0;
+  var buffer = [];
+  var number = null;
+  for (var i = 0; i < chars.length; i++) {
+    var c = chars[i];
+    if (state == 0) {
+      if (c == '%') {
+        state = 1;  // Start escape.
+      } else {
+        buffer.push(c);  // Regular char.
+      }
+    } else if (state == 1) {
+      if (c == '%') {
+        buffer.push(c);  // Escaped %: %%
+        state = 0;
+      } else if ('0' <= c && c <= '9') {
+        state = 2;
+        number = c;
+        var text = buffer.join('');
+        if (text) {
+          tokens.push(text);
+        }
+        buffer.length = 0;
+      } else {
+        buffer.push('%', c);  // Not an escape: %a
+        state = 0;
+      }
+    } else if (state == 2) {
+      if ('0' <= c && c <= '9') {
+        number += c;  // Multi-digit number.
+      } else {
+        tokens.push(parseInt(number, 10));
+        i--;  // Parse this char again.
+        state = 0;
+      }
+    }
+  }
+  var text = buffer.join('');
+  if (text) {
+    tokens.push(text);
+  }
+  return tokens;
 };

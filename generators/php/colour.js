@@ -40,7 +40,8 @@ Blockly.PHP['colour_random'] = function(block) {
   var functionName = Blockly.PHP.provideFunction_(
       'colour_random',
       [ 'function ' + Blockly.PHP.FUNCTION_NAME_PLACEHOLDER_ + '() {',
-        '  return \'#\' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, \'0\', STR_PAD_LEFT);',
+        '  return \'#\' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), ' +
+            '6, \'0\', STR_PAD_LEFT);',
         '}']);
   var code = functionName + '()';
   return [code, Blockly.PHP.ORDER_FUNCTION_CALL];
@@ -58,6 +59,9 @@ Blockly.PHP['colour_rgb'] = function(block) {
       'colour_rgb',
       [ 'function ' + Blockly.PHP.FUNCTION_NAME_PLACEHOLDER_ +
           '($r, $g, $b) {',
+        '  $r = round(max(min($r, 100), 0) * 2.55);',
+        '  $g = round(max(min($g, 100), 0) * 2.55);',
+        '  $b = round(max(min($b, 100), 0) * 2.55);',
         '  $hex = "#";',
         '  $hex .= str_pad(dechex($r), 2, "0", STR_PAD_LEFT);',
         '  $hex .= str_pad(dechex($g), 2, "0", STR_PAD_LEFT);',
@@ -81,12 +85,12 @@ Blockly.PHP['colour_blend'] = function(block) {
       [ 'function ' + Blockly.PHP.FUNCTION_NAME_PLACEHOLDER_ +
           '($c1, $c2, $ratio) {',
         '  $ratio = max(min($ratio, 1), 0);',
-        '  $r1 = hexdec(substr($c1,0,2));',
-        '  $g1 = hexdec(substr($c1,2,2));',
-        '  $b1 = hexdec(substr($c1,4,2));',
-        '  $r2 = hexdec(substr($c2,0,2));',
-        '  $g2 = hexdec(substr($c2,2,2));',
-        '  $b2 = hexdec(substr($c2,4,2));',
+        '  $r1 = hexdec(substr($c1, 1, 2));',
+        '  $g1 = hexdec(substr($c1, 3, 2));',
+        '  $b1 = hexdec(substr($c1, 5, 2));',
+        '  $r2 = hexdec(substr($c2, 1, 2));',
+        '  $g2 = hexdec(substr($c2, 3, 2));',
+        '  $b2 = hexdec(substr($c2, 5, 2));',
         '  $r = round($r1 * (1 - $ratio) + $r2 * $ratio);',
         '  $g = round($g1 * (1 - $ratio) + $g2 * $ratio);',
         '  $b = round($b1 * (1 - $ratio) + $b2 * $ratio);',

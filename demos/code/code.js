@@ -82,7 +82,7 @@ Code.LANGUAGE_RTL = ['ar', 'fa', 'he'];
 
 /**
  * Blockly's main workspace.
- * @type Blockly.WorkspaceSvg
+ * @type {Blockly.WorkspaceSvg}
  */
 Code.workspace = null;
 
@@ -235,7 +235,7 @@ Code.getBBox_ = function(element) {
 
 /**
  * User's language (e.g. "en").
- * @type string
+ * @type {string}
  */
 Code.LANG = Code.getLang();
 
@@ -273,6 +273,9 @@ Code.tabClick = function(clickedName) {
     }
   }
 
+  if (document.getElementById('tab_blocks').className == 'tabon') {
+    Code.workspace.setVisible(false);
+  }
   // Deselect all tabs and hide all panes.
   for (var i = 0; i < Code.TABS_.length; i++) {
     var name = Code.TABS_[i];
@@ -287,6 +290,9 @@ Code.tabClick = function(clickedName) {
   document.getElementById('content_' + clickedName).style.visibility =
       'visible';
   Code.renderContent();
+  if (clickedName == 'blocks') {
+    Code.workspace.setVisible(true);
+  }
   Blockly.fireUiEvent(window, 'resize');
 };
 
@@ -376,7 +382,9 @@ Code.init = function() {
            snap: true},
        media: '../../media/',
        rtl: rtl,
-       toolbox: toolbox});
+       toolbox: toolbox,
+       zoom: {enabled: true}
+      });
 
   // Add to reserved word list: Local variables in execution evironment (runJS)
   // and the infinite loop detection function.
@@ -424,10 +432,8 @@ Code.init = function() {
  */
 Code.initLanguage = function() {
   // Set the HTML's language and direction.
-  // document.dir fails in Mozilla, use document.body.parentNode.dir instead.
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=151407
   var rtl = Code.isRtl();
-  document.head.parentElement.setAttribute('dir', rtl ? 'rtl' : 'ltr');
+  document.dir = rtl ? 'rtl' : 'ltr';
   document.head.parentElement.setAttribute('lang', Code.LANG);
 
   // Sort languages alphabetically.
