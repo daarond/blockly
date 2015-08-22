@@ -129,7 +129,7 @@ Blockly.FieldTextInput.prototype.showEditor_ = function(opt_quietInput) {
   Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL, this.widgetDispose_());
   var div = Blockly.WidgetDiv.DIV;
   // Create the input.
-  var htmlInput = goog.dom.createDom('input', 'blocklyHtmlInput');
+  var htmlInput = goog.dom.createDom('textarea', 'blocklyHtmlInput');
   htmlInput.setAttribute('spellcheck', this.spellcheck_);
   var fontSize = (Blockly.FieldTextInput.FONTSIZE *
                   this.sourceBlock_.workspace.scale) + 'pt';
@@ -141,6 +141,15 @@ Blockly.FieldTextInput.prototype.showEditor_ = function(opt_quietInput) {
 
   htmlInput.value = htmlInput.defaultValue = this.text_;
   htmlInput.oldValue_ = null;
+
+  tinymce.init({
+    selector:'.blocklyHtmlInput',
+    min_width : 300,
+    width : 300,
+    menubar: false,
+    statusbar: false
+  });
+
   this.validate_();
   this.resizeEditor_();
   if (!quietInput) {
@@ -148,59 +157,16 @@ Blockly.FieldTextInput.prototype.showEditor_ = function(opt_quietInput) {
     htmlInput.select();
   }
 
-  // Bind to keydown -- trap Enter without IME and Esc to hide.
-  htmlInput.onKeyDownWrapper_ =
-      Blockly.bindEvent_(htmlInput, 'keydown', this, this.onHtmlInputKeyDown_);
-  // Bind to keyup -- trap Enter; resize after every keystroke.
-  htmlInput.onKeyUpWrapper_ =
-      Blockly.bindEvent_(htmlInput, 'keyup', this, this.onHtmlInputChange_);
-  // Bind to keyPress -- repeatedly resize when holding down a key.
-  htmlInput.onKeyPressWrapper_ =
-      Blockly.bindEvent_(htmlInput, 'keypress', this, this.onHtmlInputChange_);
-  var workspaceSvg = this.sourceBlock_.workspace.getCanvas();
-  htmlInput.onWorkspaceChangeWrapper_ =
-      Blockly.bindEvent_(workspaceSvg, 'blocklyWorkspaceChange', this,
-      this.resizeEditor_);
+  var self = this;
+  tinymce.activeEditor.on('change', function(e) {
+    htmlInput.value = e.target.getContent();
+  });
+
+  setTimeout(function(){
+    self.resizeEditor_();
+  }, 1000);
 };
 
-/**
- * Handle key down to the editor.
- * @param {!Event} e Keyboard event.
- * @private
- */
-Blockly.FieldTextInput.prototype.onHtmlInputKeyDown_ = function(e) {
-  var htmlInput = Blockly.FieldTextInput.htmlInput_;
-  var enterKey = 13, escKey = 27;
-  if (e.keyCode == enterKey) {
-    Blockly.WidgetDiv.hide();
-  } else if (e.keyCode == escKey) {
-    this.setText(htmlInput.defaultValue);
-    Blockly.WidgetDiv.hide();
-  }
-};
-
-/**
- * Handle a change to the editor.
- * @param {!Event} e Keyboard event.
- * @private
- */
-Blockly.FieldTextInput.prototype.onHtmlInputChange_ = function(e) {
-  var htmlInput = Blockly.FieldTextInput.htmlInput_;
-  var escKey = 27;
-  if (e.keyCode != escKey) {
-    // Update source block.
-    var text = htmlInput.value;
-    if (text !== htmlInput.oldValue_) {
-      htmlInput.oldValue_ = text;
-      this.setText(text);
-      this.validate_();
-    } else if (goog.userAgent.WEBKIT) {
-      // Cursor key.  Render the source block to show the caret moving.
-      // Chrome only (version 26, OS X).
-      this.sourceBlock_.render();
-    }
-  }
-};
 
 /**
  * Check to see if the contents of the editor validates.
@@ -275,12 +241,10 @@ Blockly.FieldTextInput.prototype.widgetDispose_ = function() {
         text = text1;
       }
     }
-    thisField.setText(text);
+    thisField.setText(tinymce.activeEditor.getContent());
     thisField.sourceBlock_.rendered && thisField.sourceBlock_.render();
-    Blockly.unbindEvent_(htmlInput.onKeyDownWrapper_);
-    Blockly.unbindEvent_(htmlInput.onKeyUpWrapper_);
-    Blockly.unbindEvent_(htmlInput.onKeyPressWrapper_);
-    Blockly.unbindEvent_(htmlInput.onWorkspaceChangeWrapper_);
+    tinymce.activeEditor.destroy();
+
     Blockly.FieldTextInput.htmlInput_ = null;
     // Delete style properties.
     var style = Blockly.WidgetDiv.DIV.style;
@@ -288,36 +252,4 @@ Blockly.FieldTextInput.prototype.widgetDispose_ = function() {
     style.height = 'auto';
     style.fontSize = '';
   };
-};
-
-/**
- * Ensure that only a number may be entered.
- * @param {string} text The user's text.
- * @return {?string} A string representing a valid number, or null if invalid.
- */
-Blockly.FieldTextInput.numberValidator = function(text) {
-  if (text === null) {
-    return null;
-  }
-  text = String(text);
-  // TODO: Handle cases like 'ten', '1.203,14', etc.
-  // 'O' is sometimes mistaken for '0' by inexperienced users.
-  text = text.replace(/O/ig, '0');
-  // Strip out thousands separators.
-  text = text.replace(/,/g, '');
-  var n = parseFloat(text || 0);
-  return isNaN(n) ? null : String(n);
-};
-
-/**
- * Ensure that only a nonnegative integer may be entered.
- * @param {string} text The user's text.
- * @return {?string} A string representing a valid int, or null if invalid.
- */
-Blockly.FieldTextInput.nonnegativeIntegerValidator = function(text) {
-  var n = Blockly.FieldTextInput.numberValidator(text);
-  if (n) {
-    n = String(Math.max(0, Math.floor(n)));
-  }
-  return n;
 };

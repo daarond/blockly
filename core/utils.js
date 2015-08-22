@@ -152,6 +152,7 @@ if (goog.events.BrowserFeature.TOUCH_ENABLED) {
  * @private
  */
 Blockly.unbindEvent_ = function(bindData) {
+  if (bindData == undefined) return;
   while (bindData.length) {
     var bindDatum = bindData.pop();
     var node = bindDatum[0];
