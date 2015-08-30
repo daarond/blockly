@@ -23,8 +23,8 @@ Blockly.Blocks['sms_send'] = {
             .setCheck("String")
             .appendField("With Text");
         this.setInputsInline(true);
-        this.setPreviousStatement(true, "null");
-        this.setNextStatement(true, "null");
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
         this.setTooltip('Send an SMS message');
         this.setColour(30);
         this.setHelpUrl('http://www.example.com/');

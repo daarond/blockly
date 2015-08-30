@@ -136,11 +136,11 @@ Blockly.Blocks['lists_set_named'] = {
             .appendField("set name");
         this.appendValueInput("VALUE")
             .setCheck(null)
-            .appendField("as");
+            .appendField("=");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(135);
+        this.setColour(Blockly.Blocks.lists.HUE);
         this.setTooltip('set a named value on a list');
         this.setHelpUrl('http://www.example.com/');
     }
@@ -162,7 +162,7 @@ Blockly.Blocks['lists_get_named'] = {
             .appendField("get named item");
         this.setInputsInline(true);
         this.setOutput(true, null);
-        this.setColour(135);
+        this.setColour(Blockly.Blocks.lists.HUE);
         this.setTooltip('get a named value from a list');
         this.setHelpUrl('http://www.example.com/');
     }
@@ -188,7 +188,7 @@ Blockly.Blocks['lists_map'] = {
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(135);
+        this.setColour(Blockly.Blocks.lists.HUE);
         this.setTooltip('map values from array to list');
         this.setHelpUrl('http://www.example.com/');
     }

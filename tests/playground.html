@@ -439,11 +439,12 @@ h1 {
     <category name="Variables" custom="VARIABLE"></category>
     <category name="Functions" custom="PROCEDURE"></category>
     <sep></sep>
-    <category name="Sms">
+    <category name="Internet">
       <block type="sms_send"></block>
-    </category>
-    <category name="Email">
       <block type="email_send"></block>
+      <block type="http_retrieve"></block>
+      <block type="list_name_value"></block>
+      <block type="list_data_item"></block>
     </category>
     <category name="RegEx">
       <block type="regex_split"></block>
@@ -451,12 +452,6 @@ h1 {
       <block type="regex_simple_match"></block>
       <block type="regex_match_string"></block>
       <block type="regex_match_list"></block>
-    </category>
-    <category name="HTTP">
-      <block type="http_get"></block>
-      <block type="http_delete"></block>
-      <block type="http_post"></block>
-      <block type="http_put"></block>
     </category>
     <category name="Queue">
       <block type="queue_add"></block>
