@@ -42,6 +42,7 @@
 <script src="../blocks/procedures.js"></script>
 <!-- Load the Google Drive SDK Realtime libraries. -->
 <script src="https://apis.google.com/js/api.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script>
 'use strict';
 // Depending on the URL argument, render as LTR or RTL.
@@ -160,6 +161,43 @@ var spaghettiXml = [
   '    <next></next>' +
   '  </block>'].join('\n');
 
+var workspace_xml = [];
+
+var idcounter = 1000;
+var workspaceSelected = function(sender){
+  // get the current tab
+  var currenttab = $('.workspace-tab.active:first')[0];
+  var currentTabId = $(currenttab).attr('id');
+  var senderTabId = $(sender).attr('id');
+
+  // remove and serialize current
+  workspace_xml = jQuery.grep(workspace_xml, function(value) {
+    return value.id != currentTabId;
+  });
+  var xml = Blockly.Xml.workspaceToDom(workspace);
+  workspace_xml.push({ 'id': currentTabId, 'xml': Blockly.Xml.domToPrettyText(xml) });
+  $(currenttab).removeClass('active');
+
+  if (senderTabId=='_add') {
+    // add a tab, name it, activate it, and bind it
+    idcounter++;
+    $('#blocklyTabListDiv').find('li:last').before('<li id="tab'+idcounter+'" class="workspace-tab active" onclick="workspaceSelected(this)">do something</li>');
+
+    // workspace with only function
+    idcounter++;
+    xml = '<xml xmlns="http://www.w3.org/1999/xhtml">';
+    xml += '<block type="procedures_defreturn" id="'+idcounter+'" x="13" y="13">';
+    xml += '<field name="NAME">do something</field>';
+    xml += '</block></xml>';
+    $('#importExport').val(xml);
+  } else {
+    $(sender).addClass('active');
+    xml = workspace_xml[0].xml;
+    $('#importExport').val(xml);
+  }
+  workspace.clear();
+  fromXml();
+};
 </script>
 
 <style>
@@ -195,11 +233,49 @@ h1 {
 #importExport {
   font-family: monospace;
 }
+
+
+
+#blocklyTabListDiv {
+  display: flex;
+  height: 40px;
+  padding-left: 380px;
+}
+
+#blocklyTabListDiv ul {
+  list-style: none;
+  padding: 0;
+}
+
+#blocklyTabListDiv li {
+  float: left;
+  padding-right: 10px;
+  cursor: pointer;
+  margin-right: 5px;
+  padding: 5px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  background-color: white;
+}
+
+#blocklyTabListDiv li.active {
+  z-index: 6;
+  background-color: blue;
+  color:white;
+}
 </style>
 </head>
 <body onload="start()">
 
   <div id="collaborators"></div>
+
+  <div id="blocklyTabListDiv">
+    <ul>
+      <li id="_main" class="workspace-tab active" onclick="workspaceSelected(this)">Main Workspace</li>
+      <li id="_add" class="workspace-tab" onclick="workspaceSelected(this)">Add</li>
+    </ul>
+  </div>
 
   <div id="blocklyDiv"></div>
 
