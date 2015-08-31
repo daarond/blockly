@@ -12,19 +12,19 @@ goog.require('Blockly.Blocks');
  * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#wz4qy9
  * @type {{init: Function}}
  */
-Blockly.Blocks['email_send'] = {
+Blockly.Blocks['internet_email_send'] = {
     init: function() {
         this.setHelpUrl('http://www.example.com/');
         this.setColour(75);
         this.appendDummyInput()
             .appendField("Send Email");
-        this.appendValueInput("email_receiver")
+        this.appendValueInput("RECEIVER")
             .setCheck("String")
             .appendField("To Address");
-        this.appendValueInput("email_subject")
+        this.appendValueInput("SUBJECT")
             .setCheck("String")
             .appendField("Subject");
-        this.appendValueInput("email_body")
+        this.appendValueInput("MESSAGE_BODY")
             .setCheck("String")
             .appendField("Message");
         this.setPreviousStatement(true, "null");

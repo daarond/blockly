@@ -12,7 +12,7 @@ goog.require('Blockly.Blocks');
  * Performs a HTTP retrieval
  * @type {{init: Function}}
  */
-Blockly.Blocks['http_retrieve'] = {
+Blockly.Blocks['internet_http'] = {
     init: function () {
         var METHODS =
             [["GET", "GET"], ["POST", "POST"], ["PUT", "PUT"], ["DELETE", "DELETE"]];

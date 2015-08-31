@@ -12,7 +12,7 @@ goog.require('Blockly.Blocks');
  * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#ket3po
  * @type {{init: Function}}
  */
-Blockly.Blocks['sms_send'] = {
+Blockly.Blocks['internet_sms_send'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("Send SMS");
