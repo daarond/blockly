@@ -31,15 +31,15 @@ Blockly.Blocks['objects_create_empty'] = {
  */
 Blockly.Blocks['objects_set_property'] = {
     init: function() {
-        this.appendValueInput("OBJECT")
-            .setCheck("object")
-            .appendField("set object");
-        this.appendValueInput("NAME")
+        this.appendDummyInput()
+            .appendField("set object")
+            .appendField(new Blockly.FieldVariable("item"), "OBJECT");
+        this.appendValueInput("PROPERTY")
             .setCheck("String")
             .appendField("property");
         this.appendValueInput("VALUE")
             .setCheck(null)
-            .appendField("to value");
+            .appendField("=");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
