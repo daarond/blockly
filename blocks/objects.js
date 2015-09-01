@@ -50,56 +50,23 @@ Blockly.Blocks['objects_set_property'] = {
 
 
 /**
- * convert string to number
- * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#8phonx
- * @type {{init: Function}}
- */
-Blockly.Blocks['object_convert_number'] = {
-    init: function() {
-        this.appendValueInput("VALUE")
-            .setCheck("String")
-            .appendField("convert to number");
-        this.setOutput(true, "Number");
-        this.setColour(135);
-        this.setTooltip('convert string to number');
-    }
-};
-
-
-/**
  * get a property from an object
- * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#xsifac
+ * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#nk5rc8
  * @type {{init: Function}}
  */
 Blockly.Blocks['objects_get_property'] = {
     init: function() {
-        this.appendValueInput("NAME")
+        this.appendValueInput("PATH")
             .setCheck("String")
             .appendField("get property");
-        this.appendValueInput("OBJECT")
-            .setCheck("object")
-            .appendField("from object");
+        this.appendDummyInput()
+            .appendField("from object")
+            .appendField(new Blockly.FieldVariable("item"), "OBJECT");
         this.setInputsInline(true);
         this.setOutput(true, null);
         this.setColour(135);
         this.setTooltip('get a property from an object');
-    }
-};
-
-
-/**
- * convert properties to named list
- * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#gkxhas
- * @type {{init: Function}}
- */
-Blockly.Blocks['objects_convert_list'] = {
-    init: function() {
-        this.appendValueInput("OBJECT")
-            .setCheck("object")
-            .appendField("convert to list");
-        this.setOutput(true, "Array");
-        this.setColour(135);
-        this.setTooltip('convert properties to named list');
+        this.setHelpUrl('http://www.example.com/');
     }
 };
 
@@ -122,89 +89,15 @@ Blockly.Blocks['objects_convert_object'] = {
 
 
 /**
- * set a named value on a list
- * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#b2f33b
- * @type {{init: Function}}
- */
-Blockly.Blocks['lists_set_named'] = {
-    init: function() {
-        this.appendValueInput("VAR")
-            .setCheck("Array")
-            .appendField("in list");
-        this.appendValueInput("ITEM")
-            .setCheck("String")
-            .appendField("set name");
-        this.appendValueInput("VALUE")
-            .setCheck(null)
-            .appendField("=");
-        this.setInputsInline(true);
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(Blockly.Blocks.lists.HUE);
-        this.setTooltip('set a named value on a list');
-        this.setHelpUrl('http://www.example.com/');
-    }
-};
-
-
-/**
- * get a named value from a list
- * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#bess5a
- * @type {{init: Function}}
- */
-Blockly.Blocks['lists_get_named'] = {
-    init: function() {
-        this.appendValueInput("VAR")
-            .setCheck("Array")
-            .appendField("in list");
-        this.appendValueInput("ITEM")
-            .setCheck("String")
-            .appendField("get named item");
-        this.setInputsInline(true);
-        this.setOutput(true, null);
-        this.setColour(Blockly.Blocks.lists.HUE);
-        this.setTooltip('get a named value from a list');
-        this.setHelpUrl('http://www.example.com/');
-    }
-};
-
-
-/**
- * map values from array to list
- * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#uuuvxq
- * @type {{init: Function}}
- */
-Blockly.Blocks['lists_map'] = {
-    init: function() {
-        this.appendValueInput("VAR")
-            .setCheck("Array")
-            .appendField("in list");
-        this.appendValueInput("VALUES")
-            .setCheck("Array")
-            .appendField("map values");
-        this.appendValueInput("NAMES")
-            .setCheck("Array")
-            .appendField("to names");
-        this.setInputsInline(true);
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(Blockly.Blocks.lists.HUE);
-        this.setTooltip('map values from array to list');
-        this.setHelpUrl('http://www.example.com/');
-    }
-};
-
-
-/**
  * map values from array to object properties
  * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#2uhbcj
  * @type {{init: Function}}
  */
 Blockly.Blocks['objects_map'] = {
     init: function() {
-        this.appendValueInput("VAR")
-            .setCheck("object")
-            .appendField("in object");
+        this.appendDummyInput()
+            .appendField("in object")
+            .appendField(new Blockly.FieldVariable("item"), "NAME");
         this.appendValueInput("VALUES")
             .setCheck("Array")
             .appendField("map values");
@@ -228,9 +121,9 @@ Blockly.Blocks['objects_map'] = {
  */
 Blockly.Blocks['objects_encode'] = {
     init: function() {
-        this.appendValueInput("VAR")
-            .setCheck("object")
-            .appendField("encode object");
+        this.appendDummyInput()
+            .appendField("encode object")
+            .appendField(new Blockly.FieldVariable("item"), "NAME");
         this.appendDummyInput()
             .appendField("as")
             .appendField(new Blockly.FieldDropdown([["JSON", "JSON"], ["YAML", "YAML"], ["XML", "XML"]]), "ENCODETYPE");
@@ -238,6 +131,30 @@ Blockly.Blocks['objects_encode'] = {
         this.setOutput(true, "String");
         this.setColour(135);
         this.setTooltip('encode object to a string');
+        this.setHelpUrl('http://www.example.com/');
+    }
+};
+
+/**
+ * decode object from a string
+ * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#f8k378
+ * @type {{init: Function}}
+ */
+Blockly.Blocks['objects_decode'] = {
+    init: function() {
+        this.appendValueInput("NAME")
+            .appendField("decode");
+        this.appendDummyInput()
+            .appendField("of type")
+            .appendField(new Blockly.FieldDropdown([["JSON", "JSON"], ["XML", "XML"], ["YAML", "YAML"]]), "ENCODING");
+        this.appendDummyInput()
+            .appendField("into object")
+            .appendField(new Blockly.FieldVariable("item"), "OBJECT");
+        this.setInputsInline(true);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(135);
+        this.setTooltip('');
         this.setHelpUrl('http://www.example.com/');
     }
 };
