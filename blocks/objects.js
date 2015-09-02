@@ -72,23 +72,6 @@ Blockly.Blocks['objects_get_property'] = {
 
 
 /**
- * convert named list to object properties
- * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#m44onz
- * @type {{init: Function}}
- */
-Blockly.Blocks['objects_convert_object'] = {
-    init: function() {
-        this.appendValueInput("OBJECT")
-            .setCheck("Array")
-            .appendField("convert to object");
-        this.setOutput(true, "object");
-        this.setColour(135);
-        this.setTooltip('convert named list to object properties');
-    }
-};
-
-
-/**
  * map values from array to object properties
  * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#2uhbcj
  * @type {{init: Function}}
@@ -98,12 +81,12 @@ Blockly.Blocks['objects_map'] = {
         this.appendDummyInput()
             .appendField("in object")
             .appendField(new Blockly.FieldVariable("item"), "NAME");
-        this.appendValueInput("VALUES")
-            .setCheck("Array")
-            .appendField("map values");
         this.appendValueInput("NAMES")
             .setCheck("Array")
-            .appendField("to properties");
+            .appendField("map properties");
+        this.appendValueInput("VALUES")
+            .setCheck("Array")
+            .appendField("to values");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
@@ -126,7 +109,7 @@ Blockly.Blocks['objects_encode'] = {
             .appendField(new Blockly.FieldVariable("item"), "NAME");
         this.appendDummyInput()
             .appendField("as")
-            .appendField(new Blockly.FieldDropdown([["JSON", "JSON"], ["YAML", "YAML"], ["XML", "XML"]]), "ENCODETYPE");
+            .appendField(new Blockly.FieldDropdown([["JSON", "JSON"], ["XML", "XML"]]), "ENCODETYPE");
         this.setInputsInline(true);
         this.setOutput(true, "String");
         this.setColour(135);
@@ -142,11 +125,11 @@ Blockly.Blocks['objects_encode'] = {
  */
 Blockly.Blocks['objects_decode'] = {
     init: function() {
-        this.appendValueInput("NAME")
+        this.appendValueInput("DATA")
             .appendField("decode");
         this.appendDummyInput()
             .appendField("of type")
-            .appendField(new Blockly.FieldDropdown([["JSON", "JSON"], ["XML", "XML"], ["YAML", "YAML"]]), "ENCODING");
+            .appendField(new Blockly.FieldDropdown([["JSON", "JSON"], ["XML", "XML"]]), "ENCODING");
         this.appendDummyInput()
             .appendField("into object")
             .appendField(new Blockly.FieldVariable("item"), "OBJECT");
