@@ -16,11 +16,11 @@ goog.require('Blockly.Blocks');
 Blockly.Blocks['regex_split'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("Split Text");
+            .appendField("split text");
         this.appendValueInput("subject")
             .setCheck("String");
         this.appendDummyInput()
-            .appendField("Using Expression");
+            .appendField("using expression");
         this.appendValueInput("expression")
             .setCheck("String");
         this.setInputsInline(true);
@@ -38,16 +38,17 @@ Blockly.Blocks['regex_split'] = {
 Blockly.Blocks['regex_replace'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("Replace Text");
-        this.appendValueInput("subject")
+            .appendField("replace text using expression");
+        this.appendValueInput("expression")
             .setCheck("String");
         this.appendValueInput("replacement")
             .setCheck("String")
-            .appendField("With");
+            .appendField("with");
         this.appendDummyInput()
-            .appendField("Using Expression");
-        this.appendValueInput("expression")
+            .appendField("in text");
+        this.appendValueInput("subject")
             .setCheck("String");
+
         this.setInputsInline(true);
         this.setOutput(true, "String");
         this.setColour(270);
@@ -64,15 +65,12 @@ Blockly.Blocks['regex_replace'] = {
 Blockly.Blocks['regex_simple_match'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("Text")
-            .appendField(new Blockly.FieldDropdown([["Completely", "COMPLETE"], ["Partially", "PARTIAL"]]), "match_type");
-        this.appendValueInput("subject")
-            .setCheck("String")
-            .appendField("Matches");
-        this.appendDummyInput()
-            .appendField("Expression");
+            .appendField("expression");
         this.appendValueInput("expression")
             .setCheck("String");
+        this.appendValueInput("subject")
+            .setCheck("String")
+            .appendField("matches text");
         this.setInputsInline(true);
         this.setOutput(true, "Boolean");
         this.setColour(270);
@@ -90,10 +88,10 @@ Blockly.Blocks['regex_match_string'] = {
     init: function() {
         this.appendValueInput("expression")
             .setCheck("String")
-            .appendField("Get String Matched By Expression");
+            .appendField("get string matched by expression");
         this.appendValueInput("subject")
             .setCheck("String")
-            .appendField("From");
+            .appendField("from");
         this.setInputsInline(true);
         this.setOutput(true, "String");
         this.setColour(270);
@@ -111,12 +109,12 @@ Blockly.Blocks['regex_match_list'] = {
     init: function() {
         this.appendValueInput("expression")
             .setCheck("String")
-            .appendField("Get list of ")
+            .appendField("get list of ")
             .appendField(new Blockly.FieldDropdown([["string", "STRING"], ["group", "GROUP"]]), "match_type")
             .appendField("matches of expression");
         this.appendValueInput("subject")
             .setCheck("String")
-            .appendField("From");
+            .appendField("from");
         this.setInputsInline(true);
         this.setOutput(true, "Array");
         this.setColour(270);

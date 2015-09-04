@@ -80,7 +80,7 @@ Blockly.Blocks['objects_map'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("in object")
-            .appendField(new Blockly.FieldVariable("item"), "NAME");
+            .appendField(new Blockly.FieldVariable("item"), "OBJECT");
         this.appendValueInput("NAMES")
             .setCheck("Array")
             .appendField("map properties");
@@ -106,7 +106,7 @@ Blockly.Blocks['objects_encode'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("encode object")
-            .appendField(new Blockly.FieldVariable("item"), "NAME");
+            .appendField(new Blockly.FieldVariable("item"), "OBJECT");
         this.appendDummyInput()
             .appendField("as")
             .appendField(new Blockly.FieldDropdown([["JSON", "JSON"], ["XML", "XML"]]), "ENCODETYPE");
