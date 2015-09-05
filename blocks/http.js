@@ -71,7 +71,7 @@ Blockly.Blocks['internet_http'] = {
         var dataInputExists = this.getInput('DATA');
         if (dataInput && !dataInputExists) {
             this.appendValueInput('DATA')
-                .setCheck('data_list')
+                .setCheck('String')
                 .setAlign(Blockly.ALIGN_RIGHT)
                 .appendField("with data");
         } else if (!dataInput && dataInputExists) {
@@ -88,7 +88,7 @@ Blockly.Blocks['internet_http'] = {
         var headerInputExists = this.getInput('HEADERS');
         if (headerInput && !headerInputExists) {
             this.appendValueInput('HEADERS')
-                .setCheck('data_list')
+                .setCheck('object')
                 .setAlign(Blockly.ALIGN_RIGHT)
                 .appendField("with headers");
             var dataInput = this.getInput('DATA');

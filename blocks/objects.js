@@ -109,7 +109,7 @@ Blockly.Blocks['objects_encode'] = {
             .appendField(new Blockly.FieldVariable("item"), "OBJECT");
         this.appendDummyInput()
             .appendField("as")
-            .appendField(new Blockly.FieldDropdown([["JSON", "JSON"], ["XML", "XML"]]), "ENCODETYPE");
+            .appendField(new Blockly.FieldDropdown([["JSON", "JSON"], ["HTTP name=value", "HTTP"], ["XML", "XML"]]), "ENCODETYPE");
         this.setInputsInline(true);
         this.setOutput(true, "String");
         this.setColour(135);
@@ -129,7 +129,7 @@ Blockly.Blocks['objects_decode'] = {
             .appendField("decode");
         this.appendDummyInput()
             .appendField("of type")
-            .appendField(new Blockly.FieldDropdown([["JSON", "JSON"], ["XML", "XML"]]), "ENCODING");
+            .appendField(new Blockly.FieldDropdown([["JSON", "JSON"], ["HTTP name=value", "HTTP"], ["XML", "XML"]]), "ENCODING");
         this.appendDummyInput()
             .appendField("into object")
             .appendField(new Blockly.FieldVariable("item"), "OBJECT");
