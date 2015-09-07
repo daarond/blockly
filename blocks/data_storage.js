@@ -54,7 +54,7 @@ Blockly.Blocks['storage_get_counter'] = {
  * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#xicygd
  * @type {{init: Function}}
  */
-Blockly.Blocks['storage_set_counter'] = {
+Blockly.Blocks['storage_set_time_counter'] = {
     init: function() {
         this.appendDummyInput()
             .appendField('set time counter')
@@ -77,10 +77,10 @@ Blockly.Blocks['storage_set_counter'] = {
  * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#ywceqr
  * @type {{init: Function}}
  */
-Blockly.Blocks['storage_write_object'] = {
+Blockly.Blocks['storage_update_object'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("write object")
+            .appendField("update object")
             .appendField(new Blockly.FieldVariable("item"), "OBJECT");
         this.appendDummyInput()
             .appendField("to collection")
