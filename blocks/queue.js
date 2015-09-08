@@ -20,10 +20,6 @@ Blockly.Blocks['queue_add'] = {
         this.appendValueInput("data")
             .setCheck("Array")
             .appendField("add data");
-        this.appendDummyInput()
-            .appendField("with")
-            .appendField(new Blockly.FieldDropdown([["low", "LOW"], ["normal", "NORMAL"], ["high", "HIGH"]]), "PRIORITY")
-            .appendField("priority");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(45);
@@ -62,23 +58,6 @@ Blockly.Blocks['queue_item_data'] = {
         this.setOutput(true, "string");
         this.setColour(45);
         this.setTooltip('gets the data from a queue item');
-    }
-};
-
-
-/**
- * adds data to the queue
- * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#rt4gje
- * @type {{init: Function}}
- */
-Blockly.Blocks['queue_item_priority'] = {
-    init: function() {
-        this.appendValueInput("url")
-            .setCheck("queue_item")
-            .appendField("get queue item priority");
-        this.setOutput(true, "string");
-        this.setColour(45);
-        this.setTooltip('gets the priority from a queue item');
     }
 };
 
@@ -180,27 +159,6 @@ Blockly.Blocks['queue_item_delete'] = {
     }
 };
 
-
-/**
- * changes a queue item's priority
- * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#vnf37c
- * @type {{init: Function}}
- */
-Blockly.Blocks['queue_item_setpriority'] = {
-    init: function() {
-        this.appendValueInput("item")
-            .setCheck("queue_item")
-            .appendField("change queue item");
-        this.appendValueInput("priority")
-            .setCheck("String")
-            .appendField("priority to");
-        this.setInputsInline(true);
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(45);
-        this.setTooltip('changes a queue item\'s priority');
-    }
-};
 
 /**
  * delete a queue and all contents
