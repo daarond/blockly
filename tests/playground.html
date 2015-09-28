@@ -42,7 +42,7 @@
 <script src="../blocks/procedures.js"></script>
 <!-- Load the Google Drive SDK Realtime libraries. -->
 <script src="https://apis.google.com/js/api.js"></script>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
 'use strict';
 // Depending on the URL argument, render as LTR or RTL.
@@ -92,6 +92,45 @@ function toXml() {
 function fromXml() {
   var input = document.getElementById('importExport');
   var xml = Blockly.Xml.textToDom(input.value);
+  Blockly.Xml.domToWorkspace(workspace, xml);
+}
+
+function initialXmlLoad() {
+  var input = document.getElementById('importExport');
+  var xml = Blockly.Xml.textToDom(input.value);
+
+  // filter out the procedures
+  var procedures = xml.getElementsByTagName("block");
+  $.each(procedures, function(idx, item){
+    var blocktype = item.getAttribute('type');
+    if (item.parentNode.tagName == 'xml'
+    && (blocktype == 'procedures_defreturn' || blocktype == 'procedures_noreturn')) {
+      // top-level procedure block
+      console.log(item);
+
+
+      // push an object into workspace_xml
+      var id = "tab"+(++idcounter);
+      var item_xml = '<xml xmlns="http://www.w3.org/1999/xhtml">'+item.outerHTML+'</xml>';
+      workspace_xml.push({ "id":id, "xml": item_xml});
+      var namefield = item.getElementsByTagName("field")[0];
+      addWorkspaceTab(namefield.textContent, id);
+    }
+  });
+
+  for(var idx = 0; idx < workspace_xml.length; idx++){
+    procedures = xml.getElementsByTagName("block");
+    if (procedures.length==0) break;
+    var blocktype = procedures[0].getAttribute('type');
+    if (procedures[0].parentNode.tagName == 'xml'
+            && (blocktype == 'procedures_defreturn' || blocktype == 'procedures_noreturn')) {
+      xml.removeChild(procedures[0]);
+    } else {
+      xml.removeChild(procedures[1]);
+    }
+  }
+
+
   Blockly.Xml.domToWorkspace(workspace, xml);
 }
 
@@ -161,6 +200,30 @@ var spaghettiXml = [
   '    <next></next>' +
   '  </block>'].join('\n');
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var workspace_xml = [];
 
 var idcounter = 1000;
@@ -181,23 +244,47 @@ var workspaceSelected = function(sender){
   if (senderTabId=='_add') {
     // add a tab, name it, activate it, and bind it
     idcounter++;
-    $('#blocklyTabListDiv').find('li:last').before('<li id="tab'+idcounter+'" class="workspace-tab active" onclick="workspaceSelected(this)">do something</li>');
 
-    // workspace with only function
-    idcounter++;
     xml = '<xml xmlns="http://www.w3.org/1999/xhtml">';
     xml += '<block type="procedures_defreturn" id="'+idcounter+'" x="13" y="13">';
     xml += '<field name="NAME">do something</field>';
     xml += '</block></xml>';
+
+    addWorkspaceTab('do something', idcounter);
     $('#importExport').val(xml);
   } else {
+    // code already exists, so activate tab and show
     $(sender).addClass('active');
-    xml = workspace_xml[0].xml;
+
+    $.each(workspace_xml, function(idx, item){
+      if (item.id == senderTabId){
+        xml = item.xml;
+        return false;
+      }
+    });
+
     $('#importExport').val(xml);
   }
   workspace.clear();
   fromXml();
 };
+
+  var addWorkspaceTab = function(name, id)
+  {
+    $('#blocklyTabListDiv').find('li:last').before(
+            '<li id="'+id+'" class="workspace-tab" onclick="workspaceSelected(this)">'+
+            '<div style="float:left;">'+name+'</div><div style="float:right; margin-left: 10px;" onclick="removeWorkspaceTab(\''+id+'\')">x</div></li>'
+    );
+  };
+
+  var removeWorkspaceTab = function(id)
+  {
+    if ($('#'+id).attr('class').indexOf('active')>-1){
+      workspaceSelected($('#_main'));
+    }
+    $('#'+id).remove();
+    event.stopImmediatePropagation();
+  }
 </script>
 
 <style>
@@ -240,6 +327,7 @@ h1 {
   display: flex;
   height: 40px;
   padding-left: 380px;
+  margin-bottom: 4px;
 }
 
 #blocklyTabListDiv ul {
@@ -508,7 +596,7 @@ h1 {
   <p>
     <input type="button" value="Export to XML" onclick="toXml()">
     &nbsp;
-    <input type="button" value="Import from XML" onclick="fromXml()">
+    <input type="button" value="Import from XML" onclick="initialXmlLoad()">
     <br>
     <input type="button" value="To JavaScript" onclick="toCode('JavaScript')">
     &nbsp;
