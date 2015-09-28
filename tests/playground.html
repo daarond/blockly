@@ -54,8 +54,11 @@ function enableRealtimeSpecificUi() {
   realtimeDiv.display = 'block';
 }
 
+
+
 function start() {
   var toolbox = document.getElementById('toolbox');
+
   workspace = Blockly.inject('blocklyDiv',
           {rtl: rtl,
            media: '../media/',
@@ -79,7 +82,7 @@ function start() {
   if (Blockly.Realtime.isEnabled()) {
     enableRealtimeSpecificUi();
   }
-}
+};
 
 function toXml() {
   var output = document.getElementById('importExport');
@@ -99,38 +102,38 @@ function initialXmlLoad() {
   var input = document.getElementById('importExport');
   var xml = Blockly.Xml.textToDom(input.value);
 
+  var newxml = document.createDocumentFragment();
+  var newbase = newxml.appendChild(document.createElement('xml'));
+  newbase.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+
   // filter out the procedures
   var procedures = xml.getElementsByTagName("block");
   $.each(procedures, function(idx, item){
+    if (item==undefined) return false;
     var blocktype = item.getAttribute('type');
     if (item.parentNode.tagName == 'xml'
-    && (blocktype == 'procedures_defreturn' || blocktype == 'procedures_noreturn')) {
+    && (blocktype == 'procedures_defreturn'
+            || blocktype == 'procedures_noreturn'
+            || blocktype == 'procedures_ifreturn')) {
       // top-level procedure block
       console.log(item);
-
 
       // push an object into workspace_xml
       var id = "tab"+(++idcounter);
       var item_xml = '<xml xmlns="http://www.w3.org/1999/xhtml">'+item.outerHTML+'</xml>';
-      workspace_xml.push({ "id":id, "xml": item_xml});
       var namefield = item.getElementsByTagName("field")[0];
+      var dom = Blockly.Xml.textToDom(item_xml);
+      var headlessworkspace = new Blockly.Workspace();
+      workspace.hidden_workspaces.push(headlessworkspace);
+      Blockly.Xml.domToWorkspace(headlessworkspace, dom);
+      workspace_xml.push({ "id":id, "name":namefield, "workspace":headlessworkspace, "xml": item_xml});
       addWorkspaceTab(namefield.textContent, id);
+    } else {
+      newbase.appendChild(item);
     }
   });
 
-  for(var idx = 0; idx < workspace_xml.length; idx++){
-    procedures = xml.getElementsByTagName("block");
-    if (procedures.length==0) break;
-    var blocktype = procedures[0].getAttribute('type');
-    if (procedures[0].parentNode.tagName == 'xml'
-            && (blocktype == 'procedures_defreturn' || blocktype == 'procedures_noreturn')) {
-      xml.removeChild(procedures[0]);
-    } else {
-      xml.removeChild(procedures[1]);
-    }
-  }
-
-
+  xml = Blockly.Xml.textToDom(newbase.outerHTML);
   Blockly.Xml.domToWorkspace(workspace, xml);
 }
 
@@ -199,7 +202,6 @@ var spaghettiXml = [
   '    <statement name="DO0"></statement>' +
   '    <next></next>' +
   '  </block>'].join('\n');
-
 
 
 
@@ -327,7 +329,7 @@ h1 {
   display: flex;
   height: 40px;
   padding-left: 380px;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
 #blocklyTabListDiv ul {
@@ -341,9 +343,7 @@ h1 {
   cursor: pointer;
   margin-right: 5px;
   padding: 5px;
-  border-top: 1px solid black;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
+  border: 1px solid black;
   background-color: white;
 }
 
@@ -604,7 +604,26 @@ h1 {
     &nbsp;
     <input type="button" value="To Dart" onclick="toCode('Dart')">
     <br>
-    <textarea id="importExport" style="width: 26%; height: 12em"></textarea>
+    <textarea id="importExport" style="width: 26%; height: 12em">
+            <xml xmlns="http://www.w3.org/1999/xhtml">
+              <block type="procedures_defreturn" id="26" inline="false" x="63" y="38">
+                <mutation></mutation>
+                <field name="NAME">do something</field>
+              </block>
+              <block type="procedures_defreturn" id="31" inline="false" x="88" y="163">
+                <mutation></mutation>
+                <field name="NAME">do something2</field>
+              </block>
+              <block type="math_change" id="50" inline="true" x="38" y="288">
+                <field name="VAR">item</field>
+                <value name="DELTA">
+                  <block type="math_number" id="51">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+              </block>
+            </xml>
+    </textarea>
   </p>
   <hr>
 
@@ -635,7 +654,8 @@ h1 {
     -->
 
     <!-- Text area that will be used for our collaborative chat box. -->
-    <textarea id="chatbox" style="width: 26%; height: 12em" disabled="true"></textarea>
+    <textarea id="chatbox" style="width: 26%; height: 12em" disabled="true">
+    </textarea>
 
   </div>
 </body>
