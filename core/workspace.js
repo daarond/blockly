@@ -43,7 +43,6 @@ Blockly.Workspace = function(opt_options) {
   this.topBlocks_ = [];
   this.options = opt_options || {};
   this.RTL = !!this.options.RTL;
-  this.hidden_workspaces = [];
 };
 
 /**
@@ -51,6 +50,12 @@ Blockly.Workspace = function(opt_options) {
  * @type {boolean} True if visible.  False if headless.
  */
 Blockly.Workspace.prototype.rendered = false;
+
+/**
+ * Workspaces may be in a list of other workspaces.
+ * @type {boolean} True if in a list.  False if single.
+ */
+Blockly.Workspace.prototype.in_list = false;
 
 /**
  * Dispose of this workspace.
@@ -127,9 +132,6 @@ Blockly.Workspace.prototype.getAllBlocks = function() {
   var blocks = this.getTopBlocks(false);
   for (var i = 0; i < blocks.length; i++) {
     blocks.push.apply(blocks, blocks[i].getChildren());
-  }
-  for(var i = 0; i < this.hidden_workspaces.length; i++) {
-    blocks = blocks.concat(this.hidden_workspaces[i].getAllBlocks());
   }
   return blocks;
 };

@@ -43,6 +43,9 @@
 <!-- Load the Google Drive SDK Realtime libraries. -->
 <script src="https://apis.google.com/js/api.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  <script src="../core/workspace_list.js"></script>
+
 <script>
 'use strict';
 // Depending on the URL argument, render as LTR or RTL.
@@ -59,26 +62,30 @@ function enableRealtimeSpecificUi() {
 function start() {
   var toolbox = document.getElementById('toolbox');
 
-  workspace = Blockly.inject('blocklyDiv',
+  var list = new Blockly.WorkspaceList(
           {rtl: rtl,
-           media: '../media/',
-           toolbox: toolbox,
-           comments: true,
-           disable: true,
-           collapse: true,
-           grid:
-             {spacing: 25,
+            media: '../media/',
+            toolbox: toolbox,
+            comments: true,
+            disable: true,
+            collapse: true,
+            grid:
+            {spacing: 25,
               length: 3,
               colour: '#ccc',
               snap: true},
-           readOnly: false,
-           realtime: false,
-           realtimeOptions:
-             {clientId: 'YOUR CLIENT ID GOES HERE',
+            readOnly: false,
+            realtime: false,
+            realtimeOptions:
+            {clientId: 'YOUR CLIENT ID GOES HERE',
               chatbox: {elementId: 'chatbox'},
               collabElementId: 'collaborators'},
-           scrollbars: true
-          });
+            scrollbars: true
+          }
+  );
+  workspace = list.injectWithText('blocklyDiv',
+  //workspace = Blockly.inject('blocklyDiv',
+           $('#importExport').val());
   if (Blockly.Realtime.isEnabled()) {
     enableRealtimeSpecificUi();
   }
@@ -332,14 +339,13 @@ h1 {
   margin-bottom: 5px;
 }
 
-#blocklyTabListDiv ul {
+#tab_area ul {
   list-style: none;
   padding: 0;
 }
 
-#blocklyTabListDiv li {
+#tab_area li {
   float: left;
-  padding-right: 10px;
   cursor: pointer;
   margin-right: 5px;
   padding: 5px;
@@ -347,7 +353,7 @@ h1 {
   background-color: white;
 }
 
-#blocklyTabListDiv li.active {
+#tab_area li.active {
   z-index: 6;
   background-color: blue;
   color:white;
@@ -357,13 +363,6 @@ h1 {
 <body onload="start()">
 
   <div id="collaborators"></div>
-
-  <div id="blocklyTabListDiv">
-    <ul>
-      <li id="_main" class="workspace-tab active" onclick="workspaceSelected(this)">Main Workspace</li>
-      <li id="_add" class="workspace-tab" onclick="workspaceSelected(this)">Add</li>
-    </ul>
-  </div>
 
   <div id="blocklyDiv"></div>
 
