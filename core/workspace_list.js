@@ -136,41 +136,83 @@ Blockly.WorkspaceList.prototype.injectWithText = function(target, text) {
             var workspace_div = document.createElement('div');
             workspace_div.id = id;
             editor_area.appendChild(workspace_div);
-            if (isProcedure) {
-                workspace_div.style.display = 'none';
-            }
 
             var tab_item = document.createElement('li');
             tab_item.innerHTML = namefield;
             tab_item.onclick = this.tabSelected;
-            tab_list.appendChild(tab_item);
+            if (isProcedure) {
+                tab_list.appendChild(tab_item);
+            } else {
+                tab_list.insertBefore(tab_item, tab_list.firstChild);
+            }
 
             // inject the visible workspace
             var ws = Blockly.inject(workspace_div, this.options);
 
             // push it to the local list
-            this.workspaces.push({
-                "id":id,
-                "name":namefield,
-                "tabitem": tab_item,
-                "workspacediv": workspace_div,
-                "workspace":ws,
-                "xml": item_xml});
+            var listitem = {
+                id:id,
+                name:namefield,
+                isactive:false,
+                tabitem: tab_item,
+                workspacediv: workspace_div,
+                workspace:ws,
+                xml: item_xml};
+
+            tab_item.listitem = listitem;
+            tab_item.workspaces = this.workspaces;
+
+            if (namefield == 'Main Workspace'){
+                listitem.isactive = true;
+                listitem.tabitem.classList.add('active');
+            }
+
+            this.workspaces.push(listitem);
 
             Blockly.Xml.domToWorkspace(ws, dom);
         }
+
+        /*
+        // this will not show the workspace at all
+        if (isProcedure){
+            workspace_div.style.display = 'none';
+        }
+        */
     }
+
+    // append the "add" tab
+    tab_item = document.createElement('li');
+    tab_item.innerHTML = 'Add';
+    tab_item.onclick = this.addWorkspace;
+    tab_list.appendChild(tab_item);
+
+    // todo: have to hide them on a delay... find out why
+    setTimeout(function(){
+        var element = document.getElementById('tab_list');
+        var workspaces = element.firstChild.workspaces;
+        for(var i=0; i < workspaces.length-1; i++){
+            workspaces[i].workspacediv.style.display = 'none';
+        }
+    }, 1);
 };
 
-Blockly.WorkspaceList.prototype.tabSelected = function(e) {
+Blockly.WorkspaceList.prototype.addWorkspace = function() {
+
+};
+
+Blockly.WorkspaceList.prototype.tabSelected = function() {
     for(var i=0; i < this.workspaces.length; i++){
         var ws = this.workspaces[i];
-        if (ws.tabitem == e){
-            // make it active
-            // show the editor
+        if (ws.tabitem == this){
+            if (!ws.isactive) {
+                ws.tabitem.classList.add('active');
+                ws.isactive = true;
+                ws.workspacediv.style.display = 'block';
+            }
         } else {
-            // make it inactive
-            // hide the editor
+            ws.tabitem.classList.remove('active');
+            ws.isactive = false;
+            ws.workspacediv.style.display = 'none';
         }
     }
 };
