@@ -26,6 +26,7 @@
 
 goog.require('goog.math');
 
+var idcounter = 1;
 
 /**
  * Class for a workspace.  This is a data structure that contains blocks.
@@ -41,13 +42,8 @@ Blockly.WorkspaceList = function(opt_options) {
     this.topBlocks_ = [];
     this.options = opt_options || {};
     this.RTL = !!this.options.RTL;
+    this.workspaces = [];
 };
-
-/**
- * List of workspaces in the list
- * @type {array} list of objects
- */
-Blockly.WorkspaceList.prototype.workspaces = [];
 
 /**
  * Dispose of this workspace.
@@ -73,7 +69,11 @@ Blockly.WorkspaceList.prototype.clear = function() {
 Blockly.WorkspaceList.prototype.getAllBlocks = function() {
     var blocks = [];
     for(var i = 0; i < this.workspaces.length; i++) {
-        blocks = blocks.concat(this.workspaces[i].workspace.getAllBlocks());
+        var wsblocks = this.workspaces[i].workspace.getTopBlocks();
+        blocks = blocks.concat(wsblocks);
+        for (var j = 0; j < wsblocks.length; j++) {
+            blocks.concat(wsblocks[j].getChildren());
+        }
     }
     return blocks;
 };
@@ -95,11 +95,11 @@ Blockly.WorkspaceList.prototype.injectWithText = function(target, text) {
     var target_element = document.getElementById(target);
 
     var tab_area = document.createElement('div');
-    tab_area.style.display = 'inline-block';
     tab_area.id = 'tab_area';
 
     var tab_list = document.createElement('ul');
     tab_list.id = 'tab_list';
+    tab_list.className = 'tabrow';
     tab_area.appendChild(tab_list);
     target_element.appendChild(tab_area);
 
@@ -126,15 +126,18 @@ Blockly.WorkspaceList.prototype.injectWithText = function(target, text) {
         var blocktype = item.getAttribute('type');
         if (item.parentNode.tagName == 'xml') {
             // top-level procedure block, push an object into workspace_xml
-
-            var isProcedure = (blocktype == 'procedures_defreturn'
-            || blocktype == 'procedures_noreturn'
-            || blocktype == 'procedures_ifreturn');
-
             var namefield = 'Main Workspace';
-            if (isProcedure) {
+
+            var isProcedure = false;
+            if (blocktype == 'procedures_defreturn'
+                || blocktype == 'procedures_noreturn'
+                || blocktype == 'procedures_ifreturn') {
                 namefield = item.getElementsByTagName("field")[0].innerText;
+                isProcedure = true;
             }
+
+            item.removeAttribute('x');
+            item.removeAttribute('y');
 
             // set the xml
             var item_xml = '<xml xmlns="http://www.w3.org/1999/xhtml">'+item.outerHTML+'</xml>';
@@ -142,14 +145,6 @@ Blockly.WorkspaceList.prototype.injectWithText = function(target, text) {
             this.addWorkspace(namefield, isProcedure, item_xml);
         }
     }
-
-    // todo: have to hide them on a delay... find out why
-    setTimeout(function(){
-        var workspaces = document.getElementsByClassName('blockly-workspace');
-        for(var i=0; i < workspaces.length-1; i++){
-            workspaces[i].style.display = 'none';
-        }
-    }, 1);
 };
 
 Blockly.WorkspaceList.prototype.addWorkspace = function(tab_name, isProcedure, item_xml)
@@ -166,6 +161,9 @@ Blockly.WorkspaceList.prototype.addWorkspace = function(tab_name, isProcedure, i
     workspace_div.className = 'blockly-workspace';
     workspace_div.style.height = '100%';
     editor_area.appendChild(workspace_div);
+    if (isProcedure){
+        workspace_div.style.display = 'none';
+    }
 
     // create the tab
     var tab_item = document.createElement('li');
@@ -181,7 +179,7 @@ Blockly.WorkspaceList.prototype.addWorkspace = function(tab_name, isProcedure, i
 
     // inject the visible workspace
     var ws = Blockly.inject(workspace_div, this.options);
-    ws.in_list = true;
+    ws.workspace_list = this;
 
     // push it to the local list
     var listitem = {
@@ -220,21 +218,12 @@ Blockly.WorkspaceList.prototype.addWorkspaceClick = function() {
     }
 
     var item_xml = '<xml xmlns="http://www.w3.org/1999/xhtml">'+
-        '<block type="procedures_defnoreturn" inline="false">'+
-        '<mutation></mutation>'+
-        '<field name="NAME">do something</field>'+
+        '<block type="procedures_defreturn" inline="false">'+
         '</block>'+
         '</xml>';
     var ws = this.ws_list.addWorkspace('New Workspace', true, item_xml);
 
-    setTimeout(function(){
-        var workspaces = document.getElementsByClassName('blockly-workspace');
-        for(var i=0; i < workspaces.length-1; i++){
-            workspaces[i].style.display = 'none';
-        }
-
-        Blockly.WorkspaceList.selectTab(workspaces[workspaces.length-1].tabitem);
-    }, 1);
+    Blockly.WorkspaceList.selectTab(workspaces[workspaces.length-1].tabitem);
 
     this.classList.remove('active');
 };
@@ -247,6 +236,7 @@ Blockly.WorkspaceList.selectTab = function(selected){
                 ws.tabitem.classList.add('active');
                 ws.isactive = true;
                 ws.workspacediv.style.display = 'block';
+                ws.workspace.render();
             }
         } else {
             ws.tabitem.classList.remove('active');

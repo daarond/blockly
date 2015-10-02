@@ -105,45 +105,6 @@ function fromXml() {
   Blockly.Xml.domToWorkspace(workspace, xml);
 }
 
-function initialXmlLoad() {
-  var input = document.getElementById('importExport');
-  var xml = Blockly.Xml.textToDom(input.value);
-
-  var newxml = document.createDocumentFragment();
-  var newbase = newxml.appendChild(document.createElement('xml'));
-  newbase.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
-
-  // filter out the procedures
-  var procedures = xml.getElementsByTagName("block");
-  $.each(procedures, function(idx, item){
-    if (item==undefined) return false;
-    var blocktype = item.getAttribute('type');
-    if (item.parentNode.tagName == 'xml'
-    && (blocktype == 'procedures_defreturn'
-            || blocktype == 'procedures_noreturn'
-            || blocktype == 'procedures_ifreturn')) {
-      // top-level procedure block
-      console.log(item);
-
-      // push an object into workspace_xml
-      var id = "tab"+(++idcounter);
-      var item_xml = '<xml xmlns="http://www.w3.org/1999/xhtml">'+item.outerHTML+'</xml>';
-      var namefield = item.getElementsByTagName("field")[0];
-      var dom = Blockly.Xml.textToDom(item_xml);
-      var headlessworkspace = new Blockly.Workspace();
-      workspace.hidden_workspaces.push(headlessworkspace);
-      Blockly.Xml.domToWorkspace(headlessworkspace, dom);
-      workspace_xml.push({ "id":id, "name":namefield, "workspace":headlessworkspace, "xml": item_xml});
-      addWorkspaceTab(namefield.textContent, id);
-    } else {
-      newbase.appendChild(item);
-    }
-  });
-
-  xml = Blockly.Xml.textToDom(newbase.outerHTML);
-  Blockly.Xml.domToWorkspace(workspace, xml);
-}
-
 function toCode(lang) {
   var output = document.getElementById('importExport');
   output.value = Blockly[lang].workspaceToCode(workspace);
@@ -209,91 +170,6 @@ var spaghettiXml = [
   '    <statement name="DO0"></statement>' +
   '    <next></next>' +
   '  </block>'].join('\n');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var workspace_xml = [];
-
-var idcounter = 1000;
-var workspaceSelected = function(sender){
-  // get the current tab
-  var currenttab = $('.workspace-tab.active:first')[0];
-  var currentTabId = $(currenttab).attr('id');
-  var senderTabId = $(sender).attr('id');
-
-  // remove and serialize current
-  workspace_xml = jQuery.grep(workspace_xml, function(value) {
-    return value.id != currentTabId;
-  });
-  var xml = Blockly.Xml.workspaceToDom(workspace);
-  workspace_xml.push({ 'id': currentTabId, 'xml': Blockly.Xml.domToPrettyText(xml) });
-  $(currenttab).removeClass('active');
-
-  if (senderTabId=='_add') {
-    // add a tab, name it, activate it, and bind it
-    idcounter++;
-
-    xml = '<xml xmlns="http://www.w3.org/1999/xhtml">';
-    xml += '<block type="procedures_defreturn" id="'+idcounter+'" x="13" y="13">';
-    xml += '<field name="NAME">do something</field>';
-    xml += '</block></xml>';
-
-    addWorkspaceTab('do something', idcounter);
-    $('#importExport').val(xml);
-  } else {
-    // code already exists, so activate tab and show
-    $(sender).addClass('active');
-
-    $.each(workspace_xml, function(idx, item){
-      if (item.id == senderTabId){
-        xml = item.xml;
-        return false;
-      }
-    });
-
-    $('#importExport').val(xml);
-  }
-  workspace.clear();
-  fromXml();
-};
-
-  var addWorkspaceTab = function(name, id)
-  {
-    $('#blocklyTabListDiv').find('li:last').before(
-            '<li id="'+id+'" class="workspace-tab" onclick="workspaceSelected(this)">'+
-            '<div style="float:left;">'+name+'</div><div style="float:right; margin-left: 10px;" onclick="removeWorkspaceTab(\''+id+'\')">x</div></li>'
-    );
-  };
-
-  var removeWorkspaceTab = function(id)
-  {
-    if ($('#'+id).attr('class').indexOf('active')>-1){
-      workspaceSelected($('#_main'));
-    }
-    $('#'+id).remove();
-    event.stopImmediatePropagation();
-  }
 </script>
 
 <style>
@@ -332,31 +208,83 @@ h1 {
 
 
 
-#blocklyTabListDiv {
-  display: flex;
-  height: 40px;
-  padding-left: 380px;
-  margin-bottom: 5px;
-}
 
-#tab_area ul {
+.tabrow {
+  text-align: center;
   list-style: none;
+  margin: 0px;
   padding: 0;
-}
-
-#tab_area li {
-  float: left;
+  line-height: 24px;
+  height: 26px;
+  overflow: hidden;
+  font-size: 12px;
+  font-family: verdana;
+  position: relative;
   cursor: pointer;
-  margin-right: 5px;
-  padding: 5px;
-  border: 1px solid black;
-  background-color: white;
 }
-
-#tab_area li.active {
-  z-index: 6;
-  background-color: blue;
-  color:white;
+.tabrow li {
+  border: 1px solid #AAA;
+  background: #D1D1D1;
+  background: -o-linear-gradient(top, #ECECEC 50%, #D1D1D1 100%);
+  background: -ms-linear-gradient(top, #ECECEC 50%, #D1D1D1 100%);
+  background: -moz-linear-gradient(top, #ECECEC 50%, #D1D1D1 100%);
+  background: -webkit-linear-gradient(top, #ECECEC 50%, #D1D1D1 100%);
+  background: linear-gradient(top, #ECECEC 50%, #D1D1D1 100%);
+  display: inline-block;
+  position: relative;
+  z-index: 0;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4), inset 0 1px 0 #FFF;
+  text-shadow: 0 1px #FFF;
+  margin: 0 -5px;
+  padding: 0 20px;
+}
+.tabrow a {
+  color: #555;
+  text-decoration: none;
+}
+.tabrow li.active {
+  background: #FFF;
+  color: #333;
+  z-index: 2;
+  border-bottom-color: #FFF;
+}
+.tabrow:before {
+  position: absolute;
+  content: " ";
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  border-bottom: 1px solid #AAA;
+  z-index: 1;
+}
+.tabrow li:before,
+.tabrow li:after {
+  border: 1px solid #AAA;
+  position: absolute;
+  bottom: -1px;
+  width: 5px;
+  height: 5px;
+  content: " ";
+}
+.tabrow li:before {
+  left: -6px;
+  border-bottom-right-radius: 6px;
+  border-width: 0 1px 1px 0;
+  box-shadow: 2px 2px 0 #D1D1D1;
+}
+.tabrow li:after {
+  right: -6px;
+  border-bottom-left-radius: 6px;
+  border-width: 0 0 1px 1px;
+  box-shadow: -2px 2px 0 #D1D1D1;
+}
+.tabrow li.active:before {
+  box-shadow: 2px 2px 0 #FFF;
+}
+.tabrow li.active:after {
+  box-shadow: -2px 2px 0 #FFF;
 }
 </style>
 </head>
@@ -595,7 +523,7 @@ h1 {
   <p>
     <input type="button" value="Export to XML" onclick="toXml()">
     &nbsp;
-    <input type="button" value="Import from XML" onclick="initialXmlLoad()">
+    <input type="button" value="Import from XML" onclick="fromXml()">
     <br>
     <input type="button" value="To JavaScript" onclick="toCode('JavaScript')">
     &nbsp;

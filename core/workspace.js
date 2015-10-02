@@ -53,9 +53,9 @@ Blockly.Workspace.prototype.rendered = false;
 
 /**
  * Workspaces may be in a list of other workspaces.
- * @type {boolean} True if in a list.  False if single.
+ * @type {WorkspaceList} Null if not in a list.
  */
-Blockly.Workspace.prototype.in_list = false;
+Blockly.Workspace.prototype.workspace_list = null;
 
 /**
  * Dispose of this workspace.
@@ -129,9 +129,14 @@ Blockly.Workspace.prototype.getTopBlocks = function(ordered) {
  * @return {!Array.<!Blockly.Block>} Array of blocks.
  */
 Blockly.Workspace.prototype.getAllBlocks = function() {
-  var blocks = this.getTopBlocks(false);
-  for (var i = 0; i < blocks.length; i++) {
-    blocks.push.apply(blocks, blocks[i].getChildren());
+  var blocks = null;
+  if (this.workspace_list != null){
+    blocks = this.workspace_list.getAllBlocks();
+  } else {
+    blocks = this.getTopBlocks(false);
+    for (var i = 0; i < blocks.length; i++) {
+      blocks.push.apply(blocks, blocks[i].getChildren());
+    }
   }
   return blocks;
 };
