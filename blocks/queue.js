@@ -18,7 +18,7 @@ Blockly.Blocks['queue_add'] = {
             .setCheck("String")
             .appendField("to queue");
         this.appendValueInput("data")
-            .setCheck("Array")
+            .setCheck("String")
             .appendField("add data");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
@@ -52,7 +52,7 @@ Blockly.Blocks['queue_peek'] = {
  */
 Blockly.Blocks['queue_item_data'] = {
     init: function() {
-        this.appendValueInput("url")
+        this.appendValueInput("item")
             .setCheck("queue_item")
             .appendField("get queue item data");
         this.setOutput(true, "string");
@@ -167,8 +167,8 @@ Blockly.Blocks['queue_item_delete'] = {
  */
 Blockly.Blocks['queue_delete'] = {
     init: function() {
-        this.appendValueInput("item")
-            .setCheck("string")
+        this.appendValueInput("queue")
+            .setCheck("String")
             .appendField("delete queue");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
@@ -185,8 +185,8 @@ Blockly.Blocks['queue_delete'] = {
  */
 Blockly.Blocks['queue_create'] = {
     init: function() {
-        this.appendValueInput("item")
-            .setCheck("string")
+        this.appendValueInput("queue")
+            .setCheck("String")
             .appendField("create queue");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
