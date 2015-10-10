@@ -53,6 +53,18 @@ Blockly.Blocks['procedures_defnoreturn'] = {
     this.arguments_ = [];
     this.setStatements_(true);
     this.statementConnection_ = null;
+
+    if (this.workspace.workspace_list != null && !this.isInFlyout && this.workspace.toolbox_.width > 0){
+      var item_xml = '<xml></xml>';
+      this.workspace = this.workspace.workspace_list.addWorkspace(name, true, item_xml);
+      var ws = this.workspace;
+      nameField.htmlInput_.onchange(function(){
+        ws.tab.innerText = nameField.innerText;
+      });
+      setTimeout(function(){
+        Blockly.WorkspaceList.selectTab(ws.tab);
+      },1);
+    }
   },
   /**
    * Add or remove the statement block from this function definition.
@@ -326,6 +338,8 @@ Blockly.Blocks['procedures_defnoreturn'] = {
   callType_: 'procedures_callnoreturn'
 };
 
+
+
 Blockly.Blocks['procedures_defreturn'] = {
   /**
    * Block for defining a procedure with a return value.
@@ -336,8 +350,7 @@ Blockly.Blocks['procedures_defreturn'] = {
     this.setColour(Blockly.Blocks.procedures.HUE);
     var name = Blockly.Procedures.findLegalName(
         Blockly.Msg.PROCEDURES_DEFRETURN_PROCEDURE, this);
-    var nameField = new Blockly.FieldTextInput(name,
-        Blockly.Procedures.rename);
+    var nameField = new Blockly.FieldTextInput(name, Blockly.Procedures.rename);
     nameField.setSpellcheck(false);
     this.appendDummyInput()
         .appendField(Blockly.Msg.PROCEDURES_DEFRETURN_TITLE)
@@ -351,6 +364,15 @@ Blockly.Blocks['procedures_defreturn'] = {
     this.arguments_ = [];
     this.setStatements_(true);
     this.statementConnection_ = null;
+
+    if (this.workspace.workspace_list != null && !this.isInFlyout && this.workspace.toolbox_.width > 0){
+      var item_xml = '<xml></xml>';
+      this.workspace = this.workspace.workspace_list.addWorkspace(name, true, item_xml);
+      var ws = this.workspace;
+      setTimeout(function(){
+        Blockly.WorkspaceList.selectTab(ws.tab);
+      },1);
+    }
   },
   setStatements_: Blockly.Blocks['procedures_defnoreturn'].setStatements_,
   updateParams_: Blockly.Blocks['procedures_defnoreturn'].updateParams_,

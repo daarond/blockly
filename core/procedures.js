@@ -109,6 +109,7 @@ Blockly.Procedures.findLegalName = function(name, block) {
       name = r[1] + (parseInt(r[2], 10) + 1);
     }
   }
+  block.workspace.tab.innerText = name;
   return name;
 };
 

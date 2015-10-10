@@ -57,6 +57,8 @@ Blockly.Workspace.prototype.rendered = false;
  */
 Blockly.Workspace.prototype.workspace_list = null;
 
+Blockly.Workspace.prototype.tab = null;
+
 /**
  * Dispose of this workspace.
  * Unlink from all DOM elements to prevent memory leaks.
