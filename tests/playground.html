@@ -106,6 +106,10 @@ function start() {
   }
 }
 
+Blockly.Blocks.Mosio.AnswerClickEvent = function(){
+  alert('out here');
+};
+
 function toXml() {
   var output = document.getElementById('importExport');
   var xml = Blockly.Xml.workspaceToDom(workspace);

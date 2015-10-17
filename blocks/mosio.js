@@ -17,7 +17,9 @@ Blockly.Blocks['mosio_survey_message'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("send question sms")
-            .appendField(new Blockly.FieldDropdown(Blockly.Blocks.Mosio.getQuestionList_()), "QUESTION");
+            .appendField(new Blockly.FieldDropdown(Blockly.Blocks.Mosio.getQuestionList_()), "QUESTION")
+            .appendField(new Blockly.FieldImage("http://findicons.com/files/icons/2033/large_icons_for/16/gear.png",
+                15, 15, "*", Blockly.Blocks.Mosio.AnswerClickEvent));
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(60);
@@ -69,7 +71,9 @@ Blockly.Blocks['mosio_add_answer'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("answer question")
-            .appendField(new Blockly.FieldDropdown(Blockly.Blocks.Mosio.getQuestionList_()), "QUESTION");
+            .appendField(new Blockly.FieldDropdown(Blockly.Blocks.Mosio.getQuestionList_()), "QUESTION")
+            .appendField(new Blockly.FieldImage("http://findicons.com/files/icons/2033/large_icons_for/16/gear.png",
+                15, 15, "*", Blockly.Blocks.Mosio.AnswerClickEvent));
         this.appendValueInput("ANSWER")
             .setCheck(["Number", "String"])
             .setAlign(Blockly.ALIGN_RIGHT)
@@ -89,12 +93,11 @@ Blockly.Blocks['mosio_add_answer'] = {
  */
 Blockly.Blocks['mosio_get_answer'] = {
     init: function() {
-        var img = new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif",
-            15, 15, "*", Blockly.Blocks.Mosio.imageClick);
         this.appendDummyInput()
             .appendField("get answer to")
             .appendField(new Blockly.FieldDropdown(Blockly.Blocks.Mosio.getQuestionList_()), "QUESTION")
-            .appendField(img);
+            .appendField(new Blockly.FieldImage("http://findicons.com/files/icons/2033/large_icons_for/16/gear.png",
+                15, 15, "*", Blockly.Blocks.Mosio.AnswerClickEvent));
         this.setOutput(true, "String");
         this.setColour(60);
         this.setTooltip('');
@@ -102,9 +105,7 @@ Blockly.Blocks['mosio_get_answer'] = {
     }
 };
 
-Blockly.Blocks.Mosio.imageClick = function(event){
-    alert('CLICK!');
-};
+Blockly.Blocks.Mosio.AnswerClickEvent = function(){ };
 
 /**
  * retrieves user's data
