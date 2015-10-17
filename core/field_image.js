@@ -41,7 +41,7 @@ goog.require('goog.userAgent');
  * @extends {Blockly.Field}
  * @constructor
  */
-Blockly.FieldImage = function(src, width, height, opt_alt) {
+Blockly.FieldImage = function(src, width, height, opt_alt, onclick) {
   this.sourceBlock_ = null;
   // Ensure height and width are numbers.  Strings are bad at math.
   this.height_ = Number(height);
@@ -49,6 +49,7 @@ Blockly.FieldImage = function(src, width, height, opt_alt) {
   this.size_ = new goog.math.Size(this.height_, this.width_);
   this.text_ = opt_alt || '';
   this.setValue(src);
+  this.clickHandler_ = onclick;
 };
 goog.inherits(Blockly.FieldImage, Blockly.Field);
 
@@ -80,7 +81,10 @@ Blockly.FieldImage.prototype.init = function(block) {
   this.imageElement_ = Blockly.createSvgElement('image',
       {'height': this.height_ + 'px',
        'width': this.width_ + 'px',
+       'style': 'cursor:pointer;',
        'y': offsetY}, this.fieldGroup_);
+  this.imageElement_.onclick = this.clickHandler_;
+
   this.setValue(this.src_);
   if (goog.userAgent.GECKO) {
     // Due to a Firefox bug which eats mouse events on image elements,

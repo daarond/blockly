@@ -84,7 +84,7 @@ Blockly.Blocks['storage_update_object'] = {
             .appendField(new Blockly.FieldVariable("item"), "OBJECT");
         this.appendDummyInput()
             .appendField("to collection")
-            .appendField(new Blockly.FieldDropdown(CollectionList), "COLLECTION");
+            .appendField(new Blockly.FieldDropdown(Blockly.Blocks.DataStorage.getCollectionNames_()), "COLLECTION");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
@@ -104,7 +104,7 @@ Blockly.Blocks['storage_find_object'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("find object in")
-            .appendField(new Blockly.FieldDropdown(CollectionList), "COLLECTION");
+            .appendField(new Blockly.FieldDropdown(Blockly.Blocks.DataStorage.getCollectionNames_()), "COLLECTION");
         this.appendValueInput("WHERE")
             .setCheck(null)
             .appendField("where");
@@ -125,7 +125,7 @@ Blockly.Blocks['storage_delete_object'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("delete in collection")
-            .appendField(new Blockly.FieldDropdown(CollectionList), "COLLECTION");
+            .appendField(new Blockly.FieldDropdown(Blockly.Blocks.DataStorage.getCollectionNames_()), "COLLECTION");
         this.appendValueInput("WHERE")
             .setCheck("Number")
             .appendField("where id is");
@@ -138,6 +138,45 @@ Blockly.Blocks['storage_delete_object'] = {
     }
 };
 
+Blockly.Blocks.DataStorage.CollectionList = {};
+Blockly.Blocks.DataStorage.getCollectionNames_ = function() {
+    var names = [];
+    for (var name in this.CollectionList) {
+        if (this.CollectionList.hasOwnProperty(name)) {
+            names.push([name, String(this.CollectionList[name]._id)]);
+        }
+    }
+    return names;
+};
+
+Blockly.Blocks.DataStorage.getCollectionNameById_ = function(id) {
+    for (var name in this.CollectionList) {
+        if (this.CollectionList.hasOwnProperty(name)) {
+            if (this.CollectionList[name]._id == id){
+                return name;
+            }
+        }
+    }
+    return '';
+};
+
+Blockly.Blocks.DataStorage.getCollectionFields_ = function(collection) {
+    var names = [];
+
+    for (var name in this.CollectionList[collection]) {
+        if (this.CollectionList[collection].hasOwnProperty(name)) {
+            if (name == '_id') continue; // skip the id
+            names.push([name, String(this.CollectionList[collection][name])]);
+        }
+    }
+
+    return names;
+};
+
+Blockly.Blocks.DataStorage.getInitialFields_ = function() {
+    var collections = Blockly.Blocks.DataStorage.getCollectionNames_();
+    return Blockly.Blocks.DataStorage.getCollectionFields_(collections[0][0])
+};
 
 /**
  * field in the collection
@@ -148,10 +187,12 @@ Blockly.Blocks['storage_field'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("field")
-            .appendField(new Blockly.FieldDropdown(CollectionList, function(option){
+            .appendField(new Blockly.FieldDropdown(Blockly.Blocks.DataStorage.getCollectionNames_(), function(option){
                 this.sourceBlock_.updateShape_(option);
             }), "COLLECTION")
-            .appendField(new Blockly.FieldDropdown([['Field1', 'Col2343']]), "FIELD");
+            .appendField(new Blockly.FieldDropdown(Blockly.Blocks.DataStorage.getInitialFields_(), function(option){
+                this.sourceBlock_.updateShape_(option);
+            }), "FIELD");
         this.setInputsInline(true);
         this.setOutput(true, "String");
         this.setColour(255);
@@ -160,9 +201,12 @@ Blockly.Blocks['storage_field'] = {
     },
     updateShape_: function(option) {
         var fieldInput = this.getField('FIELD');
-        var option_list = getDataStorageFieldList(option);
+        var collectionName = Blockly.Blocks.DataStorage.getCollectionNameById_(option);
+        var option_list = Blockly.Blocks.DataStorage.getCollectionFields_(collectionName);
         fieldInput.menuGenerator_ = option_list;
-        fieldInput.setValue(option_list[0][1]);
+        if (option_list.length > 0 && option_list[0].length > 1) {
+            fieldInput.setValue(option_list[0][1]);
+        }
     }
 };
 
@@ -179,7 +223,7 @@ Blockly.Blocks['storage_insert_object'] = {
             .appendField(new Blockly.FieldVariable("item"), "OBJECT");
         this.appendDummyInput()
             .appendField("in collection")
-            .appendField(new Blockly.FieldDropdown(CollectionList), "COLLECTION");
+            .appendField(new Blockly.FieldDropdown(Blockly.Blocks.DataStorage.getCollectionNames_()), "COLLECTION");
         this.appendDummyInput()
             .appendField("returning new id");
         this.setInputsInline(true);

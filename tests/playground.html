@@ -56,6 +56,7 @@
 <script src="../blocks/queue.js"></script>
 <script src="../blocks/objects.js"></script>
 <script src="../blocks/data_storage.js"></script>
+<script src="../blocks/mosio.js"></script>
 <script src="../blocks/voice.js"></script>
 <!-- Load the Google Drive SDK Realtime libraries. -->
 <script src="https://apis.google.com/js/api.js"></script>
@@ -185,11 +186,36 @@ var spaghettiXml = [
   '    <next></next>' +
   '  </block>'].join('\n');
 
-  var CollectionList = [['Collection1', 'Col2343'], ['Collection2', 'Col2344']];
-  var getDataStorageFieldList = function(collection)
-  {
-    return [[collection+'Field7', 'Col2347'], [collection+'Field8', 'Col2348']];
+Blockly.Blocks.DataStorage.CollectionList = {
+  'Collection1':{
+    '_id': 10,
+    'Col2343': 123,
+    'Col2344': 124
+  },
+  'Collection2':{
+    '_id': 11,
+    'Col2345': 125,
+    'Col2346': 126
   }
+};
+
+Blockly.Blocks.Mosio.QuestionList = {
+  "troll_name":{
+    "_id": 10,
+    "question": "What is your name?",
+    "answer_type": "free"
+  },
+  "troll_quest":{
+    "_id": 11,
+    "question": "What is your quest?",
+    "answer_type": "free"
+  },
+  "troll_flightspeed":{
+    "_id": 12,
+    "question": "What is the flightspeed fo a fully laden swallow?",
+    "answer_type": "numeric"
+  }
+};
 </script>
 
 <style>
@@ -486,6 +512,14 @@ h1 {
       <block type="storage_find_object"></block>
       <block type="storage_delete_object"></block>
       <block type="storage_field"></block>
+    </category>
+    <category name="Mosio">
+      <block type="mosio_survey_message"></block>
+      <block type="mosio_get_state"></block>
+      <block type="mosio_set_state"></block>
+      <block type="mosio_add_answer"></block>
+      <block type="mosio_get_answer"></block>
+      <block type="mosio_get_userdata"></block>
     </category>
 
     <category name="Voice">
