@@ -29,6 +29,22 @@ Blockly.Blocks['mosio_survey_message'] = {
 };
 
 /**
+ * Sends a generic message
+ * @type {{init: Function}}
+ */
+Blockly.Blocks['mosio_send_sms'] = {
+    init: function() {
+        this.appendValueInput("MESSAGE")
+            .appendField("send sms text");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(60);
+        this.setTooltip('');
+        this.setHelpUrl('http://www.example.com/');
+    }
+};
+
+/**
  * sets the current user's state
  * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#3xzzhc
  * @type {{init: Function}}
