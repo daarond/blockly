@@ -79,25 +79,18 @@ Blockly.Blocks['mosio_set_state'] = {
 };
 
 /**
- * adds an answer to a specific question
- * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#eyca48
+ * retrieves a known value
  * @type {{init: Function}}
  */
-Blockly.Blocks['mosio_add_answer'] = {
+Blockly.Blocks['mosio_get_value'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("answer question")
-            .appendField(new Blockly.FieldDropdown(Blockly.Blocks.Mosio.getQuestionList_()), "QUESTION")
-            .appendField(new Blockly.FieldImage("http://findicons.com/files/icons/2033/large_icons_for/16/gear.png",
-                15, 15, "*", Blockly.Blocks.Mosio.AnswerClickEvent));
-        this.appendValueInput("ANSWER")
-            .setCheck(["Number", "String"])
-            .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("with");
+            .appendField("get mosio value")
+            .appendField(new Blockly.FieldDropdown([["last answer", "ANSWER"], ["survey id", "SURVEY_ID"], ["survey state", "SURVEY_STATE"], ["microboard id", "MICROBOARD_ID"]]), "VALUE_NAME");
+        this.setTooltip('');
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(60);
-        this.setTooltip('');
         this.setHelpUrl('http://www.example.com/');
     }
 };
