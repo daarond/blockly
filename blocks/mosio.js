@@ -86,7 +86,7 @@ Blockly.Blocks['mosio_get_value'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("get mosio value")
-            .appendField(new Blockly.FieldDropdown([["last answer", "ANSWER"], ["survey id", "SURVEY_ID"], ["survey state", "SURVEY_STATE"], ["microboard id", "MICROBOARD_ID"]]), "VALUE_NAME");
+            .appendField(new Blockly.FieldDropdown([["last answer", "ANSWER"], ["survey id", "SURVEY_ID"], ["user id", "USER_ID"], ["survey state", "SURVEY_STATE"], ["microboard id", "MICROBOARD_ID"]]), "VALUE_NAME");
         this.setTooltip('');
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
