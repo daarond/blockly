@@ -17,10 +17,7 @@ Blockly.Blocks['voice_call'] = {
     init: function() {
         this.appendValueInput("phone")
             .setCheck("String")
-            .appendField("call phone");
-        this.appendValueInput("url")
-            .setCheck("String")
-            .appendField("and play file url");
+            .appendField("start call to");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(30);
@@ -48,8 +45,7 @@ Blockly.Blocks['voice_tts'] = {
         this.appendDummyInput()
             .appendField("loop count")
             .appendField(new Blockly.FieldTextInput("3"), "loop");
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
+        this.setOutput(true, "String");
         this.setColour(30);
         this.setTooltip('');
         this.setHelpUrl('http://www.example.com/');
@@ -94,7 +90,7 @@ Blockly.Blocks['voice_get_digits'] = {
             .appendField(new Blockly.FieldTextInput("10"), "digits");
         this.appendDummyInput()
             .appendField("digits ending in")
-            .appendField(new Blockly.FieldDropdown([["#", "#"], ["*", "*"], ["0", "0"], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"], ["none", "none"]]), "NAME");
+            .appendField(new Blockly.FieldDropdown([["#", "#"], ["*", "*"], ["0", "0"], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"], ["none", "none"]]), "terminator");
         this.setInputsInline(true);
         this.setOutput(true, "String");
         this.setColour(30);
@@ -112,7 +108,7 @@ Blockly.Blocks['voice_pause'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("pause")
-            .appendField(new Blockly.FieldTextInput("3"), "pause")
+            .appendField(new Blockly.FieldTextInput("3"), "seconds")
             .appendField("seconds");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
