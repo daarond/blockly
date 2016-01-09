@@ -58,6 +58,7 @@
 <script src="../blocks/data_storage.js"></script>
 <script src="../blocks/mosio.js"></script>
 <script src="../blocks/voice.js"></script>
+<script src="../blocks/datetime.js"></script>
 <!-- Load the Google Drive SDK Realtime libraries. -->
 <script src="https://apis.google.com/js/api.js"></script>
 <script>
@@ -102,10 +103,17 @@ function start() {
               scaleSpeed: 1.1
              },
           });
+
+  document.addEventListener("blocklyBlockMouseover", function(e) {
+    console.log(e.detail);
+  });
+
   if (Blockly.Realtime.isEnabled()) {
     enableRealtimeSpecificUi();
   }
 }
+
+
 
 Blockly.Blocks.Mosio.AnswerClickEvent = function(){
   alert('out here');
@@ -617,7 +625,6 @@ h1 {
       <block type="mosio_get_answer"></block>
       <block type="mosio_get_userdata"></block>
     </category>
-
     <category name="Voice">
       <block type="voice_call"></block>
       <block type="voice_tts"></block>
@@ -625,6 +632,14 @@ h1 {
       <block type="voice_get_digits"></block>
       <block type="voice_pause"></block>
       <block type="voice_hangup"></block>
+    </category>
+    <category name="DateTime">
+      <block type="datetime_current"></block>
+      <block type="datetime_set_date"></block>
+      <block type="datetime_set_time"></block>
+      <block type="datetime_modify_date"></block>
+      <block type="datetime_modify_time"></block>
+      <block type="datetime_format"></block>
     </category>
   </xml>
 
