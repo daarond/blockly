@@ -38,7 +38,7 @@ Blockly.Blocks['datetime_set_date'] = {
             ]), "MONTH")
             .appendField("day")
             .appendField(new Blockly.FieldDropdown([
-                ["00", "00"], ["01", "01"], ["02", "02"], ["03", "03"], ["04", "04"],
+                ["01", "01"], ["02", "02"], ["03", "03"], ["04", "04"],
                 ["05", "05"], ["06", "06"], ["07", "07"], ["08", "08"], ["09", "09"],
                 ["10", "10"], ["11", "11"], ["12", "12"], ["13", "13"], ["14", "14"],
                 ["15", "15"], ["16", "16"], ["17", "17"], ["18", "18"], ["19", "19"],
@@ -128,10 +128,12 @@ Blockly.Blocks['datetime_modify_date'] = {
             .setCheck("Number")
             .appendField(new Blockly.FieldDropdown([["add", "add"], ["delete", "delete"]]), "DIRECTION");
         this.appendDummyInput()
-            .appendField(new Blockly.FieldDropdown([["month", "month"], ["day", "day"], ["year", "year"]]), "UNIT");
+            .appendField(new Blockly.FieldDropdown([["months", "months"], ["days", "days"], ["years", "years"]]), "UNIT");
         this.setColour(0);
         this.setTooltip('');
         this.setHelpUrl('http://www.example.com/');
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
     }
 };
 
@@ -147,10 +149,12 @@ Blockly.Blocks['datetime_modify_time'] = {
             .setCheck("Number")
             .appendField(new Blockly.FieldDropdown([["add", "add"], ["delete", "delete"]]), "DIRECTION");
         this.appendDummyInput()
-            .appendField(new Blockly.FieldDropdown([["hour", "hour"], ["minute", "minute"], ["second", "second"]]), "UNIT");
+            .appendField(new Blockly.FieldDropdown([["hours", "hours"], ["minutes", "minutes"], ["seconds", "seconds"]]), "UNIT");
         this.setColour(0);
         this.setTooltip('');
         this.setHelpUrl('http://www.example.com/');
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
     }
 };
 

@@ -131,6 +131,65 @@ Blockly.Blocks['mosio_get_userdata'] = {
     }
 };
 
+Blockly.Blocks['mosio_get_preference'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("get user preference")
+            .appendField(new Blockly.FieldTextInput("silo"), "PREFERENCE");
+        this.setOutput(true, "String");
+        this.setColour(60);
+        this.setTooltip('');
+        this.setHelpUrl('http://www.example.com/');
+    }
+};
+
+Blockly.Blocks['mosio_set_preference'] = {
+    init: function() {
+        this.appendValueInput("VALUE")
+            .setCheck("String")
+            .appendField("set user preference")
+            .appendField(new Blockly.FieldTextInput("silo"), "PREFERENCE")
+            .appendField("to");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setTooltip('');
+        this.setColour(60);
+        this.setHelpUrl('http://www.example.com/');
+    }
+};
+
+Blockly.Blocks['mosio_add_storyline'] = {
+    init: function() {
+        this.appendValueInput("DAY")
+            .setCheck("Number")
+            .appendField("add user to storyline")
+            .appendField(new Blockly.FieldTextInput("sampleStory"), "STORYLINE")
+            .appendField("on day");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setTooltip('');
+        this.setColour(60);
+        this.setHelpUrl('http://www.example.com/');
+    }
+};
+
+Blockly.Blocks['mosio_add_task'] = {
+    init: function() {
+        this.appendValueInput("URL")
+            .appendField("add task URL");
+        this.appendValueInput("DELAY")
+            .setCheck("Number")
+            .appendField("with");
+        this.appendDummyInput()
+            .appendField("second delay");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setTooltip('');
+        this.setColour(60);
+        this.setHelpUrl('http://www.example.com/');
+    }
+};
+
 /*
 list of objects, expected to be in the format:
 "short_name":{_id: "db_id", question: "question text here"}
