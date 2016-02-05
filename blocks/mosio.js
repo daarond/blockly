@@ -160,11 +160,9 @@ Blockly.Blocks['mosio_set_preference'] = {
 
 Blockly.Blocks['mosio_add_storyline'] = {
     init: function() {
-        this.appendValueInput("DAY")
-            .setCheck("Number")
+        this.appendDummyInput()
             .appendField("add user to storyline")
-            .appendField(new Blockly.FieldTextInput("sampleStory"), "STORYLINE")
-            .appendField("on day");
+            .appendField(new Blockly.FieldTextInput("sampleStory"), "STORYLINE");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setTooltip('');
