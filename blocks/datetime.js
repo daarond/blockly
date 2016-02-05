@@ -126,7 +126,7 @@ Blockly.Blocks['datetime_modify_date'] = {
             .appendField("date,");
         this.appendValueInput("VALUE")
             .setCheck("Number")
-            .appendField(new Blockly.FieldDropdown([["add", "add"], ["delete", "delete"]]), "DIRECTION");
+            .appendField(new Blockly.FieldDropdown([["add", "add"], ["subtract", "subtract"]]), "DIRECTION");
         this.appendDummyInput()
             .appendField(new Blockly.FieldDropdown([["months", "months"], ["days", "days"], ["years", "years"]]), "UNIT");
         this.setColour(0);
@@ -147,7 +147,7 @@ Blockly.Blocks['datetime_modify_time'] = {
             .appendField("time,");
         this.appendValueInput("VALUE")
             .setCheck("Number")
-            .appendField(new Blockly.FieldDropdown([["add", "add"], ["delete", "delete"]]), "DIRECTION");
+            .appendField(new Blockly.FieldDropdown([["add", "add"], ["subtract", "subtract"]]), "DIRECTION");
         this.appendDummyInput()
             .appendField(new Blockly.FieldDropdown([["hours", "hours"], ["minutes", "minutes"], ["seconds", "seconds"]]), "UNIT");
         this.setColour(0);
