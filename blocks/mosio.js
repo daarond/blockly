@@ -190,6 +190,40 @@ Blockly.Blocks['mosio_add_task'] = {
     }
 };
 
+Blockly.Blocks['mosio_push_survey'] = {
+    init: function() {
+        this.appendValueInput("SURVEY")
+            .setCheck("String")
+            .appendField("push survey");
+        this.appendValueInput("DELAY")
+            .setCheck("Number")
+            .appendField("in");
+        this.appendDummyInput()
+            .appendField("seconds");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(60);
+        this.setTooltip('');
+        this.setHelpUrl('http://www.example.com/');
+    }
+};
+
+Blockly.Blocks['mosio_add_appointment'] = {
+    init: function() {
+        this.appendValueInput("DATETIME")
+            .setCheck(["Number", "String"])
+            .appendField("add appointment on");
+        this.appendValueInput("MESSAGE")
+            .setCheck("String")
+            .appendField("with message");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(60);
+        this.setTooltip('');
+        this.setHelpUrl('http://www.example.com/');
+    }
+};
+
 /*
 list of objects, expected to be in the format:
 "short_name":{_id: "db_id", question: "question text here"}
