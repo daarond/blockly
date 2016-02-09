@@ -206,6 +206,7 @@ Blockly.Blocks['mosio_push_survey'] = {
     }
 };
 
+// https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#yz6nr7
 Blockly.Blocks['mosio_add_appointment'] = {
     init: function() {
         this.appendValueInput("DATETIME")
@@ -214,6 +215,12 @@ Blockly.Blocks['mosio_add_appointment'] = {
         this.appendValueInput("MESSAGE")
             .setCheck("String")
             .appendField("with message");
+        this.appendDummyInput()
+            .appendField("on survey")
+            .appendField(new Blockly.FieldTextInput("sampleSurvey"), "SURVEY");
+        this.appendDummyInput()
+            .appendField("days prior")
+            .appendField(new Blockly.FieldDropdown([["1", "OPTIONNAME"], ["2", "OPTIONNAME"], ["3", "OPTIONNAME"], ["4", "OPTIONNAME"]]), "PRIOR");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(60);
