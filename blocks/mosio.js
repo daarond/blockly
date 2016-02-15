@@ -220,7 +220,7 @@ Blockly.Blocks['mosio_add_appointment'] = {
             .appendField(new Blockly.FieldTextInput("sampleSurvey"), "SURVEY");
         this.appendDummyInput()
             .appendField("days prior")
-            .appendField(new Blockly.FieldDropdown([["1", "OPTIONNAME"], ["2", "OPTIONNAME"], ["3", "OPTIONNAME"], ["4", "OPTIONNAME"]]), "PRIOR");
+            .appendField(new Blockly.FieldDropdown([["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"]]), "PRIOR");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(60);
