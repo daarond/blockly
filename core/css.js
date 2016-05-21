@@ -272,6 +272,16 @@ Blockly.Css.CONTENT = [
     'opacity: .6;',
   '}',
 
+  '.blocklyIconShape {',
+    'fill: #00f;',
+    'stroke: #fff;',
+    'stroke-width: 1px;',
+  '}',
+
+  '.blocklyIconSymbol {',
+    'fill: #fff;',
+  '}',
+
   '.blocklyMinimalBody {',
     'margin: 0;',
     'padding: 0;',
@@ -413,6 +423,16 @@ Blockly.Css.CONTENT = [
     'white-space: nowrap;',
   '}',
 
+  '.blocklyHorizontalTree {',
+    'float: left;',
+    'margin: 1px 5px 8px 0;',
+  '}',
+
+  '.blocklyHorizontalTreeRtl {',
+    'float: right;',
+    'margin: 1px 0 8px 5px;',
+  '}',
+
   '.blocklyToolboxDiv[dir="RTL"] .blocklyTreeRow {',
     'margin-left: 8px;',
   '}',
@@ -423,9 +443,17 @@ Blockly.Css.CONTENT = [
 
   '.blocklyTreeSeparator {',
     'border-bottom: solid #e5e5e5 1px;',
-    'height: 0px;',
+    'height: 0;',
     'margin: 5px 0;',
   '}',
+
+  '.blocklyTreeSeparatorHorizontal {',
+    'border-right: solid #e5e5e5 1px;',
+    'width: 0;',
+    'padding: 5px 0;',
+    'margin: 0 5px;',
+  '}',
+
 
   '.blocklyTreeIcon {',
     'background-image: url(<<<PATH>>>/sprites.png);',
