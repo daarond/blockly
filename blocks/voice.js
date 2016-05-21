@@ -17,7 +17,7 @@ Blockly.Blocks['voice_call'] = {
     init: function() {
         this.appendValueInput("phone")
             .setCheck("String")
-            .appendField("start call to");
+            .appendField("start call to phone");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(30);

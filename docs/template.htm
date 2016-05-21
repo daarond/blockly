@@ -1,0 +1,211 @@
+<html>
+<head>
+    <title>Blockly Help</title>
+
+<script src="../blockly_compressed.js"></script>
+<script src="../msg/messages.js"></script>
+<script src="../blocks/logic.js"></script>
+<script src="../blocks/loops.js"></script>
+<script src="../blocks/math.js"></script>
+<script src="../blocks/text.js"></script>
+<script src="../blocks/lists.js"></script>
+<script src="../blocks/colour.js"></script>
+<script src="../blocks/variables.js"></script>
+<script src="../blocks/procedures.js"></script>
+<script src="../blocks/sms.js"></script>
+<script src="../blocks/email.js"></script>
+<script src="../blocks/regex.js"></script>
+<script src="../blocks/http.js"></script>
+<script src="../blocks/queue.js"></script>
+<script src="../blocks/objects.js"></script>
+<script src="../blocks/data_storage.js"></script>
+<script src="../blocks/mosio.js"></script>
+<script src="../blocks/voice.js"></script>
+<script src="../blocks/datetime.js"></script>
+
+<style>
+    #block_list {
+        list-style-type: none;
+        padding-left: 0px;
+    }
+
+    #block_list li {
+        color: blue;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<table>
+    <tr>
+        <td valign="top">
+            <div id="listdiv" style="width: 100px;">
+                <ul id="block_list">
+                </ul>
+            </div>
+        </td>
+        <td>
+            <h1 class="title"></h1>
+            <hr/>
+            <div><span>Version:</span><span class="version_data"></span></div>
+            <div class="shortdesc"></div>
+            <p></p>
+            Description<br/>
+            <hr/>
+            <div class="longdesc"></div>
+            <p></p>
+            Example<br/>
+            <hr/>
+            <div class="example_text"></div>
+            <div id="blockly">
+            </div>
+            <p></p>
+            References<br/>
+            <hr/>
+            <div class="references">
+                <ul class="ref_list"></ul>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+    $( document ).ready(function() {
+        var first_block_name = $('#blocks').find('blockdoc:first').attr('name');
+        var idx = window.location.href.indexOf("#");
+        first_block_name = idx != -1 ? window.location.href.substring(idx+1) : first_block_name;
+
+        selectBlock(first_block_name);
+
+        var list_element = $('#block_list');
+        var names = $('#blocks').find('blockdoc');
+        $.each(names, function(index, value){
+            var name = $(value).attr('name');
+            list_element.append('<li><a onclick="selectBlock(\''+name+'\')">'+name+'</a></li>');
+        });
+    });
+
+    var selectBlock = function(block_name)
+    {
+        var node = $('#blocks').find('blockdoc[name='+block_name+']');
+
+        $('.title').text(node.find('name').text());
+        $('.version_data').text(node.find('version').text());
+        $('.shortdesc').text(node.find('shortdesc').text());
+        $('.longdesc').text(node.find('longdesc').text());
+
+        var ref = $('.ref_list');
+        $(ref).find('li').remove();
+        var ref_nodes = node.find('references').find('li');
+        $.each(ref_nodes, function(index, value){
+            ref.append('<li><a href="'+$(value).text()+'">'+$(value).attr('title')+'</a>');
+        });
+
+        $('.example_text').text(node.find('example').find('description').text());
+
+        var block_data = node.find('example').find('blockly').html();
+        var xml = Blockly.Xml.textToDom(block_data);
+        Blockly.Xml.domToWorkspace(workspace, xml);
+    };
+
+    var workspace = Blockly.inject('blockly',
+            {comments: true,
+                disable: true,
+                collapse: true,
+                grid:
+                {spacing: 25,
+                    length: 3,
+                    colour: '#ccc',
+                    snap: true},
+                maxBlocks: Infinity,
+                media: '../media/',
+                readOnly: false,
+                realtime: false,
+                realtimeOptions:
+                {clientId: 'YOUR CLIENT ID GOES HERE',
+                    chatbox: {elementId: 'chatbox'},
+                    collabElementId: 'collaborators'},
+                rtl: false,
+                scrollbars: true,
+                toolbox: null,
+                zoom:
+                {controls: true,
+                    wheel: true,
+                    startScale: 1.0,
+                    maxScale: 4,
+                    minScale: .25,
+                    scaleSpeed: 1.1
+                },
+            });
+
+</script>
+
+
+<div id="blocks" style="display: none;">
+    <blockdoc group="datetime" name="time">
+        <name>time</name>
+        <version>1.2</version>
+        <shortdesc>Return current Unix timestamp</shortdesc>
+        <longdesc>
+            Returns the current time measured in the number of seconds
+            since the Unix Epoch (January 1 1970 00:00:00 GMT).
+        </longdesc>
+        <example>
+            <description>
+                first basic example
+            </description>
+            <blockly>
+
+                <xml>
+                    <block type="variables_set" id="1" inline="true">
+                        <field name="VAR">question</field>
+                        <value name="VALUE">
+                            <block type="math_number" id="2">
+                                <field name="NUM">1</field>
+                            </block>
+                        </value>
+                        <next></next>
+                    </block>
+                </xml>
+
+            </blockly>
+        </example>
+        <references>
+            <li title="Google Example Reference">http://www.google.com</li>
+        </references>
+    </blockdoc>
+    <blockdoc group="datetime" name="date">
+        <name>date</name>
+        <version>1.2</version>
+        <shortdesc>Return current Unix timestamp</shortdesc>
+        <longdesc>
+            Returns the current date measured in the number of seconds
+            since the Unix Epoch (January 1 1970 00:00:00 GMT).
+        </longdesc>
+        <example>
+            <description>
+                first basic example
+            </description>
+            <blockly>
+                <xml>
+                    <block type="variables_set" id="1" inline="true">
+                        <field name="VAR">question</field>
+                        <value name="VALUE">
+                            <block type="math_number" id="2">
+                                <field name="NUM">1</field>
+                            </block>
+                        </value>
+                        <next></next>
+                    </block>
+                </xml>
+
+            </blockly>
+        </example>
+        <references>
+            <li title="Google Example Reference">http://www.google.com</li>
+        </references>
+    </blockdoc>
+</div>
+
+</html>

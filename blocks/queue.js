@@ -80,23 +80,6 @@ Blockly.Blocks['queue_retrieve'] = {
 
 
 /**
- * gets the data for the next item from the first available queue
- * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#eepfj2
- * @type {{init: Function}}
- */
-Blockly.Blocks['queue_retrieve_list'] = {
-    init: function() {
-        this.appendValueInput("queue")
-            .setCheck("Array")
-            .appendField("retrieve next item from list of queues");
-        this.setOutput(true, "queue_item");
-        this.setColour(45);
-        this.setTooltip('gets the data for the next item from the first available queue');
-    }
-};
-
-
-/**
  * extends the timeout of a queue item
  * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#8rztpq
  * @type {{init: Function}}
