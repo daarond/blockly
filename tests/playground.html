@@ -79,52 +79,36 @@ var workspace = null;
 function start() {
   var toolbox = document.getElementById('toolbox');
   workspace = Blockly.inject('blocklyDiv',
-          {comments: true,
-           disable: true,
-           collapse: true,
-           grid:
-             {spacing: 25,
+          {
+            comments: true,
+            disable: true,
+            collapse: true,
+            grid: {
+              spacing: 25,
               length: 3,
               colour: '#ccc',
-              snap: true},
-           maxBlocks: Infinity,
-           media: '../media/',
-           readOnly: false,
-           rtl: rtl,
-           scrollbars: true,
-           toolbox: toolbox,
-           zoom:
-             {controls: true,
+              snap: true
+            },
+            maxBlocks: Infinity,
+            media: '../media/',
+            readOnly: false,
+            rtl: rtl,
+            scrollbars: true,
+            toolbox: toolbox,
+            zoom: {
+              controls: true,
               wheel: true,
               startScale: 1.0,
               maxScale: 4,
               minScale: .25,
-              scaleSpeed: 1.1}
+              scaleSpeed: 1.1
+            }
           });
 
-  document.addEventListener("blocklyBlockMouseover", function(e) {
+  document.addEventListener("blocklyBlockMouseover", function (e) {
     console.log(e.detail);
   });
-
-  if (Blockly.Realtime.isEnabled()) {
-    enableRealtimeSpecificUi();
-  // Restore previously displayed text.
-  if (sessionStorage) {
-    var text = sessionStorage.getItem('textarea');
-    if (text) {
-      document.getElementById('importExport').value = text;
-    }
-    // Restore event logging state.
-    var state = sessionStorage.getItem('logEvents');
-    logEvents(Boolean(Number(state)));
-  } else {
-    // MSIE 11 does not support sessionStorage on file:// URLs.
-    logEvents(false);
-  }
-  taChange();
 }
-
-
 
 Blockly.Blocks.Mosio.AnswerClickEvent = function(){
   alert('out here');

@@ -72,6 +72,11 @@ Blockly.Blocks['queue_retrieve'] = {
         this.appendValueInput("queue")
             .setCheck("String")
             .appendField("retrieve next item in queue");
+        this.appendValueInput("timeout")
+            .setCheck("Number")
+            .appendField("for");
+        this.appendDummyInput()
+            .appendField("seconds");
         this.setOutput(true, "queue_item");
         this.setColour(45);
         this.setTooltip('gets the data for the next item in the queue');
