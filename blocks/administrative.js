@@ -12,7 +12,7 @@ Blockly.Blocks.colour.HUE = 20;
 
 Blockly.Blocks['administrative_notify'] = {
     init: function() {
-        this.appendValueInput("NAME")
+        this.appendValueInput("message")
             .setCheck("String")
             .appendField("notify me, message");
         this.setPreviousStatement(true, null);
@@ -25,7 +25,7 @@ Blockly.Blocks['administrative_notify'] = {
 
 Blockly.Blocks['administrative_log_message'] = {
     init: function() {
-        this.appendValueInput("NAME")
+        this.appendValueInput("message")
             .setCheck("String")
             .appendField("save log message");
         this.setPreviousStatement(true, null);
