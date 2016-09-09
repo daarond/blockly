@@ -28,6 +28,7 @@ goog.provide('Blockly.Toolbox');
 
 goog.require('Blockly.Flyout');
 goog.require('goog.dom');
+goog.require('goog.dom.TagName');
 goog.require('goog.events');
 goog.require('goog.events.BrowserFeature');
 goog.require('goog.html.SafeHtml');
@@ -144,11 +145,13 @@ Blockly.Toolbox.prototype.lastCategory_ = null;
  */
 Blockly.Toolbox.prototype.init = function() {
   var workspace = this.workspace_;
+  var svg = this.workspace_.getParentSvg();
 
   // Create an HTML container for the Toolbox menu.
-  this.HtmlDiv = goog.dom.createDom('div', 'blocklyToolboxDiv');
+  this.HtmlDiv =
+      goog.dom.createDom(goog.dom.TagName.DIV, 'blocklyToolboxDiv');
   this.HtmlDiv.setAttribute('dir', workspace.RTL ? 'RTL' : 'LTR');
-  document.body.appendChild(this.HtmlDiv);
+  svg.parentNode.insertBefore(this.HtmlDiv, svg);
 
   // Clicking on toolbox closes popups.
   Blockly.bindEvent_(this.HtmlDiv, 'mousedown', this,
@@ -185,8 +188,11 @@ Blockly.Toolbox.prototype.init = function() {
   tree.setShowLines(false);
   tree.setShowExpandIcons(false);
   tree.setSelectedItem(null);
-  this.populate_(workspace.options.languageTree);
+  var openNode = this.populate_(workspace.options.languageTree);
   tree.render(this.HtmlDiv);
+  if (openNode) {
+    tree.setSelectedItem(openNode);
+  }
   this.addColour_();
   this.position();
 };
@@ -231,124 +237,131 @@ Blockly.Toolbox.prototype.position = function() {
   var svgPosition = goog.style.getPageOffset(svg);
   var svgSize = Blockly.svgSize(svg);
   if (this.horizontalLayout_) {
-    treeDiv.style.left = svgPosition.x + 'px';
+    treeDiv.style.left = '0';
     treeDiv.style.height = 'auto';
     treeDiv.style.width = svgSize.width + 'px';
     this.height = treeDiv.offsetHeight;
     if (this.toolboxPosition == Blockly.TOOLBOX_AT_TOP) {  // Top
-      treeDiv.style.top = svgPosition.y + 'px';
+      treeDiv.style.top = '0';
     } else {  // Bottom
-      var topOfToolbox = svgPosition.y + svgSize.height - treeDiv.offsetHeight;
-      treeDiv.style.top = topOfToolbox + 'px';
+      treeDiv.style.bottom = '0';
     }
   } else {
     if (this.toolboxPosition == Blockly.TOOLBOX_AT_RIGHT) {  // Right
-      treeDiv.style.left =
-          (svgPosition.x + svgSize.width - treeDiv.offsetWidth) + 'px';
+      treeDiv.style.right = '0';
     } else {  // Left
-      treeDiv.style.left = svgPosition.x + 'px';
+      treeDiv.style.left = '0';
     }
     treeDiv.style.height = svgSize.height + 'px';
-    treeDiv.style.top = svgPosition.y + 'px';
     this.width = treeDiv.offsetWidth;
-    if (this.toolboxPosition == Blockly.TOOLBOX_AT_LEFT) {
-      // For some reason the LTR toolbox now reports as 1px too wide.
-      this.width -= 1;
-    }
   }
   this.flyout_.position();
 };
 
 /**
  * Fill the toolbox with categories and blocks.
- * @param {Node} newTree DOM tree of blocks, or null.
+ * @param {!Node} newTree DOM tree of blocks.
+ * @return {Node} Tree node to open at startup (or null).
  * @private
  */
 Blockly.Toolbox.prototype.populate_ = function(newTree) {
-  var rootOut = this.tree_;
-  var that = this;
-  rootOut.removeChildren();  // Delete any existing content.
-  rootOut.blocks = [];
-  var hasColours = false;
-  function syncTrees(treeIn, treeOut, pathToMedia) {
-    var lastElement = null;
-    for (var i = 0, childIn; childIn = treeIn.childNodes[i]; i++) {
-      if (!childIn.tagName) {
-        // Skip over text.
-        continue;
-      }
-      switch (childIn.tagName.toUpperCase()) {
-        case 'CATEGORY':
-          var childOut = rootOut.createNode(childIn.getAttribute('name'));
-          childOut.blocks = [];
-          treeOut.add(childOut);
-          var custom = childIn.getAttribute('custom');
-          if (custom) {
-            // Variables and procedures are special dynamic categories.
-            childOut.blocks = custom;
-          } else {
-            syncTrees(childIn, childOut, pathToMedia);
-          }
-          var colour = childIn.getAttribute('colour');
-          if (goog.isString(colour)) {
-            if (colour.match(/^#[0-9a-fA-F]{6}$/)) {
-              childOut.hexColour = colour;
-            } else {
-              childOut.hexColour = Blockly.hueToRgb(colour);
-            }
-            hasColours = true;
-          } else {
-            childOut.hexColour = '';
-          }
-          if (childIn.getAttribute('expanded') == 'true') {
-            if (childOut.blocks.length) {
-              rootOut.setSelectedItem(childOut);
-            }
-            childOut.setExpanded(true);
-          } else {
-            childOut.setExpanded(false);
-          }
-          lastElement = childIn;
-          break;
-        case 'SEP':
-          if (lastElement) {
-            if (lastElement.tagName.toUpperCase() == 'CATEGORY') {
-              // Separator between two categories.
-              // <sep></sep>
-              treeOut.add(new Blockly.Toolbox.TreeSeparator(
-                  that.treeSeparatorConfig_));
-            } else {
-              // Change the gap between two blocks.
-              // <sep gap="36"></sep>
-              // The default gap is 24, can be set larger or smaller.
-              // Note that a deprecated method is to add a gap to a block.
-              // <block type="math_arithmetic" gap="8"></block>
-              var newGap = parseFloat(childIn.getAttribute('gap'));
-              if (!isNaN(newGap)) {
-                var oldGap = parseFloat(lastElement.getAttribute('gap'));
-                var gap = isNaN(oldGap) ? newGap : oldGap + newGap;
-                lastElement.setAttribute('gap', gap);
-              }
-            }
-          }
-          break;
-        case 'BLOCK':
-        case 'SHADOW':
-          treeOut.blocks.push(childIn);
-          lastElement = childIn;
-          break;
-      }
-    }
-  }
-  syncTrees(newTree, this.tree_, this.workspace_.options.pathToMedia);
-  this.hasColours_ = hasColours;
+  this.tree_.removeChildren();  // Delete any existing content.
+  this.tree_.blocks = [];
+  this.hasColours_ = false;
+  var openNode =
+    this.syncTrees_(newTree, this.tree_, this.workspace_.options.pathToMedia);
 
-  if (rootOut.blocks.length) {
+  if (this.tree_.blocks.length) {
     throw 'Toolbox cannot have both blocks and categories in the root level.';
   }
 
   // Fire a resize event since the toolbox may have changed width and height.
-  Blockly.resizeSvgContents(this.workspace_);
+  this.workspace_.resizeContents();
+  return openNode;
+};
+
+/**
+ * Sync trees of the toolbox.
+ * @param {!Node} treeIn DOM tree of blocks.
+ * @param {!Blockly.Toolbox.TreeControl} treeOut
+ * @param {string} pathToMedia
+ * @return {Node} Tree node to open at startup (or null).
+ * @private
+ */
+Blockly.Toolbox.prototype.syncTrees_ = function(treeIn, treeOut, pathToMedia) {
+  var openNode = null;
+  var lastElement = null;
+  for (var i = 0, childIn; childIn = treeIn.childNodes[i]; i++) {
+    if (!childIn.tagName) {
+      // Skip over text.
+      continue;
+    }
+    switch (childIn.tagName.toUpperCase()) {
+      case 'CATEGORY':
+        var childOut = this.tree_.createNode(childIn.getAttribute('name'));
+        childOut.blocks = [];
+        treeOut.add(childOut);
+        var custom = childIn.getAttribute('custom');
+        if (custom) {
+          // Variables and procedures are special dynamic categories.
+          childOut.blocks = custom;
+        } else {
+          var newOpenNode = this.syncTrees_(childIn, childOut, pathToMedia);
+          if (newOpenNode) {
+            openNode = newOpenNode;
+          }
+        }
+        var colour = childIn.getAttribute('colour');
+        if (goog.isString(colour)) {
+          if (colour.match(/^#[0-9a-fA-F]{6}$/)) {
+            childOut.hexColour = colour;
+          } else {
+            childOut.hexColour = Blockly.hueToRgb(colour);
+          }
+          this.hasColours_ = true;
+        } else {
+          childOut.hexColour = '';
+        }
+        if (childIn.getAttribute('expanded') == 'true') {
+          if (childOut.blocks.length) {
+            // This is a category that directly contians blocks.
+            // After the tree is rendered, open this category and show flyout.
+            openNode = childOut;
+          }
+          childOut.setExpanded(true);
+        } else {
+          childOut.setExpanded(false);
+        }
+        lastElement = childIn;
+        break;
+      case 'SEP':
+        if (lastElement) {
+          if (lastElement.tagName.toUpperCase() == 'CATEGORY') {
+            // Separator between two categories.
+            // <sep></sep>
+            treeOut.add(new Blockly.Toolbox.TreeSeparator(
+                this.treeSeparatorConfig_));
+          } else {
+            // Change the gap between two blocks.
+            // <sep gap="36"></sep>
+            // The default gap is 24, can be set larger or smaller.
+            // Note that a deprecated method is to add a gap to a block.
+            // <block type="math_arithmetic" gap="8"></block>
+            var newGap = parseFloat(childIn.getAttribute('gap'));
+            if (!isNaN(newGap) && lastElement) {
+              lastElement.setAttribute('gap', newGap);
+            }
+          }
+        }
+        break;
+      case 'BLOCK':
+      case 'SHADOW':
+        treeOut.blocks.push(childIn);
+        lastElement = childIn;
+        break;
+    }
+  }
+  return openNode;
 };
 
 /**
@@ -390,6 +403,10 @@ Blockly.Toolbox.prototype.clearSelection = function() {
  * @return {goog.math.Rect} Rectangle in which to delete.
  */
 Blockly.Toolbox.prototype.getClientRect = function() {
+  if (!this.HtmlDiv) {
+    return null;
+  }
+
   // BIG_NUM is offscreen padding so that blocks dragged beyond the toolbox
   // area are still deleted.  Must be smaller than Infinity, but larger than
   // the largest screen size.
@@ -413,6 +430,18 @@ Blockly.Toolbox.prototype.getClientRect = function() {
         BIG_NUM + y + height);
   } else {  // Bottom
     return new goog.math.Rect(0, y, 2 * BIG_NUM, BIG_NUM + width);
+  }
+};
+
+/**
+ * Update the flyout's contents without closing it.  Should be used in response
+ * to a change in one of the dynamic categories, such as variables or
+ * procedures.
+ */
+Blockly.Toolbox.prototype.refreshSelection = function() {
+  var selectedItem = this.tree_.getSelectedItem();
+  if (selectedItem && selectedItem.blocks) {
+    this.flyout_.show(selectedItem.blocks);
   }
 };
 
@@ -446,6 +475,7 @@ Blockly.Toolbox.TreeControl.prototype.enterDocument = function() {
         this.handleTouchEvent_);
   }
 };
+
 /**
  * Handles touch events.
  * @param {!goog.events.BrowserEvent} e The browser event.
@@ -532,6 +562,7 @@ Blockly.Toolbox.TreeControl.prototype.setSelectedItem = function(node) {
 Blockly.Toolbox.TreeNode = function(toolbox, html, opt_config, opt_domHelper) {
   goog.ui.tree.TreeNode.call(this, html, opt_config, opt_domHelper);
   if (toolbox) {
+    this.horizontalLayout_ = toolbox.horizontalLayout_;
     var resize = function() {
       // Even though the div hasn't changed size, the visible workspace
       // surface of the workspace has, so we may need to reposition everything.
@@ -581,6 +612,28 @@ Blockly.Toolbox.TreeNode.prototype.onMouseDown = function(e) {
  */
 Blockly.Toolbox.TreeNode.prototype.onDoubleClick_ = function(e) {
   // NOP.
+};
+
+/**
+ * Remap event.keyCode in horizontalLayout so that arrow
+ * keys work properly and call original onKeyDown handler.
+ * @param {!goog.events.BrowserEvent} e The browser event.
+ * @return {boolean} The handled value.
+ * @override
+ * @private
+ */
+Blockly.Toolbox.TreeNode.prototype.onKeyDown = function(e) {
+  if (this.horizontalLayout_) {
+    var map = {};
+    map[goog.events.KeyCodes.RIGHT] = goog.events.KeyCodes.DOWN;
+    map[goog.events.KeyCodes.LEFT] = goog.events.KeyCodes.UP;
+    map[goog.events.KeyCodes.UP] = goog.events.KeyCodes.LEFT;
+    map[goog.events.KeyCodes.DOWN] = goog.events.KeyCodes.RIGHT;
+
+    var newKeyCode = map[e.keyCode];
+    e.keyCode = newKeyCode || e.keyCode;
+  }
+  return Blockly.Toolbox.TreeNode.superClass_.onKeyDown.call(this, e);
 };
 
 /**

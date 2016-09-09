@@ -33,34 +33,36 @@ blocklyApp.WorkspaceComponent = ng.core
 
     <div id="blockly-workspace-toolbar" (keydown)="onWorkspaceToolbarKeypress($event)">
       <span *ngFor="#buttonConfig of toolbarButtonConfig">
-        <button (click)="buttonConfig.action()" class="blocklyTree">
+        <button (click)="buttonConfig.action()"
+                class="blocklyTree blocklyWorkspaceToolbarButton">
           {{buttonConfig.text}}
         </button>
       </span>
-      <button id="clear-workspace" (click)="workspace.clear()"
-              [disabled]="isWorkspaceEmpty()" class="blocklyTree">
+      <button id="clear-workspace" (click)="clearWorkspace()"
+              [attr.aria-disabled]="isWorkspaceEmpty()"
+              class="blocklyTree blocklyWorkspaceToolbarButton">
         {{'CLEAR_WORKSPACE'|translate}}
       </button>
     </div>
 
     <div *ngIf="workspace">
-      <ol #tree id="blockly-workspace-tree{{i}}" *ngFor="#block of workspace.topBlocks_; #i = index"
-          tabIndex="0" role="group" class="blocklyTree" [attr.aria-labelledby]="workspaceTitle.id"
-          [attr.aria-activedescendant]="tree.getAttribute('aria-activedescendant') || tree.id + '-node0' "
+      <ol #tree *ngFor="#block of workspace.topBlocks_; #i = index"
+          tabindex="0" role="tree" class="blocklyTree blocklyWorkspaceTree"
+          [attr.aria-activedescendant]="getActiveDescId(tree.id)"
+          [attr.aria-labelledby]="workspaceTitle.id"
           (keydown)="onKeypress($event, tree)">
-        <blockly-workspace-tree [level]=1 [block]="block" [isTopBlock]="true"
-                                [topBlockIndex]="i" [parentId]="tree.id"
-                                [tree]="tree">
+        <blockly-workspace-tree [level]=1 [block]="block" [tree]="tree" [isTopLevel]="true">
         </blockly-workspace-tree>
       </ol>
     </div>
     `,
     directives: [blocklyApp.WorkspaceTreeComponent],
-    pipes: [blocklyApp.TranslatePipe],
-    providers: [blocklyApp.TreeService]
+    pipes: [blocklyApp.TranslatePipe]
   })
   .Class({
-    constructor: [blocklyApp.TreeService, function(_treeService) {
+    constructor: [
+        blocklyApp.TreeService, blocklyApp.UtilsService,
+        function(_treeService, _utilsService) {
       // ACCESSIBLE_GLOBALS is a global variable defined by the containing
       // page. It should contain a key, toolbarButtonConfig, whose
       // corresponding value is an Array with two keys: 'text' and 'action'.
@@ -71,15 +73,22 @@ blocklyApp.WorkspaceComponent = ng.core
           ACCESSIBLE_GLOBALS.toolbarButtonConfig : [];
       this.workspace = blocklyApp.workspace;
       this.treeService = _treeService;
+      this.utilsService = _utilsService;
     }],
-    onWorkspaceToolbarKeypress: function(event) {
-      var activeElementId = document.activeElement.id;
-      this.treeService.onWorkspaceToolbarKeypress(event, activeElementId);
+    clearWorkspace: function() {
+      this.workspace.clear();
     },
-    onKeypress: function(event, tree){
-      this.treeService.onKeypress(event, tree);
+    getActiveDescId: function(treeId) {
+      return this.treeService.getActiveDescId(treeId);
+    },
+    onWorkspaceToolbarKeypress: function(e) {
+      this.treeService.onWorkspaceToolbarKeypress(
+          e, document.activeElement.id);
+    },
+    onKeypress: function(e, tree) {
+      this.treeService.onKeypress(e, tree);
     },
     isWorkspaceEmpty: function() {
-      return !blocklyApp.workspace.topBlocks_.length;
+      return this.utilsService.isWorkspaceEmpty();
     }
   });
