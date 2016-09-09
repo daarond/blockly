@@ -44,8 +44,9 @@ Blockly.Blocks['voice_tts'] = {
             .appendField(new Blockly.FieldDropdown([["english", "en"], ["spanish", "es"], ["french", "fr"], ["german", "de"]]), "language");
         this.appendDummyInput()
             .appendField("loop count")
-            .appendField(new Blockly.FieldTextInput("3"), "loop");
-        this.setOutput(true, "String");
+            .appendField(new Blockly.FieldTextInput("1"), "loop");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
         this.setColour(30);
         this.setTooltip('');
         this.setHelpUrl('http://www.example.com/');
@@ -64,7 +65,7 @@ Blockly.Blocks['voice_play'] = {
             .appendField("play file url");
         this.appendDummyInput()
             .appendField("loop")
-            .appendField(new Blockly.FieldTextInput("3"), "loop")
+            .appendField(new Blockly.FieldTextInput("1"), "loop")
             .appendField("times");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
@@ -121,8 +122,8 @@ Blockly.Blocks['voice_get_digits'] = {
                 ["8", "8"],
                 ["9", "9"],
                 ["none", "none"]]), "terminator");
-        this.setInputsInline(true);
-        this.setOutput(true, "String");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
         this.setColour(30);
         this.setTooltip('');
         this.setHelpUrl('http://www.example.com/');

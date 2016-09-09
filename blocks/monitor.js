@@ -1,6 +1,6 @@
 'use strict';
 
-goog.provide('Blockly.Blocks.Administrative');
+goog.provide('Blockly.Blocks.Monitor');
 
 goog.require('Blockly.Blocks');
 
@@ -10,7 +10,7 @@ goog.require('Blockly.Blocks');
  */
 Blockly.Blocks.colour.HUE = 20;
 
-Blockly.Blocks['administrative_notify'] = {
+Blockly.Blocks['monitor_notify'] = {
     init: function() {
         this.appendValueInput("message")
             .setCheck("String")
@@ -23,7 +23,7 @@ Blockly.Blocks['administrative_notify'] = {
     }
 };
 
-Blockly.Blocks['administrative_log_message'] = {
+Blockly.Blocks['monitor_log_message'] = {
     init: function() {
         this.appendValueInput("message")
             .setCheck("String")
@@ -36,7 +36,7 @@ Blockly.Blocks['administrative_log_message'] = {
     }
 };
 
-Blockly.Blocks['administrative_result'] = {
+Blockly.Blocks['monitor_result'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("write")
