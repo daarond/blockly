@@ -121,9 +121,32 @@ Blockly.Blocks['voice_get_digits'] = {
                 ["7", "7"],
                 ["8", "8"],
                 ["9", "9"],
-                ["none", "none"]]), "terminator");
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
+                ["none", "none"]]), "terminator")
+            .appendField(", time out after")
+            .appendField(new Blockly.FieldDropdown([
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"],
+                ["7", "7"],
+                ["8", "8"],
+                ["9", "9"],
+                ["10", "10"],
+                ["11", "11"],
+                ["12", "12"],
+                ["13", "13"],
+                ["14", "14"],
+                ["15", "15"],
+                ["16", "16"],
+                ["17", "17"],
+                ["18", "18"],
+                ["19", "19"],
+                ["20", "20"]
+            ]), "timeout")
+            .appendField("seconds");
+        this.setOutput(true, "string");
         this.setColour(30);
         this.setTooltip('');
         this.setHelpUrl('http://www.example.com/');
@@ -139,7 +162,28 @@ Blockly.Blocks['voice_pause'] = {
     init: function() {
         this.appendDummyInput()
             .appendField("pause")
-            .appendField(new Blockly.FieldTextInput("3"), "seconds")
+            .appendField(new Blockly.FieldDropdown([
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"],
+                ["7", "7"],
+                ["8", "8"],
+                ["9", "9"],
+                ["10", "10"],
+                ["11", "11"],
+                ["12", "12"],
+                ["13", "13"],
+                ["14", "14"],
+                ["15", "15"],
+                ["16", "16"],
+                ["17", "17"],
+                ["18", "18"],
+                ["19", "19"],
+                ["20", "20"]
+            ]), "seconds")
             .appendField("seconds");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
