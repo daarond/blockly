@@ -22,7 +22,7 @@ Blockly.Blocks['voice_call'] = {
         this.setNextStatement(true, null);
         this.setColour(30);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/voice_call.html');
     }
 };
 
@@ -49,7 +49,7 @@ Blockly.Blocks['voice_tts'] = {
         this.setNextStatement(true, null);
         this.setColour(30);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/voice_tts.html');
     }
 };
 
@@ -71,7 +71,7 @@ Blockly.Blocks['voice_play'] = {
         this.setNextStatement(true, null);
         this.setColour(30);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/voice_play.html');
     }
 };
 
@@ -84,7 +84,7 @@ Blockly.Blocks['voice_play'] = {
 Blockly.Blocks['voice_get_digits'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("collect")
+            .appendField("collect up to")
             .appendField(new Blockly.FieldDropdown([
                 ["1", "1"],
                 ["2", "2"],
@@ -107,21 +107,12 @@ Blockly.Blocks['voice_get_digits'] = {
                 ["19", "19"],
                 ["20", "20"]
             ]), "digits")
-            .appendField("digits, ending in")
+            .appendField("digits or ending in")
             .appendField(new Blockly.FieldDropdown([
+                ["none", "none"],
                 ["#", "#"],
-                ["*", "*"],
-                ["0", "0"],
-                ["1", "1"],
-                ["2", "2"],
-                ["3", "3"],
-                ["4", "4"],
-                ["5", "5"],
-                ["6", "6"],
-                ["7", "7"],
-                ["8", "8"],
-                ["9", "9"],
-                ["none", "none"]]), "terminator")
+                ["*", "*"]
+                ]), "terminator")
             .appendField(", time out after")
             .appendField(new Blockly.FieldDropdown([
                 ["1", "1"],
@@ -145,11 +136,13 @@ Blockly.Blocks['voice_get_digits'] = {
                 ["19", "19"],
                 ["20", "20"]
             ]), "timeout")
-            .appendField("seconds");
-        this.setOutput(true, "string");
+            .appendField("seconds, set")
+            .appendField(new Blockly.FieldVariable("item"), "variable");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
         this.setColour(30);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/voice_get_digits.html');
     }
 };
 
@@ -189,7 +182,7 @@ Blockly.Blocks['voice_pause'] = {
         this.setNextStatement(true, null);
         this.setColour(30);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/voice_pause.html');
     }
 };
 
@@ -206,6 +199,19 @@ Blockly.Blocks['voice_hangup'] = {
         this.setNextStatement(true, null);
         this.setColour(30);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/voice_hangup.html');
+    }
+};
+
+Blockly.Blocks['voice_dial'] = {
+    init: function() {
+        this.appendValueInput("PHONE")
+            .setCheck("String")
+            .appendField("dial phone number");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(30);
+        this.setTooltip('');
+        this.setHelpUrl('http://www.dragtocode.com/docs/voice_dial.html');
     }
 };

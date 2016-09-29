@@ -40,7 +40,7 @@ Blockly.Blocks['text'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg.TEXT_TEXT_HELPURL);
+    this.setHelpUrl('http://www.dragtocode.com/docs/text.html');
     this.setColour(Blockly.Blocks.texts.HUE);
     this.appendDummyInput()
         .appendField(this.newQuote_(true))
@@ -79,7 +79,7 @@ Blockly.Blocks['text_join'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg.TEXT_JOIN_HELPURL);
+    this.setHelpUrl('http://www.dragtocode.com/docs/text_join.html');
     this.setColour(Blockly.Blocks.texts.HUE);
     this.itemCount_ = 2;
     this.updateShape_();
@@ -236,7 +236,7 @@ Blockly.Blocks['text_append'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg.TEXT_APPEND_HELPURL);
+    this.setHelpUrl('http://www.dragtocode.com/docs/text_append.html');
     this.setColour(Blockly.Blocks.texts.HUE);
     this.appendValueInput('TEXT')
         .appendField(Blockly.Msg.TEXT_APPEND_TO)
@@ -272,7 +272,7 @@ Blockly.Blocks['text_length'] = {
       "output": 'Number',
       "colour": Blockly.Blocks.texts.HUE,
       "tooltip": Blockly.Msg.TEXT_LENGTH_TOOLTIP,
-      "helpUrl": Blockly.Msg.TEXT_LENGTH_HELPURL
+      "helpUrl": 'http://www.dragtocode.com/docs/text_length.html'
     });
   }
 };
@@ -295,7 +295,7 @@ Blockly.Blocks['text_isEmpty'] = {
       "output": 'Boolean',
       "colour": Blockly.Blocks.texts.HUE,
       "tooltip": Blockly.Msg.TEXT_ISEMPTY_TOOLTIP,
-      "helpUrl": Blockly.Msg.TEXT_ISEMPTY_HELPURL
+      "helpUrl": 'http://www.dragtocode.com/docs/text_isEmpty.html'
     });
   }
 };
@@ -309,7 +309,7 @@ Blockly.Blocks['text_indexOf'] = {
     var OPERATORS =
         [[Blockly.Msg.TEXT_INDEXOF_OPERATOR_FIRST, 'FIRST'],
          [Blockly.Msg.TEXT_INDEXOF_OPERATOR_LAST, 'LAST']];
-    this.setHelpUrl(Blockly.Msg.TEXT_INDEXOF_HELPURL);
+    this.setHelpUrl('http://www.dragtocode.com/docs/text_indexOf.html');
     this.setColour(Blockly.Blocks.texts.HUE);
     this.setOutput(true, 'Number');
     this.appendValueInput('VALUE')

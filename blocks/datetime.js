@@ -19,7 +19,7 @@ Blockly.Blocks['datetime_current'] = {
         this.setOutput(true, "Number");
         this.setColour(0);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/datetime_current.html');
     }
 };
 
@@ -60,7 +60,7 @@ Blockly.Blocks['datetime_set_date'] = {
         this.setNextStatement(true, null);
         this.setColour(0);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/datetime_set_date.html');
     }
 };
 
@@ -111,7 +111,7 @@ Blockly.Blocks['datetime_set_time'] = {
         this.setNextStatement(true, null);
         this.setColour(0);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/datetime_set_time.html');
     }
 };
 
@@ -134,6 +134,7 @@ Blockly.Blocks['datetime_modify_date'] = {
         this.setHelpUrl('http://www.example.com/');
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
+        this.setHelpUrl('http://www.dragtocode.com/docs/datetime_modify_date.html');
     }
 };
 
@@ -155,6 +156,7 @@ Blockly.Blocks['datetime_modify_time'] = {
         this.setHelpUrl('http://www.example.com/');
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
+        this.setHelpUrl('http://www.dragtocode.com/docs/datetime_modify_time.html');
     }
 };
 
@@ -169,6 +171,6 @@ Blockly.Blocks['datetime_format'] = {
         this.setOutput(true);
         this.setColour(0);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/datetime_format.html');
     }
 };

@@ -40,7 +40,7 @@ Blockly.Blocks['math_number'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
+    this.setHelpUrl('http://www.dragtocode.com/docs/math_number.html');
     this.setColour(Blockly.Blocks.math.HUE);
     this.appendDummyInput()
         .appendField(new Blockly.FieldNumber('0'), 'NUM');
@@ -89,7 +89,7 @@ Blockly.Blocks['math_arithmetic'] = {
       "inputsInline": true,
       "output": "Number",
       "colour": Blockly.Blocks.math.HUE,
-      "helpUrl": Blockly.Msg.MATH_ARITHMETIC_HELPURL
+      "helpUrl": 'http://www.dragtocode.com/docs/math_arithmetic.html'
     });
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
@@ -137,7 +137,7 @@ Blockly.Blocks['math_single'] = {
       ],
       "output": "Number",
       "colour": Blockly.Blocks.math.HUE,
-      "helpUrl": Blockly.Msg.MATH_SINGLE_HELPURL
+      "helpUrl": 'http://www.dragtocode.com/docs/math_single.html'
     });
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
@@ -186,7 +186,7 @@ Blockly.Blocks['math_trig'] = {
       ],
       "output": "Number",
       "colour": Blockly.Blocks.math.HUE,
-      "helpUrl": Blockly.Msg.MATH_TRIG_HELPURL
+      "helpUrl": 'http://www.dragtocode.com/docs/math_trig.html'
     });
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
@@ -230,7 +230,7 @@ Blockly.Blocks['math_constant'] = {
       "output": "Number",
       "colour": Blockly.Blocks.math.HUE,
       "tooltip": Blockly.Msg.MATH_CONSTANT_TOOLTIP,
-      "helpUrl": Blockly.Msg.MATH_CONSTANT_HELPURL
+      "helpUrl": 'http://www.dragtocode.com/docs/math_constant.html'
     });
   }
 };
@@ -326,7 +326,7 @@ Blockly.Blocks['math_change'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Blockly.Blocks.variables.HUE,
-      "helpUrl": Blockly.Msg.MATH_CHANGE_HELPURL
+      "helpUrl": 'http://www.dragtocode.com/docs/math_change.html'
     });
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
@@ -364,7 +364,7 @@ Blockly.Blocks['math_round'] = {
       "output": "Number",
       "colour": Blockly.Blocks.math.HUE,
       "tooltip": Blockly.Msg.MATH_ROUND_TOOLTIP,
-      "helpUrl": Blockly.Msg.MATH_ROUND_HELPURL
+      "helpUrl": 'http://www.dragtocode.com/docs/math_round.html'
     });
   }
 };
@@ -387,7 +387,7 @@ Blockly.Blocks['math_on_list'] = {
          [Blockly.Msg.MATH_ONLIST_OPERATOR_RANDOM, 'RANDOM']];
     // Assign 'this' to a variable for use in the closures below.
     var thisBlock = this;
-    this.setHelpUrl(Blockly.Msg.MATH_ONLIST_HELPURL);
+    this.setHelpUrl('http://www.dragtocode.com/docs/math_on_list.html');
     this.setColour(Blockly.Blocks.math.HUE);
     this.setOutput(true, 'Number');
     var dropdown = new Blockly.FieldDropdown(OPERATORS, function(newOp) {
@@ -468,7 +468,7 @@ Blockly.Blocks['math_modulo'] = {
       "output": "Number",
       "colour": Blockly.Blocks.math.HUE,
       "tooltip": Blockly.Msg.MATH_MODULO_TOOLTIP,
-      "helpUrl": Blockly.Msg.MATH_MODULO_HELPURL
+      "helpUrl": 'http://www.dragtocode.com/docs/math_modulo.html'
     });
   }
 };
@@ -502,7 +502,7 @@ Blockly.Blocks['math_constrain'] = {
       "output": "Number",
       "colour": Blockly.Blocks.math.HUE,
       "tooltip": Blockly.Msg.MATH_CONSTRAIN_TOOLTIP,
-      "helpUrl": Blockly.Msg.MATH_CONSTRAIN_HELPURL
+      "helpUrl": 'http://www.dragtocode.com/docs/math_constrain.html'
     });
   }
 };
@@ -531,7 +531,7 @@ Blockly.Blocks['math_random_int'] = {
       "output": "Number",
       "colour": Blockly.Blocks.math.HUE,
       "tooltip": Blockly.Msg.MATH_RANDOM_INT_TOOLTIP,
-      "helpUrl": Blockly.Msg.MATH_RANDOM_INT_HELPURL
+      "helpUrl": 'http://www.dragtocode.com/docs/math_random_int.html'
     });
   }
 };
@@ -547,7 +547,7 @@ Blockly.Blocks['math_random_float'] = {
       "output": "Number",
       "colour": Blockly.Blocks.math.HUE,
       "tooltip": Blockly.Msg.MATH_RANDOM_FLOAT_TOOLTIP,
-      "helpUrl": Blockly.Msg.MATH_RANDOM_FLOAT_HELPURL
+      "helpUrl": 'http://www.dragtocode.com/docs/math_random_float.html'
     });
   }
 };

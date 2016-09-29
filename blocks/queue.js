@@ -24,6 +24,7 @@ Blockly.Blocks['queue_add'] = {
         this.setNextStatement(true, null);
         this.setColour(45);
         this.setTooltip('adds data to the queue');
+        this.setHelpUrl('http://www.dragtocode.com/docs/queue_add.html');
     }
 };
 
@@ -41,6 +42,7 @@ Blockly.Blocks['queue_peek'] = {
         this.setOutput(true, "queue_item");
         this.setColour(45);
         this.setTooltip('gets the data for the next item in the queue without dequeueing it');
+        this.setHelpUrl('http://www.dragtocode.com/docs/queue_peek.html');
     }
 };
 
@@ -58,6 +60,7 @@ Blockly.Blocks['queue_item_data'] = {
         this.setOutput(true, "string");
         this.setColour(45);
         this.setTooltip('gets the data from a queue item');
+        this.setHelpUrl('http://www.dragtocode.com/docs/queue_item_data.html');
     }
 };
 
@@ -80,6 +83,7 @@ Blockly.Blocks['queue_retrieve'] = {
         this.setOutput(true, "queue_item");
         this.setColour(45);
         this.setTooltip('gets the data for the next item in the queue');
+        this.setHelpUrl('http://www.dragtocode.com/docs/queue_retrieve.html');
     }
 };
 
@@ -104,6 +108,7 @@ Blockly.Blocks['queue_item_touch'] = {
         this.setNextStatement(true, null);
         this.setColour(45);
         this.setTooltip('extends the timeout of a queue item');
+        this.setHelpUrl('http://www.dragtocode.com/docs/queue_item_touch.html');
     }
 };
 
@@ -125,6 +130,7 @@ Blockly.Blocks['queue_item_release'] = {
         this.setNextStatement(true, null);
         this.setColour(45);
         this.setTooltip('releases an item back to the queue');
+        this.setHelpUrl('http://www.dragtocode.com/docs/queue_item_release.html');
     }
 };
 
@@ -144,6 +150,7 @@ Blockly.Blocks['queue_item_delete'] = {
         this.setNextStatement(true, null);
         this.setColour(45);
         this.setTooltip('deletes an item from the queue');
+        this.setHelpUrl('http://www.dragtocode.com/docs/queue_item_delete.html');
     }
 };
 
@@ -163,6 +170,7 @@ Blockly.Blocks['queue_delete'] = {
         this.setNextStatement(true, null);
         this.setColour(45);
         this.setTooltip('delete a queue and all contents');
+        this.setHelpUrl('http://www.dragtocode.com/docs/queue_delete.html');
     }
 };
 
@@ -181,6 +189,7 @@ Blockly.Blocks['queue_create'] = {
         this.setNextStatement(true, null);
         this.setColour(45);
         this.setTooltip('create a queue');
+        this.setHelpUrl('http://www.dragtocode.com/docs/queue_create.html');
     }
 };
 

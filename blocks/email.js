@@ -30,5 +30,6 @@ Blockly.Blocks['internet_email_send'] = {
         this.setPreviousStatement(true, "null");
         this.setNextStatement(true, "null");
         this.setTooltip('Send an email');
+        this.setHelpUrl('http://www.dragtocode.com/docs/internet_email_send.html');
     }
 };

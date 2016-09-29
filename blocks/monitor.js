@@ -19,7 +19,7 @@ Blockly.Blocks['monitor_notify'] = {
         this.setNextStatement(true, null);
         this.setColour(Blockly.Blocks.colour.HUE);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/monitor_notify.html');
     }
 };
 
@@ -32,7 +32,7 @@ Blockly.Blocks['monitor_log_message'] = {
         this.setNextStatement(true, null);
         this.setColour(Blockly.Blocks.colour.HUE);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/monitor_log_message.html');
     }
 };
 
@@ -46,6 +46,6 @@ Blockly.Blocks['monitor_result'] = {
         this.setNextStatement(true, null);
         this.setColour(20);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/monitor_result.html');
     }
 };

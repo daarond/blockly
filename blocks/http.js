@@ -36,6 +36,7 @@ Blockly.Blocks['internet_http'] = {
             .appendField("Extra Headers");
         this.setOutput(true, 'String');
         this.setInputsInline(false);
+        this.setHelpUrl('http://www.dragtocode.com/docs/internet_http.html');
     },
     /**
      * Create XML to represent whether the 'dataInput' should be present.

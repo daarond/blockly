@@ -27,6 +27,6 @@ Blockly.Blocks['internet_sms_send'] = {
         this.setNextStatement(true);
         this.setTooltip('Send an SMS message');
         this.setColour(30);
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/internet_sms_send.html');
     }
 };

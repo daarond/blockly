@@ -20,6 +20,7 @@ Blockly.Blocks['objects_create_empty'] = {
         this.setOutput(true);
         this.setColour(135);
         this.setTooltip('create an empty object');
+        this.setHelpUrl('http://www.dragtocode.com/docs/objects_create_empty.html');
     }
 };
 
@@ -45,6 +46,7 @@ Blockly.Blocks['objects_set_property'] = {
         this.setNextStatement(true, null);
         this.setColour(135);
         this.setTooltip('set a property on an object');
+        this.setHelpUrl('http://www.dragtocode.com/docs/objects_set_property.html');
     }
 };
 
@@ -66,7 +68,7 @@ Blockly.Blocks['objects_get_property'] = {
         this.setOutput(true, null);
         this.setColour(135);
         this.setTooltip('get a property from an object');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/objects_get_property.html');
     }
 };
 
@@ -92,7 +94,7 @@ Blockly.Blocks['objects_map'] = {
         this.setNextStatement(true, null);
         this.setColour(135);
         this.setTooltip('map values from array to object properties');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/objects_map.html');
     }
 };
 
@@ -114,7 +116,7 @@ Blockly.Blocks['objects_encode'] = {
         this.setOutput(true, "String");
         this.setColour(135);
         this.setTooltip('encode object to a string');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/objects_encode.html');
     }
 };
 
@@ -138,6 +140,6 @@ Blockly.Blocks['objects_decode'] = {
         this.setNextStatement(true, null);
         this.setColour(135);
         this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setHelpUrl('http://www.dragtocode.com/docs/objects_decode.html');
     }
 };

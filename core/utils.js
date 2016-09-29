@@ -496,8 +496,7 @@ Blockly.genUid = function() {
  * Removed $ due to issue 251.
  * @private
  */
-Blockly.genUid.soup_ = '!#%()*+,-./:;=?@[]^_`{|}~' +
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+Blockly.genUid.soup_ = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
 /**
  * Wrap text to the specified width.

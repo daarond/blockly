@@ -27,6 +27,7 @@ Blockly.Blocks['regex_split'] = {
         this.setOutput(true, "Array");
         this.setColour(270);
         this.setTooltip('Split a text value using a regular expression');
+        this.setHelpUrl('http://www.dragtocode.com/docs/regex_split.html');
     }
 };
 
@@ -53,6 +54,7 @@ Blockly.Blocks['regex_replace'] = {
         this.setOutput(true, "String");
         this.setColour(270);
         this.setTooltip('Replace text using a regular expression');
+        this.setHelpUrl('http://www.dragtocode.com/docs/regex_replace.html');
     }
 };
 
@@ -75,6 +77,7 @@ Blockly.Blocks['regex_simple_match'] = {
         this.setOutput(true, "Boolean");
         this.setColour(270);
         this.setTooltip('performs a regex match, returning true if matched');
+        this.setHelpUrl('http://www.dragtocode.com/docs/regex_simple_match.html');
     }
 };
 
@@ -96,6 +99,7 @@ Blockly.Blocks['regex_match_string'] = {
         this.setOutput(true, "String");
         this.setColour(270);
         this.setTooltip('performs a regex match, returning the string that matched');
+        this.setHelpUrl('http://www.dragtocode.com/docs/regex_match_string.html');
     }
 };
 
@@ -119,5 +123,6 @@ Blockly.Blocks['regex_match_list'] = {
         this.setOutput(true, "Array");
         this.setColour(270);
         this.setTooltip('performs a regex match, returning a list of matches or groups');
+        this.setHelpUrl('http://www.dragtocode.com/docs/regex_match_list.html');
     }
 };
