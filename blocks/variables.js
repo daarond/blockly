@@ -40,7 +40,7 @@ Blockly.Blocks['variables_get'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl('http://www.dragtocode.com/docs/variables_get.html');
+    this.setHelpUrl(Blockly.Msg.VARIABLES_GET_HELPURL);
     this.setColour(Blockly.Blocks.variables.HUE);
     this.appendDummyInput()
         .appendField(new Blockly.FieldVariable(
@@ -91,7 +91,7 @@ Blockly.Blocks['variables_set'] = {
       "nextStatement": null,
       "colour": Blockly.Blocks.variables.HUE,
       "tooltip": Blockly.Msg.VARIABLES_SET_TOOLTIP,
-      "helpUrl": 'http://www.dragtocode.com/docs/variables_set.html'
+      "helpUrl": Blockly.Msg.VARIABLES_SET_HELPURL
     });
     this.contextMenuMsg_ = Blockly.Msg.VARIABLES_SET_CREATE_GET;
   },

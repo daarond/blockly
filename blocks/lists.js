@@ -49,7 +49,7 @@ Blockly.Blocks['lists_create_empty'] = {
       "output": "Array",
       "colour": Blockly.Blocks.lists.HUE,
       "tooltip": Blockly.Msg.LISTS_CREATE_EMPTY_TOOLTIP,
-      "helpUrl": 'http://www.dragtocode.com/docs/lists_create_empty.html'
+      "helpUrl": Blockly.Msg.LISTS_CREATE_EMPTY_HELPURL
     });
   }
 };
@@ -60,13 +60,13 @@ Blockly.Blocks['lists_create_with'] = {
    * @this Blockly.Block
    */
   init: function() {
+    this.setHelpUrl(Blockly.Msg.LISTS_CREATE_WITH_HELPURL);
     this.setColour(Blockly.Blocks.lists.HUE);
     this.itemCount_ = 3;
     this.updateShape_();
     this.setOutput(true, 'Array');
     this.setMutator(new Blockly.Mutator(['lists_create_with_item']));
     this.setTooltip(Blockly.Msg.LISTS_CREATE_WITH_TOOLTIP);
-    this.setHelpUrl('http://www.dragtocode.com/docs/lists_create_with.html');
   },
   /**
    * Create XML to represent list inputs.
@@ -190,7 +190,6 @@ Blockly.Blocks['lists_create_with_container'] = {
     this.appendStatementInput('STACK');
     this.setTooltip(Blockly.Msg.LISTS_CREATE_WITH_CONTAINER_TOOLTIP);
     this.contextMenu = false;
-    this.setHelpUrl('http://www.dragtocode.com/docs/lists_create_with_container.html');
   }
 };
 
@@ -207,7 +206,6 @@ Blockly.Blocks['lists_create_with_item'] = {
     this.setNextStatement(true);
     this.setTooltip(Blockly.Msg.LISTS_CREATE_WITH_ITEM_TOOLTIP);
     this.contextMenu = false;
-    this.setHelpUrl('http://www.dragtocode.com/docs/lists_create_with_item.html');
   }
 };
 
@@ -233,7 +231,7 @@ Blockly.Blocks['lists_repeat'] = {
       "output": "Array",
       "colour": Blockly.Blocks.lists.HUE,
       "tooltip": Blockly.Msg.LISTS_REPEAT_TOOLTIP,
-      "helpUrl": 'http://www.dragtocode.com/docs/lists_repeat.html'
+      "helpUrl": Blockly.Msg.LISTS_REPEAT_HELPURL
     });
   }
 };
@@ -256,7 +254,7 @@ Blockly.Blocks['lists_length'] = {
       "output": 'Number',
       "colour": Blockly.Blocks.lists.HUE,
       "tooltip": Blockly.Msg.LISTS_LENGTH_TOOLTIP,
-      "helpUrl": 'http://www.dragtocode.com/docs/lists_length.html'
+      "helpUrl": Blockly.Msg.LISTS_LENGTH_HELPURL
     });
   }
 };
@@ -279,7 +277,7 @@ Blockly.Blocks['lists_isEmpty'] = {
       "output": 'Boolean',
       "colour": Blockly.Blocks.lists.HUE,
       "tooltip": Blockly.Msg.LISTS_ISEMPTY_TOOLTIP,
-      "helpUrl": 'http://www.dragtocode.com/docs/lists_isEmpty.html'
+      "helpUrl": Blockly.Msg.LISTS_ISEMPTY_HELPURL
     });
   }
 };
@@ -293,7 +291,7 @@ Blockly.Blocks['lists_indexOf'] = {
     var OPERATORS =
         [[Blockly.Msg.LISTS_INDEX_OF_FIRST, 'FIRST'],
          [Blockly.Msg.LISTS_INDEX_OF_LAST, 'LAST']];
-    this.setHelpUrl('http://www.dragtocode.com/docs/lists_indexOf.html');
+    this.setHelpUrl(Blockly.Msg.LISTS_INDEX_OF_HELPURL);
     this.setColour(Blockly.Blocks.lists.HUE);
     this.setOutput(true, 'Number');
     this.appendValueInput('VALUE')
@@ -323,9 +321,8 @@ Blockly.Blocks['lists_getIndex'] = {
          [Blockly.Msg.LISTS_GET_INDEX_FROM_END, 'FROM_END'],
          [Blockly.Msg.LISTS_GET_INDEX_FIRST, 'FIRST'],
          [Blockly.Msg.LISTS_GET_INDEX_LAST, 'LAST'],
-         ['name', 'NAME'],
          [Blockly.Msg.LISTS_GET_INDEX_RANDOM, 'RANDOM']];
-    this.setHelpUrl('http://www.dragtocode.com/docs/lists_getIndex.html');
+    this.setHelpUrl(Blockly.Msg.LISTS_GET_INDEX_HELPURL);
     this.setColour(Blockly.Blocks.lists.HUE);
     var modeMenu = new Blockly.FieldDropdown(MODE, function(value) {
       var isStatement = (value == 'REMOVE');
@@ -460,7 +457,7 @@ Blockly.Blocks['lists_getIndex'] = {
     this.removeInput('ORDINAL', true);
     // Create either a value 'AT' input or a dummy input.
     if (isAt) {
-      this.appendValueInput('AT').setCheck(["Number", "String"]);
+      this.appendValueInput('AT').setCheck('Number');
       if (Blockly.Msg.ORDINAL_NUMBER_SUFFIX) {
         this.appendDummyInput('ORDINAL')
             .appendField(Blockly.Msg.ORDINAL_NUMBER_SUFFIX);
@@ -469,7 +466,7 @@ Blockly.Blocks['lists_getIndex'] = {
       this.appendDummyInput('AT');
     }
     var menu = new Blockly.FieldDropdown(this.WHERE_OPTIONS, function(value) {
-      var newAt = (value == 'FROM_START') || (value == 'FROM_END' || (value == 'NAME'));
+      var newAt = (value == 'FROM_START') || (value == 'FROM_END');
       // The 'isAt' variable is available due to this function being a closure.
       if (newAt != isAt) {
         var block = this.sourceBlock_;
@@ -501,9 +498,8 @@ Blockly.Blocks['lists_setIndex'] = {
          [Blockly.Msg.LISTS_GET_INDEX_FROM_END, 'FROM_END'],
          [Blockly.Msg.LISTS_GET_INDEX_FIRST, 'FIRST'],
          [Blockly.Msg.LISTS_GET_INDEX_LAST, 'LAST'],
-         ['name', 'NAME'],
          [Blockly.Msg.LISTS_GET_INDEX_RANDOM, 'RANDOM']];
-    this.setHelpUrl('http://www.dragtocode.com/docs/lists_setIndex.html');
+    this.setHelpUrl(Blockly.Msg.LISTS_SET_INDEX_HELPURL);
     this.setColour(Blockly.Blocks.lists.HUE);
     this.appendValueInput('LIST')
         .setCheck('Array')
@@ -594,7 +590,7 @@ Blockly.Blocks['lists_setIndex'] = {
     this.removeInput('ORDINAL', true);
     // Create either a value 'AT' input or a dummy input.
     if (isAt) {
-      this.appendValueInput('AT').setCheck(["Number", "String"]);
+      this.appendValueInput('AT').setCheck('Number');
       if (Blockly.Msg.ORDINAL_NUMBER_SUFFIX) {
         this.appendDummyInput('ORDINAL')
             .appendField(Blockly.Msg.ORDINAL_NUMBER_SUFFIX);
@@ -603,7 +599,7 @@ Blockly.Blocks['lists_setIndex'] = {
       this.appendDummyInput('AT');
     }
     var menu = new Blockly.FieldDropdown(this.WHERE_OPTIONS, function(value) {
-      var newAt = (value == 'FROM_START') || (value == 'FROM_END') || (value == 'NAME');
+      var newAt = (value == 'FROM_START') || (value == 'FROM_END');
       // The 'isAt' variable is available due to this function being a closure.
       if (newAt != isAt) {
         var block = this.sourceBlock_;
@@ -637,7 +633,7 @@ Blockly.Blocks['lists_getSublist'] = {
         [[Blockly.Msg.LISTS_GET_SUBLIST_END_FROM_START, 'FROM_START'],
          [Blockly.Msg.LISTS_GET_SUBLIST_END_FROM_END, 'FROM_END'],
          [Blockly.Msg.LISTS_GET_SUBLIST_END_LAST, 'LAST']];
-    this.setHelpUrl('http://www.dragtocode.com/docs/lists_getSublist.html');
+    this.setHelpUrl(Blockly.Msg.LISTS_GET_SUBLIST_HELPURL);
     this.setColour(Blockly.Blocks.lists.HUE);
     this.appendValueInput('LIST')
         .setCheck('Array')
@@ -765,7 +761,7 @@ Blockly.Blocks['lists_sort'] = {
       "output": "Array",
       "colour": Blockly.Blocks.lists.HUE,
       "tooltip": Blockly.Msg.LISTS_SORT_TOOLTIP,
-      "helpUrl": 'http://www.dragtocode.com/docs/lists_sort.html'
+      "helpUrl": Blockly.Msg.LISTS_SORT_HELPURL
     });
   }
 };
@@ -784,7 +780,7 @@ Blockly.Blocks['lists_split'] = {
         function(newMode) {
           thisBlock.updateType_(newMode);
         });
-    this.setHelpUrl('http://www.dragtocode.com/docs/lists_split.html');
+    this.setHelpUrl(Blockly.Msg.LISTS_SPLIT_HELPURL);
     this.setColour(Blockly.Blocks.lists.HUE);
     this.appendValueInput('INPUT')
         .setCheck('String')

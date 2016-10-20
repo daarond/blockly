@@ -53,7 +53,7 @@ Blockly.Blocks['controls_repeat_ext'] = {
       "nextStatement": null,
       "colour": Blockly.Blocks.loops.HUE,
       "tooltip": Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,
-      "helpUrl": 'http://www.dragtocode.com/docs/controls_repeat_ext.html'
+      "helpUrl": Blockly.Msg.CONTROLS_REPEAT_HELPURL
     });
     this.appendStatementInput('DO')
         .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
@@ -82,7 +82,7 @@ Blockly.Blocks['controls_repeat'] = {
       "nextStatement": null,
       "colour": Blockly.Blocks.loops.HUE,
       "tooltip": Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,
-      "helpUrl": 'http://www.dragtocode.com/docs/controls_repeat.html'
+      "helpUrl": Blockly.Msg.CONTROLS_REPEAT_HELPURL
     });
     this.appendStatementInput('DO')
         .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
@@ -98,7 +98,7 @@ Blockly.Blocks['controls_whileUntil'] = {
     var OPERATORS =
         [[Blockly.Msg.CONTROLS_WHILEUNTIL_OPERATOR_WHILE, 'WHILE'],
          [Blockly.Msg.CONTROLS_WHILEUNTIL_OPERATOR_UNTIL, 'UNTIL']];
-    this.setHelpUrl('http://www.dragtocode.com/docs/controls_whileUntil.html');
+    this.setHelpUrl(Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL);
     this.setColour(Blockly.Blocks.loops.HUE);
     this.appendValueInput('BOOL')
         .setCheck('Boolean')
@@ -157,7 +157,7 @@ Blockly.Blocks['controls_for'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Blockly.Blocks.loops.HUE,
-      "helpUrl": 'http://www.dragtocode.com/docs/controls_for.html'
+      "helpUrl": Blockly.Msg.CONTROLS_FOR_HELPURL
     });
     this.appendStatementInput('DO')
         .appendField(Blockly.Msg.CONTROLS_FOR_INPUT_DO);
@@ -211,7 +211,7 @@ Blockly.Blocks['controls_forEach'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Blockly.Blocks.loops.HUE,
-      "helpUrl": 'http://www.dragtocode.com/docs/controls_forEach.html'
+      "helpUrl": Blockly.Msg.CONTROLS_FOREACH_HELPURL
     });
     this.appendStatementInput('DO')
         .appendField(Blockly.Msg.CONTROLS_FOREACH_INPUT_DO);
@@ -234,7 +234,7 @@ Blockly.Blocks['controls_flow_statements'] = {
     var OPERATORS =
         [[Blockly.Msg.CONTROLS_FLOW_STATEMENTS_OPERATOR_BREAK, 'BREAK'],
          [Blockly.Msg.CONTROLS_FLOW_STATEMENTS_OPERATOR_CONTINUE, 'CONTINUE']];
-    this.setHelpUrl('http://www.dragtocode.com/docs/controls_flow_statements.html');
+    this.setHelpUrl(Blockly.Msg.CONTROLS_FLOW_STATEMENTS_HELPURL);
     this.setColour(Blockly.Blocks.loops.HUE);
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'FLOW');

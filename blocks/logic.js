@@ -40,7 +40,7 @@ Blockly.Blocks['controls_if'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl('http://www.dragtocode.com/docs/controls_if.html');
+    this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
     this.setColour(Blockly.Blocks.logic.HUE);
     this.appendValueInput('IF0')
         .setCheck('Boolean')
@@ -288,7 +288,7 @@ Blockly.Blocks['logic_compare'] = {
       ['\u2265', 'GTE']
     ];
     var OPERATORS = this.RTL ? rtlOperators : ltrOperators;
-    this.setHelpUrl('http://www.dragtocode.com/docs/logic_compare.html');
+    this.setHelpUrl(Blockly.Msg.LOGIC_COMPARE_HELPURL);
     this.setColour(Blockly.Blocks.logic.HUE);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A');
@@ -349,7 +349,7 @@ Blockly.Blocks['logic_operation'] = {
     var OPERATORS =
         [[Blockly.Msg.LOGIC_OPERATION_AND, 'AND'],
          [Blockly.Msg.LOGIC_OPERATION_OR, 'OR']];
-    this.setHelpUrl('http://www.dragtocode.com/docs/logic_operation.html');
+    this.setHelpUrl(Blockly.Msg.LOGIC_OPERATION_HELPURL);
     this.setColour(Blockly.Blocks.logic.HUE);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A')
@@ -389,7 +389,7 @@ Blockly.Blocks['logic_negate'] = {
       "output": "Boolean",
       "colour": Blockly.Blocks.logic.HUE,
       "tooltip": Blockly.Msg.LOGIC_NEGATE_TOOLTIP,
-      "helpUrl": 'http://www.dragtocode.com/docs/logic_negate.html'
+      "helpUrl": Blockly.Msg.LOGIC_NEGATE_HELPURL
     });
   }
 };
@@ -415,7 +415,7 @@ Blockly.Blocks['logic_boolean'] = {
       "output": "Boolean",
       "colour": Blockly.Blocks.logic.HUE,
       "tooltip": Blockly.Msg.LOGIC_BOOLEAN_TOOLTIP,
-      "helpUrl": 'http://www.dragtocode.com/docs/logic_boolean.html'
+      "helpUrl": Blockly.Msg.LOGIC_BOOLEAN_HELPURL
     });
   }
 };
@@ -431,7 +431,7 @@ Blockly.Blocks['logic_null'] = {
       "output": null,
       "colour": Blockly.Blocks.logic.HUE,
       "tooltip": Blockly.Msg.LOGIC_NULL_TOOLTIP,
-      "helpUrl": 'http://www.dragtocode.com/docs/logic_null.html'
+      "helpUrl": Blockly.Msg.LOGIC_NULL_HELPURL
     });
   }
 };
@@ -442,7 +442,7 @@ Blockly.Blocks['logic_ternary'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl('http://www.dragtocode.com/docs/logic_ternary.html');
+    this.setHelpUrl(Blockly.Msg.LOGIC_TERNARY_HELPURL);
     this.setColour(Blockly.Blocks.logic.HUE);
     this.appendValueInput('IF')
         .setCheck('Boolean')

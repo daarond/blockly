@@ -54,7 +54,7 @@ Blockly.Blocks['procedures_defnoreturn'] = {
     }
     this.setColour(Blockly.Blocks.procedures.HUE);
     this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
-    this.setHelpUrl('http://www.dragtocode.com/docs/procedures_defnoreturn.html');
+    this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
     this.arguments_ = [];
     this.setStatements_(true);
     this.statementConnection_ = null;
@@ -348,7 +348,7 @@ Blockly.Blocks['procedures_defreturn'] = {
     }
     this.setColour(Blockly.Blocks.procedures.HUE);
     this.setTooltip(Blockly.Msg.PROCEDURES_DEFRETURN_TOOLTIP);
-    this.setHelpUrl('http://www.dragtocode.com/docs/procedures_defreturn.html');
+    this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFRETURN_HELPURL);
     this.arguments_ = [];
     this.setStatements_(true);
     this.statementConnection_ = null;
@@ -456,7 +456,7 @@ Blockly.Blocks['procedures_callnoreturn'] = {
     this.setNextStatement(true);
     this.setColour(Blockly.Blocks.procedures.HUE);
     // Tooltip is set in renameProcedure.
-    this.setHelpUrl('http://www.dragtocode.com/docs/procedures_callnoreturn.html');
+    this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLNORETURN_HELPURL);
     this.arguments_ = [];
     this.quarkConnections_ = {};
     this.quarkIds_ = null;
@@ -768,7 +768,7 @@ Blockly.Blocks['procedures_callreturn'] = {
     this.setOutput(true);
     this.setColour(Blockly.Blocks.procedures.HUE);
     // Tooltip is set in domToMutation.
-    this.setHelpUrl('http://www.dragtocode.com/docs/procedures_callreturn.html');
+    this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLRETURN_HELPURL);
     this.arguments_ = [];
     this.quarkConnections_ = {};
     this.quarkIds_ = null;
@@ -803,7 +803,7 @@ Blockly.Blocks['procedures_ifreturn'] = {
     this.setNextStatement(true);
     this.setColour(Blockly.Blocks.procedures.HUE);
     this.setTooltip(Blockly.Msg.PROCEDURES_IFRETURN_TOOLTIP);
-    this.setHelpUrl('http://www.dragtocode.com/docs/procedures_ifreturn.html');
+    this.setHelpUrl(Blockly.Msg.PROCEDURES_IFRETURN_HELPURL);
     this.hasReturnValue_ = true;
   },
   /**
