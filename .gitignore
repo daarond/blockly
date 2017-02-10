@@ -6,3 +6,9 @@ npm-debug.log
 *.pyc
 *.komodoproject
 /nbproject/private/
+.idea
+blockly_compressed.js
+blockly_uncompressed.js
+blocks_compressed.js
+/msg/json/*.json
+/msg/js/*.js

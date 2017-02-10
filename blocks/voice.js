@@ -78,7 +78,7 @@ Blockly.Blocks['voice_play'] = {
 
 /**
  * gets digits from a call
- * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#hr5xfq
+ * @link https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#j9uj32
  * @type {{init: Function}}
  */
 Blockly.Blocks['voice_get_digits'] = {
@@ -108,12 +108,11 @@ Blockly.Blocks['voice_get_digits'] = {
                 ["20", "20"]
             ]), "digits")
             .appendField("digits or ending in")
-            .appendField(new Blockly.FieldDropdown([
-                ["none", "none"],
-                ["#", "#"],
-                ["*", "*"]
-                ]), "terminator")
-            .appendField(", time out after")
+            .appendField(new Blockly.FieldDropdown([["none","none"], ["#","#"], ["*","*"]]), "terminator");
+        this.appendStatementInput("statement")
+            .setCheck(null);
+        this.appendDummyInput()
+            .appendField("timeout in")
             .appendField(new Blockly.FieldDropdown([
                 ["1", "1"],
                 ["2", "2"],
@@ -141,7 +140,7 @@ Blockly.Blocks['voice_get_digits'] = {
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(30);
-        this.setTooltip('');
+        this.setTooltip('Collect digits from the call');
         this.setHelpUrl('http://www.dragtocode.com/docs/voice_get_digits.html');
     }
 };
