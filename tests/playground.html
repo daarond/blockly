@@ -70,6 +70,7 @@
 <script src="../blocks/datetime.js"></script>
 <script src="../blocks/monitor.js"></script>
 <script src="../blocks/database.js"></script>
+<script src="../blocks/redis.js"></script>
 <!-- Load the Google Drive SDK Realtime libraries. -->
 <script src="https://apis.google.com/js/api.js"></script>
 <script>
@@ -816,6 +817,24 @@ h1 {
       <block type="database_insert_row"></block>
       <block type="database_key_value"></block>
       <block type="database_condition_list"></block>
+    </category>
+    <category name="Redis">
+      <block type="redis_append"></block>
+      <block type="redis_increment"></block>
+      <block type="redis_decrement"></block>
+      <block type="redis_get"></block>
+      <block type="redis_set"></block>
+      <block type="redis_get_values"></block>
+      <block type="redis_set_values"></block>
+      <block type="redis_keys"></block>
+      <block type="redis_set_expire_sec"></block>
+      <block type="redis_set_expire_date"></block>
+      <block type="redis_delete"></block>
+      <block type="redis_exists"></block>
+      <block type="redis_get_list"></block>
+      <block type="redis_get_list_index"></block>
+      <block type="redis_set_list_index"></block>
+      <block type="redis_get_list_length"></block>
     </category>
   </xml>
 </body>
