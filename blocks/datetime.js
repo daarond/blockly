@@ -18,7 +18,7 @@ Blockly.Blocks['datetime_current'] = {
             .appendField("now");
         this.setOutput(true, "Number");
         this.setColour(0);
-        this.setTooltip('');
+        this.setTooltip('the current date and time');
         this.setHelpUrl('http://www.dragtocode.com/docs/datetime_current.html');
     }
 };
@@ -59,7 +59,7 @@ Blockly.Blocks['datetime_set_date'] = {
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(0);
-        this.setTooltip('');
+        this.setTooltip('sets a date value');
         this.setHelpUrl('http://www.dragtocode.com/docs/datetime_set_date.html');
     }
 };
@@ -110,7 +110,7 @@ Blockly.Blocks['datetime_set_time'] = {
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(0);
-        this.setTooltip('');
+        this.setTooltip('sets a time value');
         this.setHelpUrl('http://www.dragtocode.com/docs/datetime_set_time.html');
     }
 };
@@ -130,8 +130,7 @@ Blockly.Blocks['datetime_modify_date'] = {
         this.appendDummyInput()
             .appendField(new Blockly.FieldDropdown([["months", "months"], ["days", "days"], ["years", "years"]]), "UNIT");
         this.setColour(0);
-        this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setTooltip('modifies a given date value');
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setHelpUrl('http://www.dragtocode.com/docs/datetime_modify_date.html');
@@ -152,8 +151,7 @@ Blockly.Blocks['datetime_modify_time'] = {
         this.appendDummyInput()
             .appendField(new Blockly.FieldDropdown([["hours", "hours"], ["minutes", "minutes"], ["seconds", "seconds"]]), "UNIT");
         this.setColour(0);
-        this.setTooltip('');
-        this.setHelpUrl('http://www.example.com/');
+        this.setTooltip('modifies a given time value');
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setHelpUrl('http://www.dragtocode.com/docs/datetime_modify_time.html');
@@ -170,7 +168,38 @@ Blockly.Blocks['datetime_format'] = {
             .appendField(new Blockly.FieldTextInput("Y-m-d h:i:s"), "FORMAT");
         this.setOutput(true);
         this.setColour(0);
-        this.setTooltip('');
+        this.setTooltip('formats a given date time');
         this.setHelpUrl('http://www.dragtocode.com/docs/datetime_format.html');
+    }
+};
+
+
+Blockly.Blocks['datetime_modify_current_date'] = {
+    init: function() {
+        this.appendValueInput("VALUE")
+            .setCheck("Number")
+            .appendField("date");
+        this.appendDummyInput()
+            .appendField(new Blockly.FieldDropdown([["months", "months"], ["days", "days"], ["years", "years"]]), "UNIT")
+            .appendField(new Blockly.FieldDropdown([["from now","add"], ["ago","subtract"]]), "DIRECTION");
+        this.setOutput(true, "datetime");
+        this.setColour(0);
+        this.setTooltip('modifies the current date');
+        this.setHelpUrl('');
+    }
+};
+
+Blockly.Blocks['datetime_modify_current_time'] = {
+    init: function() {
+        this.appendValueInput("VALUE")
+            .setCheck("Number")
+            .appendField("time");
+        this.appendDummyInput()
+            .appendField(new Blockly.FieldDropdown([["hours", "hours"], ["minutes", "minutes"], ["seconds", "seconds"]]), "UNIT")
+            .appendField(new Blockly.FieldDropdown([["from now","add"], ["ago","subtract"]]), "DIRECTION");
+        this.setOutput(true, "datetime");
+        this.setColour(0);
+        this.setTooltip('modifies the current time');
+        this.setHelpUrl('');
     }
 };

@@ -10,7 +10,7 @@ goog.require('Blockly.Blocks');
 Blockly.Blocks['database_select_row'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("select row from table ")
+            .appendField("read row in table ")
             .appendField(new Blockly.FieldTextInput("table"), "TABLE");
         this.appendDummyInput()
             .appendField("into")
@@ -18,9 +18,6 @@ Blockly.Blocks['database_select_row'] = {
         this.appendValueInput("WHERE")
             .setCheck(["ConditionList", "KeyValue"])
             .appendField("where");
-        this.appendValueInput("ORDER")
-            .setCheck(null)
-            .appendField("order by");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(190);
@@ -28,6 +25,7 @@ Blockly.Blocks['database_select_row'] = {
         this.setHelpUrl('http://www.example.com/');
     }
 };
+
 
 Blockly.Blocks['database_update_row'] = {
     init: function() {
@@ -291,4 +289,45 @@ Blockly.Blocks['database_condition_list'] = {
             i++;
         }
     },
+};
+
+
+Blockly.Blocks['database_select_value'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("read ")
+            .appendField(new Blockly.FieldTextInput("field"), "FIELD");
+        this.appendDummyInput()
+            .appendField("in table")
+            .appendField(new Blockly.FieldTextInput("default"), "TABLE");
+        this.appendValueInput("WHERE")
+            .setCheck(["ConditionList", "KeyValue"])
+            .appendField("where");
+        this.setOutput(true, null);
+        this.setColour(190);
+        this.setTooltip('selects a single value from the database');
+        this.setHelpUrl('');
+    }
+};
+
+
+Blockly.Blocks['database_update_value'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField("update")
+            .appendField(new Blockly.FieldTextInput("field"), "FIELD");
+        this.appendValueInput("NAME")
+            .setCheck(null)
+            .appendField("=");
+        this.appendDummyInput()
+            .appendField("in table")
+            .appendField(new Blockly.FieldTextInput("default"), "TABLE");
+        this.appendValueInput("WHERE")
+            .setCheck(null)
+            .appendField("where id is");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(190);
+        this.setTooltip('');
+    }
 };
