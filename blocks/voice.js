@@ -206,7 +206,7 @@ Blockly.Blocks['voice_dial'] = {
     init: function() {
         this.appendValueInput("PHONE")
             .setCheck("String")
-            .appendField("dial phone number");
+            .appendField("dial another phone");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(30);

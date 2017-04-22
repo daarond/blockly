@@ -34,7 +34,8 @@ Blockly.Blocks['redis_increment'] = {
             .setCheck("Number")
             .appendField("by value");
         this.setInputsInline(true);
-        this.setOutput(true, "Number");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
         this.setColour(230);
         this.setTooltip('');
         this.setHelpUrl('');
@@ -50,7 +51,8 @@ Blockly.Blocks['redis_decrement'] = {
             .setCheck("Number")
             .appendField("by value");
         this.setInputsInline(true);
-        this.setOutput(true, "Number");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
         this.setColour(230);
         this.setTooltip('');
         this.setHelpUrl('');
@@ -187,7 +189,7 @@ Blockly.Blocks['redis_get_list'] = {
     init: function() {
         this.appendValueInput("KEY")
             .setCheck("String")
-            .appendField("get redis key as list");
+            .appendField("get redis list key");
         this.setInputsInline(true);
         this.setOutput(true, "Array");
         this.setColour(230);
@@ -531,7 +533,7 @@ Blockly.Blocks['redis_get_list_length'] = {
     init: function() {
         this.appendValueInput("KEY")
             .setCheck("String")
-            .appendField("get redis list key length");
+            .appendField("get length of redis list key");
         this.setInputsInline(true);
         this.setOutput(true, "Number");
         this.setColour(230);
