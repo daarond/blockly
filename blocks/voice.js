@@ -193,7 +193,9 @@ Blockly.Blocks['voice_pause'] = {
 Blockly.Blocks['voice_hangup'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("hangup call");
+            .appendField("hangup call and")
+            .appendField(new Blockly.FieldDropdown([["continue","CONTINUE"], ["stop","STOP"]]), "PROCESSING")
+            .appendField("processing");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(30);
