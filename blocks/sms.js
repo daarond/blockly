@@ -30,3 +30,15 @@ Blockly.Blocks['internet_sms_send'] = {
         this.setHelpUrl('http://www.dragtocode.com/docs/internet_sms_send.html');
     }
 };
+
+Blockly.Blocks['internet_sms_info'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("get incoming SMS data")
+            .appendField(new Blockly.FieldDropdown([["from number","FROM"], ["to number","TO"], ["body","BODY"]]), "NAME");
+        this.setOutput(true, null);
+        this.setColour(30);
+        this.setTooltip('get incoming SMS data');
+        this.setHelpUrl('http://www.dragtocode.com/docs/internet_sms_send.html');
+    }
+};
