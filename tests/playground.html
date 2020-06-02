@@ -71,6 +71,7 @@
 <script src="../blocks/monitor.js"></script>
 <script src="../blocks/database.js"></script>
 <script src="../blocks/redis.js"></script>
+<script src="../blocks/smsgrouper.js"></script>
 <!-- Load the Google Drive SDK Realtime libraries. -->
 <script src="https://apis.google.com/js/api.js"></script>
 <script>
@@ -337,6 +338,12 @@ Blockly.Blocks.Mosio.QuestionList = {
     "answer_type": "numeric"
   }
 };
+
+Blockly.Blocks.SmsGrouper.TagList = [
+	["Tag1","1"],
+    ["Tag2","2"],
+    ["Tag3","3"]
+];
 </script>
 
 <style>
@@ -691,6 +698,7 @@ h1 {
         </value>
       </block>
       <block type="lists_sort"></block>
+      <block type="lists_contains_empty"></block>
     </category>
     <category name="Colour" colour="20">
       <block type="colour_picker"></block>
@@ -836,6 +844,17 @@ h1 {
       <block type="redis_get_list_index"></block>
       <block type="redis_set_list_index"></block>
       <block type="redis_get_list_length"></block>
+    </category>
+    <category name="Grouper">
+        <block type="grouper_state"></block>
+        <block type="grouper_sms_send"></block>
+        <block type="grouper_contact_set"></block>
+        <block type="grouper_state_set"></block>
+        <block type="grouper_send_error"></block>
+        <block type="grouper_start_end"></block>
+        <block type="grouper_queue_zip_job"></block>
+        <block type="grouper_addtag"></block>
+        <block type="grouper_removetag"></block>
     </category>
   </xml>
 </body>

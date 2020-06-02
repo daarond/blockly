@@ -216,3 +216,15 @@ Blockly.Blocks['voice_dial'] = {
         this.setHelpUrl('http://www.dragtocode.com/docs/voice_dial.html');
     }
 };
+
+Blockly.Blocks['voice_info'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("get incoming call information")
+            .appendField(new Blockly.FieldDropdown([["from number","FROM"], ["to number","TO"], ["call ID","CALLID"]]), "NAME");
+        this.setOutput(true, null);
+        this.setColour(30);
+        this.setTooltip('get incoming call information');
+        this.setHelpUrl('');
+    }
+};

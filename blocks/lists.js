@@ -209,6 +209,18 @@ Blockly.Blocks['lists_create_with_item'] = {
   }
 };
 
+Blockly.Blocks['lists_contains_empty'] = {
+	init: function() {
+		this.appendValueInput("ARRAY")
+			.setCheck("Array")
+			.appendField("contains empty items");
+		this.setOutput(true, "Boolean");
+		this.setColour(Blockly.Blocks.lists.HUE);
+		this.setTooltip("");
+		this.setHelpUrl("");
+	}
+};
+
 Blockly.Blocks['lists_repeat'] = {
   /**
    * Block for creating a list with one element repeated.
